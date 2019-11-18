@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16.png">
+  <link rel="mask-icon" href="/images/me.svg" color="#45b29a">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Hoke',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Youku 路由器刷 Padavan警告：刷机有风险，由此产生的一切后果请自行承担！！！ require 官改固件：YKL1_2.1.0613.8617_root_telnet.bin Breed：breed-mt7620-youku-yk1.bin Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)  所需文件">
+<meta name="keywords" content="router,padavan,youku">
+<meta property="og:type" content="article">
+<meta property="og:title" content="youku-breed-padavan">
+<meta property="og:url" content="http:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;youku-breed-padavan.html">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="Youku 路由器刷 Padavan警告：刷机有风险，由此产生的一切后果请自行承担！！！ require 官改固件：YKL1_2.1.0613.8617_root_telnet.bin Breed：breed-mt7620-youku-yk1.bin Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)  所需文件">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-18T05:31:02.454Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.hoke58.cn/systemops/youku-breed-padavan.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>youku-breed-padavan | Hoke's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+/*
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; } 
+*/
+
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <!-- <span class="logo-line-before"><i></i></span> -->
+        <span class="site-title">Hoke's blog</span>
+        <!--<span class="logo-line-after"><i></i></span> -->
+      </a>
+    </div>
+        <p class="site-subtitle">何可的博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <a href="http://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.hoke58.cn/systemops/youku-breed-padavan.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          youku-breed-padavan
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-18 11:19:14 / 修改时间：13:31:02" itemprop="dateCreated datePublished" datetime="2019-11-18T11:19:14+08:00">2019-11-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">systemops</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Youku-路由器刷-Padavan"><a href="#Youku-路由器刷-Padavan" class="headerlink" title="Youku 路由器刷 Padavan"></a>Youku 路由器刷 Padavan</h1><p>警告：刷机有风险，由此产生的一切后果请自行承担！！！</p>
+<h2 id="require"><a href="#require" class="headerlink" title="require"></a>require</h2><ol>
+<li>官改固件：YKL1_2.1.0613.8617_root_telnet.bin</li>
+<li>Breed：breed-mt7620-youku-yk1.bin</li>
+<li>Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)</li>
+</ol>
+<p>所需文件下载链接： <a href="http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f" target="_blank" rel="noopener">http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f</a></p>
+<a id="more"></a>
+
+<h2 id="升级官改固件"><a href="#升级官改固件" class="headerlink" title="升级官改固件"></a>升级官改固件</h2><p>Breed 是必备，但是要刷 Breed 就得先刷已 root 和开启 Telnet 的固件。</p>
+<ol>
+<li><p>登录路由器管理界面，<code>「更多设置」</code> -&gt; <code>「系统升级」</code> -&gt; <code>「手动升级」</code>，选择前面下载的 <code>YKL1_2.1.0613.8617_root_telnet.bin</code>，点击 <code>「上传文件」</code>，等待升级包验证通过，点击<code>「立即升级」</code>，然后就等待路由器重启，这个过程中不要断开网线也不要断开电源。</p>
+</li>
+<li><p>重启完成后，按住路由器上 <code>RESET</code> 按键重置路由器。</p>
+</li>
+</ol>
+<blockquote>
+<p>第2步必须，否则还是无法 <code>Telnet</code> 连接路由器</p>
+</blockquote>
+<h2 id="刷入-Breed"><a href="#刷入-Breed" class="headerlink" title="刷入 Breed"></a>刷入 Breed</h2><ol>
+<li><p>使用 shell 客户端 <code>telnet 192.168.11.1</code> 登录路由器, 如果有登录身份验证，用户名和密码都是 admin ，或者试试 root/admin 组合</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[c:\~]$ telnet 192.168.11.1</span><br><span class="line">Connecting to 192.168.11.1:23...</span><br><span class="line">Connection established.</span><br><span class="line">To escape to <span class="built_in">local</span> shell, press <span class="string">'Ctrl+Alt+]'</span>.</span><br><span class="line"> === IMPORTANT ============================</span><br><span class="line">  Use <span class="string">'passwd'</span> to <span class="built_in">set</span> your login password</span><br><span class="line">  this will <span class="built_in">disable</span> telnet and <span class="built_in">enable</span> SSH</span><br><span class="line"> ------------------------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BusyBox v1.22.1 (2016-05-31 09:37:31 CST) built-in shell (ash)</span><br><span class="line">Enter <span class="string">'help'</span> <span class="keyword">for</span> a list of built-in commands.</span><br><span class="line"></span><br><span class="line">  _______                     ________        __              </span><br><span class="line"> |       |.-----.-----.-----.|  |  |  |.----.|  |_      </span><br><span class="line"> |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|        </span><br><span class="line"> |_______||   __|_____|__|__||________||__|  |____|       </span><br><span class="line">          |__| W I R E L E S S   F R E E D O M  </span><br><span class="line"></span><br><span class="line"> -----------------------------------------------------</span><br><span class="line"> BARRIER BREAKER (Barrier Breaker, unknown)</span><br><span class="line"> -----------------------------------------------------</span><br><span class="line">  * 1/2 oz Galliano         Pour all ingredients into</span><br><span class="line">  * 4 oz cold Coffee        an irish coffee mug filled</span><br><span class="line">  * 1 1/2 oz Dark Rum       with crushed ice. Stir.</span><br><span class="line">  * 2 tsp. Creme de Cacao</span><br><span class="line"> -----------------------------------------------------</span><br><span class="line"> customized by youku, </span><br><span class="line"> copyright (c) youku, 2015. all rights reserved.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入 breed-mt7620-youku-yk1.bin 文件至路由器</p>
+</li>
+</ol>
+<p align="center">以上步骤之后有 <b>两种选择</b>，请<b>任选其一</b>然后<b>继续后面的步骤</b>。</p>
+
+<ul>
+<li><p><strong>选择 1：U盘拷入</strong>：</p>
+<ol>
+<li>将 breed-mt7620-youku-yk1.bin 文件复制到U盘，U盘插上路由器</li>
+<li><code>ls /mnt/sda1</code> 查看U盘里 breed-mt7620-youku-yk1.bin 文件是否存在</li>
+</ol>
+</li>
+</ul>
+<p><strong>注意：</strong>U盘未必能挂载成功。可以执行 df -h 看看有没有类似「/dev/sda1」这样的设备，然后挂载U盘：<code>mount /dev/sda1 /mnt/sda1</code> ，若挂载成功，在检查一下U盘是否有 Breed 文件。</p>
+<ul>
+<li><p><strong>选择 2：<code>wget</code> 下载</strong>：</p>
+<ol>
+<li>确保路由器能访问外网</li>
+<li>执行命令 <code>cd /tmp &amp;&amp; wget --user-agent=&quot;Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16&quot; -O breed-mt7620-youku-yk1.bin &#39;http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f/download?path=%2F&amp;files=breed-mt7620-youku-yk1.bin&#39;</code> 下载 Breed 至 <code>/tmp</code></li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li><p>检查 Breed 的 MD5</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Youku-router]md5sum breed-mt7620-youku-yk1.bin </span><br><span class="line">44379c40f77d3d75bcba97ce136a880d  breed-mt7620-youku-yk1.bin</span><br></pre></td></tr></table></figure>
+<p>如 MD5 不一致就重新下载！</p>
+</li>
+<li><p>解锁 Bootloader</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Youku-router]mtd unlock Bootloader</span><br><span class="line">Unlocking Bootloader ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刷 Breed</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@Youku-router]mtd -r write /tmp/breed-mt7620-youku-yk1.bin Bootloader</span><br><span class="line">Unlocking Bootloader ...</span><br><span class="line"></span><br><span class="line">Writing from /tmp/breed-mt7620-youku-yk1.bin to Bootloader ...     </span><br><span class="line">Rebooting ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后路由器会自动重启, 至此 Breed 成功刷入，恭喜变成不死路由</p>
+<h2 id="刷入-Padavan-固件"><a href="#刷入-Padavan-固件" class="headerlink" title="刷入 Padavan 固件"></a>刷入 Padavan 固件</h2><ol>
+<li>需要有线电脑，IP设为<code>192.168.1.2</code>（新版本 Breed 设自动获取就行）</li>
+<li>路由器断电，按住复位键，上电，10来秒后松手</li>
+<li>电脑浏览器访问 <code>192.168.1.1</code> 进入 Breed 页面</li>
+<li>固件更新，刷入老毛子固件 RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx 即可</li>
+<li>刷好固件以后，手动断电，等待几秒，再通电开机！(路由可能无法自动开机重启)</li>
+</ol>
+<h2 id="Enjoy-it"><a href="#Enjoy-it" class="headerlink" title="Enjoy it"></a>Enjoy it</h2><p>Padavan 默认管理地址: <code>http://192.168.123.1</code><br>默认密码: <code>admin / admin</code><br>默认 SSID: <code>PDCN / 1234567890</code></p>
+
+    </div>
+
+    <div>
+          
+              <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">
+              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
+        </div>
+    
+</div>
+          
+    </div>
+
+    
+    
+    
+      
+
+      
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://blog.hoke58.cn/systemops/youku-breed-padavan.html" title="youku-breed-padavan">http://blog.hoke58.cn/systemops/youku-breed-padavan.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/router/" rel="tag"><i class="fa fa-tag"></i> router</a>
+              <a href="/tags/padavan/" rel="tag"><i class="fa fa-tag"></i> padavan</a>
+              <a href="/tags/youku/" rel="tag"><i class="fa fa-tag"></i> youku</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/web/deploy-hexo-next.html" rel="next" title="Hexo+NexT打造极简个人博客[持续更新]">
+                  <i class="fa fa-chevron-left"></i> Hexo+NexT打造极简个人博客[持续更新]
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Youku-路由器刷-Padavan"><span class="nav-number">1.</span> <span class="nav-text">Youku 路由器刷 Padavan</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#require"><span class="nav-number">1.1.</span> <span class="nav-text">require</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级官改固件"><span class="nav-number">1.2.</span> <span class="nav-text">升级官改固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷入-Breed"><span class="nav-number">1.3.</span> <span class="nav-text">刷入 Breed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷入-Padavan-固件"><span class="nav-number">1.4.</span> <span class="nav-text">刷入 Padavan 固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enjoy-it"><span class="nav-number">1.5.</span> <span class="nav-text">Enjoy it</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Hoke"
+    src="/images/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">Simple · Pragmatic</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hoke58" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hoke58@qq.com" title="E-Mail &amp;rarr; mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">20k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">18 分钟</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
