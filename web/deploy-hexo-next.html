@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="Hoke&#39;s blog">
 <meta property="og:description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！ 环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-08T10:34:17.641Z">
+<meta property="og:updated_time" content="2019-11-18T06:18:15.122Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://blog.hoke58.cn/web/deploy-hexo-next.html">
@@ -230,7 +230,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-08 18:34:17" itemprop="dateModified" datetime="2019-11-08T18:34:17+08:00">2019-11-08</time>
+                <time title="修改时间：2019-11-18 14:18:15" itemprop="dateModified" datetime="2019-11-18T14:18:15+08:00">2019-11-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -368,8 +368,15 @@
 
 <h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p><a href="https://github.com/" target="_blank" rel="noopener">Github</a> 需要开通 <a href="https://pages.github.com/" target="_blank" rel="noopener">Github Page</a> , 网上一搜一大把, 不啰嗦啦</p>
 <p>打 Hexo 配置文件 <code>_config.yml</code> , 拉到底部, 修改部署配置: </p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Deployment</span></span><br><span class="line"><span class="comment">## Docs: https://hexo.io/docs/deployment.html</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line">  <span class="comment"># example, https://github.com/hexojs/hexojs.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-<p>执行 <code>hexo clean &amp;&amp; hexo g -d</code> 完成后在浏览器输入 <code>yourName.github.io</code>, Enjoy it!</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>hexo clean &amp;&amp; hexo g -d</code> , 输入 Git 的账号和密码,完成后在浏览器输入 <code>yourName.github.io</code>, Enjoy it!</p>
+<h2 id="Coding-or-Gitee"><a href="#Coding-or-Gitee" class="headerlink" title="Coding or Gitee"></a>Coding or Gitee</h2><blockquote>
+<p>Gitee Pages 免费版不支持自定义域名，放弃转 coding</p>
+</blockquote>
+<p>登录 <a href="https://coding.net" target="_blank" rel="noopener">Coding</a> 创建一个同名账号的 repository ，在项目仓库内一键开通 Pages 服务</p>
+<p>打 Hexo 配置文件 <code>_config.yml</code> , 拉到底部, 修改部署配置: </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> </span><br><span class="line"><span class="attr">    github:</span> <span class="attr">https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="attr">    coding:</span> <span class="attr">https://git.coding.net/hoke58/hoke58.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p>执行 <code>hexo clean &amp;&amp; hexo g -d</code> , 输入 Git 的账号和密码, 完成后在浏览器输入 <code>yourName.coding.me</code> 测试</p>
 
     </div>
 
@@ -450,8 +457,8 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/systemops/youku-breed-padavan.html" rel="prev" title="youku-breed-padavan">
-                  youku-breed-padavan <i class="fa fa-chevron-right"></i>
+                <a href="/systemops/youku-breed-padavan.html" rel="prev" title="Youku 路由器刷 Padavan">
+                  Youku 路由器刷 Padavan <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -491,7 +498,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#托管至-Git"><span class="nav-number">6.</span> <span class="nav-text">托管至 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#托管至-Git"><span class="nav-number">6.</span> <span class="nav-text">托管至 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding-or-Gitee"><span class="nav-number">6.2.</span> <span class="nav-text">Coding or Gitee</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -564,13 +571,13 @@
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">20k</span>
+    <span title="站点总字数">21k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">18 分钟</span>
+    <span title="站点阅读时长">19 分钟</span>
 </div>
 
         
