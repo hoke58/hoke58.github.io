@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#45b29a">
 <meta name="generator" content="Hexo 4.0.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/120.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/16.png">
-  <link rel="mask-icon" href="/images/me.svg" color="#45b29a">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/hoke/16.png">
+  <link rel="mask-icon" href="/images/hoke/me.svg" color="#45b29a">
+  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,12 +21,12 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Hoke',
-    version: '7.4.2',
+    scheme: 'Mist',
+    version: '7.5.0',
     exturl: false,
     sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
     bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
     fancybox: false,
     mediumzoom: false,
@@ -41,27 +42,22 @@
     localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: '',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    translation: {
-      copy_button: '复制',
-      copy_success: '复制成功',
-      copy_failure: '复制失败'
-    },
     sidebarPadding: 40
   };
 </script>
 
-  <meta name="description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！ 环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code">
+  <meta name="description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code Node.js">
 <meta name="keywords" content="Hexo,NexT,Github,Coding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo+NexT打造极简个人博客[持续更新]">
-<meta property="og:url" content="http:&#x2F;&#x2F;blog.hoke58.cn&#x2F;web&#x2F;deploy-hexo-next.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;web&#x2F;deploy-hexo-next.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！ 环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code">
+<meta property="og:description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code Node.js">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-18T06:18:15.122Z">
+<meta property="og:updated_time" content="2019-11-20T02:15:48.834Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://blog.hoke58.cn/web/deploy-hexo-next.html">
+<link rel="canonical" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
 
 
 <script id="page-configurations">
@@ -77,8 +73,6 @@
 
   <title>Hexo+NexT打造极简个人博客[持续更新] | Hoke's blog</title>
   
-
-
 
 
 
@@ -102,11 +96,9 @@
     opacity: initial;
     top: initial;
   }
-/*
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; } 
-*/
 
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -122,9 +114,9 @@
 
     <div>
       <a href="/" class="brand" rel="start">
-        <!-- <span class="logo-line-before"><i></i></span> -->
+        <span class="logo-line-before"><i></i></span>
         <span class="site-title">Hoke's blog</span>
-        <!--<span class="logo-line-after"><i></i></span> -->
+        <span class="logo-line-after"><i></i></span>
       </a>
     </div>
         <p class="site-subtitle">何可的博客</p>
@@ -148,6 +140,11 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
 
     <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
@@ -156,11 +153,6 @@
         <li class="menu-item menu-item-categories">
 
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -200,10 +192,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.hoke58.cn/web/deploy-hexo-next.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hoke_avatar.png">
+      <meta itemprop="image" content="/images/hoke/hoke_avatar.png">
       <meta itemprop="name" content="Hoke">
       <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
     </span>
@@ -230,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-18 14:18:15" itemprop="dateModified" datetime="2019-11-18T14:18:15+08:00">2019-11-18</time>
+                <time title="修改时间：2019-11-20 10:15:48" itemprop="dateModified" datetime="2019-11-20T10:15:48+08:00">2019-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,7 +249,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>10k</span>
+              <span>9.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -276,26 +268,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>markdown</code>记录, 纯静态, <code>git</code>免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！</p>
-<h2 id="环境与工具"><a href="#环境与工具" class="headerlink" title="环境与工具"></a>环境与工具</h2><ul>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>markdown</code>记录, 纯静态, <code>git</code>免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！</p><h2 id="环境与工具"><a href="#环境与工具" class="headerlink" title="环境与工具"></a>环境与工具</h2><ul>
 <li>OS: Deepin 15.11</li>
 <li>Node.js: v12.13.0</li>
 <li>Npm: 6.12.0</li>
 <li>Hexo: 4.0.0</li>
 <li>NexT: 7.4.2</li>
 <li>IDE: VS Code</li>
-</ul>
-<a id="more"></a>
-<h1 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h1><p><a href="https://nodejs.org/zh-cn/download/" target="_blank" rel="noopener">Node.js官网下载页面</a>选择自己的OS版本下载部署包, 推荐长期支持版（LTS）, 因为是我Linux环境, 选择<strong>Linux 二进制文件 (x64)</strong>, 以下是我的安装步骤</p>
+</ul><h1 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h1><a id="more"></a>
+
+<p><a href="https://nodejs.org/zh-cn/download/" target="_blank" rel="noopener">Node.js官网下载页面</a>选择自己的OS版本下载部署包, 推荐长期支持版（LTS）, 因为是我Linux环境, 选择<strong>Linux 二进制文件 (x64)</strong>, 以下是我的安装步骤</p>
 <ol>
 <li>下载二制包并解压<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]$ wget https://nodejs.org/dist/v12.13.0/node-v12.13.0-linux-x64.tar.xz</span><br><span class="line">[root@VM-202 ~]$ sudo tar -xJvf node-v12.13.0-linux-x64.tar.xz -C /usr/local/lib</span><br><span class="line">[root@VM-202 ~]$ sudo vi /etc/profile</span><br></pre></td></tr></table></figure></li>
 <li>配置<code>/etc/profile</code>, 在最后增加, 确保路径正确<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/lib/node-v12.<span class="number">13.0</span>-linux-x64/bin:$PATH</span><br></pre></td></tr></table></figure></li>
-<li>重载<code>/etc/profile</code>, 测试效果<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]$ sudo source /etc/profile</span><br><span class="line">[root@VM-202 ~]$ npm version</span><br><span class="line">&#123;</span><br><span class="line">  npm: '6.12.0',</span><br><span class="line">  ares: '1.15.0',</span><br><span class="line">  brotli: '1.0.7',</span><br><span class="line">  cldr: '35.1',</span><br><span class="line">  http_parser: '2.8.0',</span><br><span class="line">  icu: '64.2',</span><br><span class="line">  llhttp: '1.1.4',</span><br><span class="line">  modules: '72',</span><br><span class="line">  napi: '5',</span><br><span class="line">  nghttp2: '1.39.2',</span><br><span class="line">  node: '12.13.0',</span><br><span class="line">  openssl: '1.1.1d',</span><br><span class="line">  tz: '2019a',</span><br><span class="line">  unicode: '12.1',</span><br><span class="line">  uv: '1.32.0',</span><br><span class="line">  v8: '7.7.299.13-node.12',</span><br><span class="line">  zlib: '1.2.11'</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   ╭────────────────────────────────────────────────────────────────╮</span><br><span class="line">   │                                                                │</span><br><span class="line">   │      New patch version of npm available! 6.12.0 → 6.12.1       │</span><br><span class="line">   │   Changelog: https://github.com/npm/cli/releases/tag/v6.12.1   │</span><br><span class="line">   │               Run npm install -g npm to update!                │</span><br><span class="line">   │                                                                │</span><br><span class="line">   ╰────────────────────────────────────────────────────────────────╯</span><br></pre></td></tr></table></figure></li>
-<li>配置国内镜像<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]# npm config set registry https://registry.npm.taobao.org</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">配置后可通过下面方式来验证是否成功</span></span><br><span class="line">[root@VM-202 ~]# npm config get registry</span><br></pre></td></tr></table></figure>
+<li>重载<code>/etc/profile</code>, 测试效果<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]$ sudo source /etc/profile</span><br><span class="line">[root@VM-202 ~]$ npm version</span><br><span class="line">&#123;</span><br><span class="line">  npm: '6.12.0',</span><br><span class="line">  ares: '1.15.0',</span><br><span class="line">  brotli: '1.0.7',</span><br><span class="line">  cldr: '35.1',</span><br><span class="line">  http_parser: '2.8.0',</span><br><span class="line">  icu: '64.2',</span><br><span class="line">  llhttp: '1.1.4',</span><br><span class="line">  modules: '72',</span><br><span class="line">  napi: '5',</span><br><span class="line">  nghttp2: '1.39.2',</span><br><span class="line">  node: '12.13.0',</span><br><span class="line">  openssl: '1.1.1d',</span><br><span class="line">  tz: '2019a',</span><br><span class="line">  unicode: '12.1',</span><br><span class="line">  uv: '1.32.0',</span><br><span class="line">  v8: '7.7.299.13-node.12',</span><br><span class="line">  zlib: '1.2.11'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>配置国内镜像<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]# npm config set registry https://registry.npm.taobao.org</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置后可通过下面方式来验证是否成功</span></span><br><span class="line">[root@VM-202 ~]# npm config get registry</span><br></pre></td></tr></table></figure>
 <h2 id="升级Node-js和NPM（可选）"><a href="#升级Node-js和NPM（可选）" class="headerlink" title="升级Node.js和NPM（可选）"></a>升级Node.js和NPM（可选）</h2></li>
 <li>升级<strong>Node.js</strong><br><code>npm</code>中有一个模块叫做<code>n</code>, 专门用来管理<strong>Node.js</strong>版本的。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]# npm install -g n</span><br><span class="line">[root@VM-202 ~]# n --help</span><br><span class="line"></span><br><span class="line">Usage: n [options] [COMMAND] [args]</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line"></span><br><span class="line">  n                              Display downloaded node versions and install selection</span><br><span class="line">  n latest                       Install the latest node release (downloading if necessary)</span><br><span class="line">  n lts                          Install the latest LTS node release (downloading if necessary)</span><br><span class="line">  n &lt;version&gt;                    Install node &lt;version&gt; (downloading if necessary)</span><br><span class="line">  n run &lt;version&gt; [args ...]     Execute downloaded node &lt;version&gt; with [args ...]</span><br><span class="line">  n which &lt;version&gt;              Output path for downloaded node &lt;version&gt;</span><br><span class="line">  n exec &lt;vers&gt; &lt;cmd&gt; [args...]  Execute command with modified PATH, so downloaded node &lt;version&gt; and npm first</span><br><span class="line">  n rm &lt;version ...&gt;             Remove the given downloaded version(s)</span><br><span class="line">  n prune                        Remove all downloaded versions except the installed version</span><br><span class="line">  n --latest                     Output the latest node version available</span><br><span class="line">  n --lts                        Output the latest LTS node version available</span><br><span class="line">  n ls                           Output downloaded versions</span><br><span class="line">  n ls-remote [version]          Output matching versions available for download</span><br><span class="line">  n uninstall                    Remove the installed node and npm</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"></span><br><span class="line">  -V, --version   Output version of n</span><br><span class="line">  -h, --help      Display help information</span><br><span class="line">  -q, --quiet     Disable curl output (if available)</span><br><span class="line">  -d, --download  Download only</span><br><span class="line">  -a, --arch      Override system architecture</span><br><span class="line">  --all           ls-remote displays all matches instead of last 20</span><br><span class="line">  --insecure      Turn off certificate checking for https requests (may be needed from behind a proxy server)</span><br><span class="line"></span><br><span class="line">Aliases:</span><br><span class="line"></span><br><span class="line">  which: bin</span><br><span class="line">  run: use, as</span><br><span class="line">  ls: list</span><br><span class="line">  lsr: ls-remote</span><br><span class="line">  rm: -</span><br><span class="line">  lts: stable</span><br><span class="line">  latest: current</span><br><span class="line"></span><br><span class="line">Versions:</span><br><span class="line"></span><br><span class="line">  Numeric version numbers can be complete or incomplete, with an optional leading 'v'.</span><br><span class="line">  Versions can also be specified by label, or codename,</span><br><span class="line">  and other downloadable releases by &lt;remote-folder&gt;/&lt;version&gt;</span><br><span class="line"></span><br><span class="line">    4.9.1, 8, v6.1    Numeric versions</span><br><span class="line">    lts               Newest Long Term Support official release</span><br><span class="line">    latest, current   Newest official release</span><br><span class="line">    boron, carbon     Codenames for release streams</span><br><span class="line">    and nightly, chakracore-release/latest, rc/10 et al</span><br></pre></td></tr></table></figure>
 安装最新<code>LTS</code>版<strong>Node.js</strong><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="symbol">root@</span>VM<span class="number">-202</span> ~]#n lts</span><br></pre></td></tr></table></figure></li>
-<li>升级<strong>NPM</strong><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]# npm -g install npm</span><br><span class="line">/usr/local/bin/npm -&gt; /usr/local/lib/node_modules/npm/bin/npm-cli.js</span><br><span class="line">/usr/local/bin/npx -&gt; /usr/local/lib/node_modules/npm/bin/npx-cli.js</span><br><span class="line">+ npm@6.13.0</span><br><span class="line">added 2 packages from 2 contributors, removed 2 packages and updated 15 packages in 7.73s</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   ╭────────────────────────────────────────────────────────────────╮</span><br><span class="line">   │                                                                │</span><br><span class="line">   │      New minor version of npm available! 6.12.0 → 6.13.0       │</span><br><span class="line">   │   Changelog: https://github.com/npm/cli/releases/tag/v6.13.0   │</span><br><span class="line">   │               Run npm install -g npm to update!                │</span><br><span class="line">   │                                                                │</span><br><span class="line">   ╰────────────────────────────────────────────────────────────────╯</span><br></pre></td></tr></table></figure></li>
+<li>升级<strong>NPM</strong><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 ~]# npm -g install npm</span><br><span class="line">/usr/local/bin/npm -&gt; /usr/local/lib/node_modules/npm/bin/npm-cli.js</span><br><span class="line">/usr/local/bin/npx -&gt; /usr/local/lib/node_modules/npm/bin/npx-cli.js</span><br><span class="line">+ npm@6.13.0</span><br><span class="line">added 2 packages from 2 contributors, removed 2 packages and updated 15 packages in 7.73s</span><br></pre></td></tr></table></figure></li>
 <li>注释<code>/etc/profile</code>中老版本的配置<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/lib/node-v12.13.0-linux-x64/bin:<span class="variable">$PATH</span></span></span><br></pre></td></tr></table></figure>
 
 </li>
@@ -312,7 +303,7 @@
 <figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
 <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;folder&gt; # 初始化一个网站. 如果没有设置 folder , Hexo 默认在目前的文件夹建立网站</span><br><span class="line">hexo new &lt;layout&gt; &lt;title&gt; # 新建一篇文章. 如果没有设置 layout 的话, 默认使用 _config.yml 中的 default_layout 参数代替. 如果标题包含空格的话, 请使用引号括起来</span><br><span class="line">hexo clean # 清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br><span class="line">hexo g # 等于hexo generate # 生成静态文件</span><br><span class="line">hexo s # 等于hexo server # 本地预览</span><br><span class="line">hexo d # 等于hexo deploy # 部署, 可与hexo g合并为 hexo d -g</span><br><span class="line">hexo version # 查看版本</span><br></pre></td></tr></table></figure>
 <h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><blockquote>
-<p>注意<code>_config.yml</code>的区分：<code>hexo init</code>生成的目录下的<code>_config.yml</code>为<font color=red>Hexo配置文件</font>, <code>themes</code>目录下主题文件夹里的 <code>_config.yml</code>为<font color=red>主题配置文件</font>, 如<code>themes\next\_config.yml</code>。</p>
+<p>注意<code>_config.yml</code>的区分：<code>hexo init</code>生成的目录下的<code>_config.yml</code>为<font color="red">Hexo配置文件</font>, <code>themes</code>目录下主题文件夹里的 <code>_config.yml</code>为<font color="red">主题配置文件</font>, 如<code>themes\next\_config.yml</code>。</p>
 </blockquote>
 <p>我的Hexo配置文件<code>_config.yml</code></p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title:</span> <span class="string">Hoke's</span> <span class="string">blog</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">何可的博客</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">一名追求简单实用的运维开发工程师</span></span><br><span class="line"><span class="attr">keywords:</span> <span class="string">何可,</span> <span class="string">hoke,</span> <span class="string">hoke58,</span> <span class="string">hoke58.cn,</span> <span class="string">博客,</span> <span class="string">个人博客,</span> <span class="string">个人网站,</span> <span class="string">devops,</span> <span class="string">运维,</span> <span class="string">运维开发</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">Hoke</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br><span class="line"><span class="attr">url:</span> <span class="attr">http://www.hoke58.cn</span></span><br><span class="line"><span class="attr">root:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">permalink:</span> <span class="string">:category/:title.html</span></span><br><span class="line"><span class="attr">permalink_defaults:</span></span><br><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line"><span class="attr">  trailing_index:</span> <span class="literal">false</span> <span class="comment"># Set to false to remove trailing index.html from permalinks</span></span><br><span class="line"><span class="attr">source_dir:</span> <span class="string">source</span></span><br><span class="line"><span class="attr">public_dir:</span> <span class="string">public</span></span><br><span class="line"><span class="attr">tag_dir:</span> <span class="string">tags</span></span><br><span class="line"><span class="attr">archive_dir:</span> <span class="string">archives</span></span><br><span class="line"><span class="attr">category_dir:</span> <span class="string">categories</span></span><br><span class="line"><span class="attr">code_dir:</span> <span class="string">downloads/code</span></span><br><span class="line"><span class="attr">i18n_dir:</span> <span class="string">:lang</span></span><br><span class="line"><span class="attr">skip_render:</span></span><br><span class="line"><span class="attr">new_post_name:</span> <span class="string">:title.md</span> <span class="comment"># File name of new posts</span></span><br><span class="line"><span class="attr">default_layout:</span> <span class="string">post</span></span><br><span class="line"><span class="attr">titlecase:</span> <span class="literal">false</span> <span class="comment"># Transform title into titlecase</span></span><br><span class="line"><span class="attr">external_link:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span> <span class="comment"># Open external links in new tab</span></span><br><span class="line"><span class="attr">  field:</span> <span class="string">site</span> <span class="comment"># Apply to the whole site</span></span><br><span class="line"><span class="attr">  exclude:</span></span><br><span class="line"><span class="attr">filename_case:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">render_drafts:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">false</span> <span class="comment"># 启动asset文件夹</span></span><br><span class="line"><span class="attr">relative_link:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">future:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">highlight:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  line_number:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  auto_detect:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  tab_replace:</span></span><br><span class="line"><span class="attr">index_generator:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">  per_page:</span> <span class="number">10</span></span><br><span class="line"><span class="attr">  order_by:</span> <span class="bullet">-date</span></span><br><span class="line"><span class="attr">default_category:</span> <span class="string">uncategorized</span></span><br><span class="line"><span class="attr">category_map:</span></span><br><span class="line">  <span class="string">系统运维:</span> <span class="string">systemops</span></span><br><span class="line"><span class="attr">  DevOps:</span> <span class="string">devops</span></span><br><span class="line"><span class="attr">  Web:</span> <span class="string">web</span></span><br><span class="line">  <span class="string">数据库:</span> <span class="string">databases</span></span><br><span class="line"><span class="attr">  Docker:</span> <span class="string">docker</span></span><br><span class="line">  <span class="string">开发:</span> <span class="string">development</span></span><br><span class="line">  <span class="string">监控:</span> <span class="string">monitor</span></span><br><span class="line"><span class="attr">tag_map:</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">meta_generator:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">date_format:</span> <span class="string">YYYY-MM-DD</span></span><br><span class="line"><span class="attr">time_format:</span> <span class="attr">HH:mm:ss</span></span><br><span class="line"><span class="attr">use_date_for_updated:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">per_page:</span> <span class="number">10</span></span><br><span class="line"><span class="attr">pagination_dir:</span> <span class="string">page</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line"><span class="attr">  symbols:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  time:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  total_symbols:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  total_time:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="attr">https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
@@ -353,12 +344,16 @@
 <li>然后, 在站点的 <code>/_config.yml</code> 中需要定义 <code>theme: next</code> 选项（如果需要的话, <code>source_dir: source</code>）。</li>
 <li>使用标准参数来启动服务器, 生成或部署（<code>hexo clean &amp;&amp; hexo g -d &amp;&amp; hexo s</code>）。</li>
 </ol>
-<p>我为了省事用的<strong>选择 2</strong>方案, 直接 copy 内容至 <code>next.yml</code> , 接下来可以在 <code>next.yml</code> 修改配置, 配置文件中的注释说明基本够用, 不清楚地参考<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">NexT官方文档</a>和<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT github</a>, <code>NexT github</code>托管项目 <code>docs</code> 目录下有markdown文档, 有中文版的哦。</p>
-<h3 id="自定义-scheme"><a href="#自定义-scheme" class="headerlink" title="自定义 scheme"></a>自定义 scheme</h3><p>由于我对 scheme 修改较多, 怕 <code>git pull</code> 更新时报冲突, 干脆直接新增专用 scheme , 以下是基本思路：</p>
+<p>最佳实践为<strong>选择 1</strong> , copy 需要修改的选项至 <code>next.yml</code> , 配置文件中的注释说明基本够用, 不清楚地参考<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">NexT官方文档</a>和<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT github</a>, <code>NexT github</code>托管项目 <code>docs</code> 目录下有markdown文档, 有中文版的哦。</p>
+<h3 id="自定义-scheme"><a href="#自定义-scheme" class="headerlink" title="自定义 scheme"></a><del>自定义 scheme</del></h3><div class="note info">
+            <p>不建议自定义，如果官方对 scheme 有更新，需要人工检查原 scheme 的修改内容，再更新至新增的自定义 scheme</p>
+          </div>
+
+<p><del>由于我对 scheme 修改较多, 怕 <code>git pull</code> 更新时报冲突, 干脆直接新增专用 scheme , 以下是基本思路：</del></p>
 <ol>
 <li>选择中意的 schemes 我是基于 Mist 基础上修改的, 在<code>/themes/next/source/css/_schemes</code>下复制 <code>Mist</code> 为 <code>Hoke</code> （自定义）</li>
 <li><code>/themes/next/source/css/_variables</code>下 复制 <code>Mist.styl</code> 为 <code>Hoke.styl</code></li>
-<li>全局搜索 <code>Mist</code> 在匹配到的文件中按照 <code>Mist</code> 新增 <code>Hoke</code> 部分<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff scripts/filters/minify.js </span></span><br><span class="line">diff --git a/scripts/filters/minify.js b/scripts/filters/minify.js</span><br><span class="line">index 6640242..6238bbc 100644</span><br><span class="line">--- a/scripts/filters/minify.js</span><br><span class="line">+++ b/scripts/filters/minify.js</span><br><span class="line">@@ -50,4 +50,7 @@ hexo.extend.filter.register(<span class="string">'after_generate'</span>, () =&gt; &#123;</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (theme.scheme === <span class="string">'Pisces'</span> || theme.scheme === <span class="string">'Gemini'</span>) &#123;</span><br><span class="line">     hexo.route.remove(<span class="string">'js/schemes/muse.js'</span>);</span><br><span class="line">   &#125;</span><br><span class="line">+  <span class="keyword">if</span> (theme.scheme === <span class="string">'Hoke'</span>) &#123;</span><br><span class="line">+    hexo.route.remove(<span class="string">'js/local-search.js'</span>);</span><br><span class="line">+  &#125;</span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff source/css/_common/outline/header/github-banner.styl </span></span><br><span class="line">diff --git a/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl b/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">index 42a433a..434c08d 100644</span><br><span class="line">--- a/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">+++ b/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">@@ -47,7 +47,7 @@</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">-  <span class="keyword">if</span> (<span class="variable">$scheme</span> == <span class="string">'Mist'</span>) &#123;</span><br><span class="line">+  <span class="keyword">if</span> (<span class="variable">$scheme</span> == <span class="string">'Mist'</span>) || (<span class="variable">$scheme</span>.scheme === <span class="string">'Hoke'</span>) &#123;</span><br><span class="line">     +<span class="function"><span class="title">mobile</span></span>() &#123;</span><br><span class="line">       svg &#123;</span><br><span class="line">         top: inherit;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff source/js/utils.js </span></span><br><span class="line">diff --git a/<span class="built_in">source</span>/js/utils.js b/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">index a249585..754423f 100644</span><br><span class="line">--- a/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">+++ b/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">@@ -335,6 +335,10 @@ NexT.utils = &#123;</span><br><span class="line">     <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Mist'</span>;</span><br><span class="line">   &#125;,</span><br><span class="line"> </span><br><span class="line">+  isHoke: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">+    <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Hoke'</span>;</span><br><span class="line">+  &#125;, </span><br><span class="line">+</span><br><span class="line">   isPisces: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">     <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Pisces'</span>;</span><br><span class="line">   &#125;,</span><br></pre></td></tr></table></figure></li>
+<li>全局搜索 <code>Mist</code> 在匹配到的文件中按照 <code>Mist</code> 新增 <code>Hoke</code> 部分<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff scripts/filters/minify.js </span></span><br><span class="line">diff --git a/scripts/filters/minify.js b/scripts/filters/minify.js</span><br><span class="line">index 6640242..6238bbc 100644</span><br><span class="line">--- a/scripts/filters/minify.js</span><br><span class="line">+++ b/scripts/filters/minify.js</span><br><span class="line">@@ -50,4 +50,7 @@ hexo.extend.filter.register(<span class="string">'after_generate'</span>, () =&gt; &#123;</span><br><span class="line">   &#125; <span class="keyword">else</span> <span class="keyword">if</span> (theme.scheme === <span class="string">'Pisces'</span> || theme.scheme === <span class="string">'Gemini'</span>) &#123;</span><br><span class="line">     hexo.route.remove(<span class="string">'js/schemes/muse.js'</span>);</span><br><span class="line">   &#125;</span><br><span class="line">+  <span class="keyword">if</span> (theme.scheme === <span class="string">'Hoke'</span>) &#123;</span><br><span class="line">+    hexo.route.remove(<span class="string">'js/local-search.js'</span>);</span><br><span class="line">+  &#125;</span><br><span class="line"> &#125;);</span><br><span class="line"></span><br><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff source/css/_common/outline/header/github-banner.styl </span></span><br><span class="line">diff --git a/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl b/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">index 42a433a..434c08d 100644</span><br><span class="line">--- a/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">+++ b/<span class="built_in">source</span>/css/_common/outline/header/github-banner.styl</span><br><span class="line">@@ -47,7 +47,7 @@</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> </span><br><span class="line">-  <span class="keyword">if</span> (<span class="variable">$scheme</span> == <span class="string">'Mist'</span>) &#123;</span><br><span class="line">+  <span class="keyword">if</span> (<span class="variable">$scheme</span> == <span class="string">'Mist'</span>) || (<span class="variable">$scheme</span>.scheme === <span class="string">'Hoke'</span>) &#123;</span><br><span class="line">     +<span class="function"><span class="title">mobile</span></span>() &#123;</span><br><span class="line">       svg &#123;</span><br><span class="line">         top: inherit;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/next]<span class="comment"># git diff source/js/utils.js </span></span><br><span class="line">diff --git a/<span class="built_in">source</span>/js/utils.js b/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">index a249585..754423f 100644</span><br><span class="line">--- a/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">+++ b/<span class="built_in">source</span>/js/utils.js</span><br><span class="line">@@ -335,6 +335,10 @@ NexT.utils = &#123;</span><br><span class="line">     <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Mist'</span>;</span><br><span class="line">   &#125;,</span><br><span class="line"> </span><br><span class="line">+  isHoke: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">+    <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Hoke'</span>;</span><br><span class="line">+  &#125;, </span><br><span class="line">+</span><br><span class="line">   isPisces: <span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">     <span class="built_in">return</span> CONFIG.scheme === <span class="string">'Pisces'</span>;</span><br><span class="line">   &#125;,</span><br></pre></td></tr></table></figure></li>
 <li><code>/source/_data/next.yml</code> 新增 scheme<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scheme: Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="comment">#scheme: Gemini</span></span><br><span class="line"><span class="attr">scheme:</span> <span class="string">Hoke</span></span><br></pre></td></tr></table></figure></li>
 <li>执行 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code> 可预览效果, 如果遇报错别慌, 看一下报错的文件是不是哪个地方还漏改啦</li>
 </ol>
@@ -380,24 +375,11 @@
 
     </div>
 
-    <div>
-          
-              <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">
-              -------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------
-        </div>
-    
-</div>
-          
-    </div>
-
     
     
     
       
 
-      
         <div class="reward-container">
   <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
   <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
@@ -406,12 +388,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/wechatpay.png" alt="Hoke 微信支付">
+        <img src="/images/hoke/wechatpay.png" alt="Hoke 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/alipay.png" alt="Hoke 支付宝">
+        <img src="/images/hoke/alipay.png" alt="Hoke 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -427,7 +409,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://blog.hoke58.cn/web/deploy-hexo-next.html" title="Hexo+NexT打造极简个人博客[持续更新]">http://blog.hoke58.cn/web/deploy-hexo-next.html</a>
+    <a href="https://blog.hoke58.cn/web/deploy-hexo-next.html" title="Hexo+NexT打造极简个人博客[持续更新]">https://blog.hoke58.cn/web/deploy-hexo-next.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -504,10 +486,10 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="site-author-image" itemprop="image" alt="Hoke"
-    src="/images/hoke_avatar.png">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="/images/hoke/hoke_avatar.png">
   <p class="site-author-name" itemprop="name">Hoke</p>
-  <div class="site-description" itemprop="description">Simple · Pragmatic</div>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -532,12 +514,17 @@
       </div>
   </nav>
 </div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/hoke58" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:hoke58@qq.com" title="E-Mail &amp;rarr; mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
       </span>
   </div>
 
@@ -555,7 +542,7 @@
     <footer class="footer">
       <div class="footer-inner">
         
-  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=null" rel="noopener" target="_blank">null </a>
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
   </div>
 
 <div class="copyright">
@@ -570,15 +557,18 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-      <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">21k</span>
+    <span title="站点总字数">20k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">19 分钟</span>
+    <span title="站点阅读时长">18 分钟</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
 
         
 <div class="busuanzi-count">
@@ -644,10 +634,6 @@
 
 
 
-
-
-
-  
 
   
 
