@@ -1,0 +1,4 @@
+[submodule "themes/hexo-theme-next"]
+	path = themes/hexo-theme-next
+	url = git@github.com:hoke58/hexo-theme-next.git
+	branch = hoke
