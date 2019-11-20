@@ -393,7 +393,7 @@ scheme: Hoke
 
 成功之后就可以在自定义的 scheme 上折腾啦！
 
-# 托管至 Git
+# Git 及源码管理
 
 安装 [hexo-deployer-git](https://github.com/hexojs/hexo-deployer-git)
 
@@ -428,3 +428,61 @@ deploy:
   branch: master
 ```
 执行 `hexo clean && hexo g -d` , 输入 Git 的账号和密码, 完成后在浏览器输入 `yourName.coding.me` 测试
+
+## 网站源码管理最佳实践
+本节主要介绍如何管理网站源码
+### NexT 源码
+大家总会对 NexT 自定义修改，目标是管理自定义修改源码兼顾 [hexo-theme-next 官方](https://github.com/theme-next/hexo-theme-next)更新，涉及 Git 基础知识。
+
+1. `cd themes/next` 进入 NexT 主题目录，本地仓库创建自己源码分支 `git checkout -b <branch>`, 并在该分支上修改自己的配置，源码
+2. 修改后的内容提交本地仓库
+```sh
+git add .
+git commit -m '注释'
+```
+3. Fork [hexo-theme-next](https://github.com/theme-next/hexo-theme-next) 至自己的 Github 仓库
+4. 执行以下命令添加自己的 Fork 的仓库
+```bash
+git remote add github git@github.com:theme-next/hexo-theme-next.git # 记得替换成自己的仓库
+git remote -v # 添加成功后检查
+```
+5. 把当前分支推送自己 Github 远程库
+```sh
+$ git push -u github hoke
+Counting objects: 46, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (46/46), done.
+Writing objects: 100% (46/46), 287.64 KiB | 932.00 KiB/s, done.
+Total 46 (delta 18), reused 0 (delta 0)
+remote: Resolving deltas: 100% (18/18), completed with 12 local objects.
+remote: 
+remote: Create a pull request for 'hoke' on GitHub by visiting:
+remote:      https://github.com/hoke58/hexo-theme-next/pull/new/hoke
+remote: 
+To github.com:hoke58/hexo-theme-next.git
+ * [new branch]      hoke -> hoke
+Branch 'hoke' set up to track remote branch 'hoke' from 'origin'.
+```
+### Hexo 站点源码管理
+{% note success %}
+目标： 站点源码和托管在 Github 上的的静态资源同一个仓库，不同分支；站点源码库引用 NexT 源码仓库为子模块
+{% endnote %}
+
+1. 进入站点根目录初始化 Git 仓库 `git init`
+2. 创建并切换分支 `git checkout -b source`
+3. 删除或移走 NexT 主题 `mv themes/next /tmp`
+4. （可选）如果之前已生成 Git 仓库，先删除仓库中的 NexT `git -rm themes/next`
+5. 添加子模块，成功后会生成 `.gitmodules`
+```sh
+git submodule add -b hoke git@github.com:hoke58/hexo-theme-next.git themes/hexo-theme-next/
+```
+6. 提交本地仓库
+```sh
+git add .
+git commit -m '新增子模块'
+```
+7. 本地 source 分支推送自己远程库 source 分支
+```sh
+$ git push -u origin source
+```
+8. Github 网页上查看是否成功
