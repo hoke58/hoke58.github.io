@@ -40,9 +40,7 @@ footer:
     gongan_icon_url:
 
   cdn:
-    # Theme & scheme info link (Theme - NexT.scheme).
     enable: true
-    # Version info of NexT after scheme info (vX.X.X).
     link: https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral
     logo: https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png
 

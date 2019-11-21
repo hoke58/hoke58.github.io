@@ -6,7 +6,7 @@ tags: [Hexo, NexT, Github, Coding]
 ---
 
 # 前言
-`markdown`记录, 纯静态, `git`免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！
+`markdown`记录, 纯静态, `git`免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾解锁各位高阶用法
 
 ## 环境与工具
   * OS: Deepin 15.11
@@ -490,3 +490,202 @@ $ git push -u origin source
 {% note info %}
 `git submodule` 更多说明移步 [Git 工具 - 子模块](https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
 {% endnote %}
+
+# [图床](https://baike.baidu.com/item/%E5%9B%BE%E5%BA%8A)
+
+选型之前先做了一波调研，主要就[七牛](https://portal.qiniu.com/signup?code=1hetij6w2zq6q)和[又拍云](https://console.upyun.com/register/?invite=ryuHu372S), 因为需要使用 `CDN` , 简单说明:
+
+* 又拍云：10G 免费空间, 15G 流量, 支持 https, 需ICP备案
+* 七牛云：10G 免费空间, 10G 流量, 免费版不支持 https, 需ICP、公安备案
+
+`https` 已是趋势，[又拍云](https://console.upyun.com/register/?invite=ryuHu372S)亦是老牌的 CDN
+
+## 又拍云
+
+1. 注册[又拍云](https://console.upyun.com/register/?invite=ryuHu372S)，个人站点申请个人账号即可
+2. 注册成功后进入控台，点击「云存储」- 「立即使用」
+![deploy-hexo-next-20191121160122.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121160122.png)
+3. 点击传送门[开始使用又拍云存储](https://help.upyun.com/knowledge-base/quick_start/)，在「云存储」页面点击创建服务。
+4. 服务创建后，点击「配置」，根据自己的需求配置，晒一下我修改的部分
+![deploy-hexo-next-20191121161742.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161742.png)
+![deploy-hexo-next-20191121161831.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161831.png)
+![deploy-hexo-next-20191121161910.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161910.png)
+![deploy-hexo-next-20191121162031.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121162031.png)
+5. 使用 FTP 工具上传图片，传送门 [FTP/FTPS](https://help.upyun.com/knowledge-base/developer_tools/#ftpftps), 文件上传后可以网页上查看
+![deploy-hexo-next-20191121162515.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121162515.png)
+6. 至此，又拍云图床服务就 OK 啦！最后也是最重要的[加入又拍云联盟](https://www.upyun.com/league)。下载logo，选个适合自己风格的logo把链接和logo加入网站页脚，申请后五个工作日内会有结果。
+
+### NexT 页脚悬挂[又拍云联盟](https://www.upyun.com/league) Logo
+先上一下效果图
+![deploy-hexo-next-20191121163236.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121163236.png)
+
+NexT 主题仓库修改：
+```sh
+diff --git a/languages/en.yml b/languages/en.yml
+index 84e0700..64d61e4 100644
+--- a/languages/en.yml
++++ b/languages/en.yml
+@@ -49,6 +49,8 @@ footer:
+   theme: Theme
+   total_views: Total Views
+   total_visitors: Total Visitors
++  cdn: CDN by
++  hosted: Hosted by
+ 
+ counter:
+   tag_cloud:
+diff --git a/languages/zh-CN.yml b/languages/zh-CN.yml
+index e816ff2..79bad18 100644
+--- a/languages/zh-CN.yml
++++ b/languages/zh-CN.yml
+@@ -45,6 +45,8 @@ footer:
+   theme: 主题
+   total_views: 总访问量
+   total_visitors: 总访客量
++  cdn: CDN 加速
++  hosted: 主机托管于
+ counter:
+   tag_cloud:
+     zero: 暂无标签
+diff --git a/layout/_partials/footer.swig b/layout/_partials/footer.swig
+index 1923d8a..b7fed25 100644
+--- a/layout/_partials/footer.swig
++++ b/layout/_partials/footer.swig
+@@ -64,6 +64,17 @@
+   </div>
+ {%- endif %}
+ 
++{%- if theme.footer.powered.enable and theme.footer.theme.enable and theme.footer.cdn.enable %}
++  <span class="post-meta-divider">|</span>
++{%- endif %}
++
++{%- if theme.footer.cdn.enable %}
++  <div class="cdn-by">
++  <span style="display: inline-block;vertical-align: middle;">{{- __('footer.cdn') }}</span>
++  <a class="theme-link" href="{{ url_for(theme.footer.cdn.link) }}" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="{{ url_for(theme.footer.cdn.logo) }}" style="width:50px"></a>
++  </div>
++{%- endif %}
++
+ {%- if theme.add_this_id %}
+   <div class="addthis_inline_share_toolbox">
+     <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid={{ theme.add_this_id }}" async="async"></script>
+diff --git a/source/css/_schemes/Mist/_layout.styl b/source/css/_schemes/Mist/_layout.styl
+index da82016..99560fe 100755
+--- a/source/css/_schemes/Mist/_layout.styl
++++ b/source/css/_schemes/Mist/_layout.styl
+@@ -64,6 +64,10 @@ hr {
+   }
+ }
+ 
++.cdn-by {
++  display: inline-block;
++}
++
+ // About
+ // --------------------------------------------------
+ #about-top {
+```
+
+`/source/_data/next.yml` 自定义数据文件增加：
+```yml
+footer:
+  cdn:
+    enable: true
+    link: https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral
+    logo: https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png
+```
+
+## 图床工具
+> `PicGo` 支持微博图床，七牛云，腾讯云 COS，又拍云，GitHub，SM.MS 图床，阿里云 OSS，Ingur。支持 macOS、windows 64 位系统，完全免费。
+
+我是用`VScode`作为 markdown 编辑，主要介绍 `VScode` 插件 [vs-picgo](https://github.com/PicGo/vs-picgo)，在 VSCode 里使用 picgo，实现快速上传图片到远端图床并直接将 URL 写进 Markdown 文件里，极大提升 Markdown 贴图效率与体验。支持 [PicGo](https://github.com/Molunerfinn/PicGo) 原生自带的 8 种图床。
+
+- 截图上传
+
+![](https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-clipboard.gif)
+
+- 文件管理器选择上传
+
+![](https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-explorer.gif)
+
+- 输入文件路径上传
+
+![](https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-inputbox.gif)
+
+### 安装
+
+在插件商店中查找**PicGo**，并安装
+![deploy-hexo-next-20191121175316.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121175316.png)
+
+### 配置
+<details>
+<summary><b>2.0.0开始, VSCode 设置中可以自定义配置 Picgo</b></summary>
+<img src="https://i.loli.net/2019/04/09/5cac1821b6621.png" alt="vscode-setting.png">
+</details>
+
+<details>
+<summary>首先选择当前图床，我们选择 upyun</summary>
+<img src="https://i.loli.net/2019/04/09/5cac1847b5907.png" alt="current-picbed.png">
+</details>
+
+<details>
+<summary>然后输入 upyun 的参数</summary>
+<img src="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121181100.png" alt="picgo-upyun.png">
+</details>
+
+<details>
+<summary>自定义上传图片的名字</summary>
+<b>Notice: 如果选中文本上传，选中的部分即为上传图片的文件名</b>
+<img src="https://i.loli.net/2019/04/09/5cac189446749.png" alt="image-name.png">
+</details>
+
+<details>
+<summary>上传图片后md输出格式</summary>
+<img src="https://i.loli.net/2019/04/09/5cac18a5c9def.png" alt="output-format.png">
+</details>
+
+**如果你指定的`picgo`的`path`为空，那么将使用 VSCode 默认的`setting.json`作为配置文件。**
+
+配置文件内容(usersetting.json 文件中 picgo.path 路径指定的文件)里需要配置的项主要是`picBed`：
+详细信息可参看 [PicGo-配置](https://picgo.github.io/PicGo-Core-Doc/zh/guide/config.html#%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
+
+```js
+{
+    "picgo.picBed.upyun.bucket": "",     // 存储空间名，及你的服务名
+    "picgo.picBed.upyun.operator": "",   // 操作员
+    "picgo.picBed.upyun.password": "",   // 密码
+    "picgo.picBed.upyun.path": "",       // 自定义存储路径，比如img/
+    "picgo.picBed.upyun.url": "",        // 加速域名，注意要加http://或者https://
+    "picgo.customUploadName": "${mdFileName}-${fileName}${extName}",   // 自定上床图片的名字
+    "picgo.picBed.current": "upyun"      // 代表当前的默认上传图床为upyun
+}
+```
+### 键盘快捷键
+
+| OS           | 剪贴板图片上传               | 打开文件管理器上传                  | 打开输入框输入路径上传               |
+| ------------ | ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Windows/Unix | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>U</kbd> | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>E</kbd> | <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>O</kbd> |
+| OsX          | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>U</kbd>  | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>E</kbd>  | <kbd>Cmd</kbd> + <kbd>Opt</kbd> + <kbd>O</kbd>  |
+
+以上快捷键均可重新自定义。
+
+{% note success %}
+使用其它编辑器的同学， 可以下载[PicGo](https://github.com/Molunerfinn/PicGo/releases)，配合使用，开始优雅地书写 Markdown 吧
+{% endnote %}
+
+# CDN 加速
+远在海外的 Github，国内访问经常抽风，开始为博客加速吧
+
+有了图床使用的经验，使用 CDN 相对容易上手，先上[官档 针对自主源，如何创建 CDN 服务？](https://help.upyun.com/knowledge-base/cdn-create-service/)了解一下大概。
+
+都是页面操作直接上图吧
+![deploy-hexo-next-20191121191234.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191234.png)
+![deploy-hexo-next-20191121191338.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191338.png)
+![deploy-hexo-next-20191121191416.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191416.png)
+![deploy-hexo-next-20191121191439.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191439.png)
+![deploy-hexo-next-20191121191734.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191734.png)
+
+最后把 HTTPS 开启即可，上一张网站测速看一下效果吧
+![deploy-hexo-next-20191121193645.png](https://upyun.hoke58.cn/img/deploy-hexo-next-20191121193645.png)
+
+
