@@ -1224,7 +1224,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff984a;
+  background: #6f14ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2445,6 +2445,9 @@ hr {
     width: auto;
   }
 }
+.cdn-by {
+  display: inline-block;
+}
 #about-top {
   padding-top: 0;
   overflow: hidden;
@@ -2486,7 +2489,7 @@ hr {
 }
 #about-title .cloud {
   position: absolute;
-  background: url("/images/about/cloud.svg");
+  background: url("https://upyun.hoke58.cn/about/cloud.svg");
   top: left no-repeat;
   width: 150px;
   height: 45px;
@@ -2631,7 +2634,7 @@ hr {
 }
 #purpose .home-right-info {
   margin: 0 auto;
-  background-image: url("/images/about/purpose/line-bg.png");
+  background-image: url("https://upyun.hoke58.cn/about/purpose/line-bg.png");
   background-position: center center;
   background-repeat: repeat-x;
   position: relative;
@@ -2639,7 +2642,7 @@ hr {
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   #purpose .home-right-info {
-    background-image: url("/images/about/purpose/line-bg@2x.png");
+    background-image: url("https://upyun.hoke58.cn/about/purpose/line-bg@2x.png");
     background-size: 3px auto;
   }
 }
@@ -2656,14 +2659,14 @@ hr {
 }
 #purpose .home-left-info {
   margin: 0 auto;
-  background-image: url("../images/about/purpose/line-bg.png");
+  background-image: url("..https://upyun.hoke58.cn/about/purpose/line-bg.png");
   background-position: center center;
   background-repeat: repeat-x;
   position: relative;
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   #purpose .home-left-info {
-    background-image: url("/images/about/purpose/line-bg@2x.png");
+    background-image: url("https://upyun.hoke58.cn/about/purpose/line-bg@2x.png");
     background-size: 3px auto;
   }
 }
@@ -2710,11 +2713,11 @@ figure {
   animation-duration: 20s;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(1, 0, 0, 1);
-  background-image: url("/images/about/purpose/original-icons-vert.png");
+  background-image: url("https://upyun.hoke58.cn/about/purpose/original-icons-vert.png");
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   #purpose .bubble .bubbling-original-icons-vert {
-    background-image: url("/images/about/purpose/original-icons-vert@2x.png");
+    background-image: url("https://upyun.hoke58.cn/about/purpose/original-icons-vert@2x.png");
     background-size: 77px 231px;
   }
 }
@@ -2736,11 +2739,11 @@ figure {
   animation-duration: 20s;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(1, 0, 0, 1);
-  background-image: url("/images/about/purpose/wechat-icons-vert.png");
+  background-image: url("https://upyun.hoke58.cn/about/purpose/wechat-icons-vert.png");
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   #purpose .bubble .bubbling-wechat-icons-vert {
-    background-image: url("/images/about/purpose/wechat-icons-vert@2x.png");
+    background-image: url("https://upyun.hoke58.cn/about/purpose/wechat-icons-vert@2x.png");
     background-size: 77px 154px;
   }
 }
@@ -2765,11 +2768,11 @@ figure {
   animation-delay: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: cubic-bezier(1, 0, 0, 1);
-  background-image: url("/images/about/purpose/dev-icons-vert.png");
+  background-image: url("https://upyun.hoke58.cn/about/purpose/dev-icons-vert.png");
 }
 @media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx) {
   #purpose .bubble .bubbling-dev-icons-vert {
-    background-image: url("/images/about/purpose/dev-icons-vert@2x.png");
+    background-image: url("https://upyun.hoke58.cn/about/purpose/dev-icons-vert@2x.png");
     background-size: 77px 231px;
   }
 }

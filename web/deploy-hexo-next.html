@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#45b29a">
 <meta name="generator" content="Hexo 4.0.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/hoke/120.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/hoke/32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/hoke/16.png">
-  <link rel="mask-icon" href="/images/hoke/me.svg" color="#45b29a">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
   <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="Hoke&#39;s blog">
 <meta property="og:description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾吧！环境与工具 OS: Deepin 15.11 Node.js: v12.13.0 Npm: 6.12.0 Hexo: 4.0.0 NexT: 7.4.2 IDE: VS Code Node.js">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-20T02:15:48.834Z">
+<meta property="og:updated_time" content="2019-11-20T08:17:50.482Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
@@ -195,7 +195,7 @@
     <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/hoke/hoke_avatar.png">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
       <meta itemprop="name" content="Hoke">
       <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
     </span>
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-20 10:15:48" itemprop="dateModified" datetime="2019-11-20T10:15:48+08:00">2019-11-20</time>
+                <time title="修改时间：2019-11-20 16:17:50" itemprop="dateModified" datetime="2019-11-20T16:17:50+08:00">2019-11-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,14 +249,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>9.7k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>9 分钟</span>
+              <span>10 分钟</span>
             </span>
 
         </div>
@@ -358,7 +358,7 @@
 <li>执行 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code> 可预览效果, 如果遇报错别慌, 看一下报错的文件是不是哪个地方还漏改啦</li>
 </ol>
 <p>成功之后就可以在自定义的 scheme 上折腾啦！</p>
-<h1 id="托管至-Git"><a href="#托管至-Git" class="headerlink" title="托管至 Git"></a>托管至 Git</h1><p>安装 <a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">hexo-deployer-git</a></p>
+<h1 id="Git-及源码管理"><a href="#Git-及源码管理" class="headerlink" title="Git 及源码管理"></a>Git 及源码管理</h1><p>安装 <a href="https://github.com/hexojs/hexo-deployer-git" target="_blank" rel="noopener">hexo-deployer-git</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
 
 <h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><p><a href="https://github.com/" target="_blank" rel="noopener">Github</a> 需要开通 <a href="https://pages.github.com/" target="_blank" rel="noopener">Github Page</a> , 网上一搜一大把, 不啰嗦啦</p>
@@ -372,7 +372,43 @@
 <p>打 Hexo 配置文件 <code>_config.yml</code> , 拉到底部, 修改部署配置: </p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repo:</span> </span><br><span class="line"><span class="attr">    github:</span> <span class="attr">https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="attr">    coding:</span> <span class="attr">https://git.coding.net/hoke58/hoke58.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
 <p>执行 <code>hexo clean &amp;&amp; hexo g -d</code> , 输入 Git 的账号和密码, 完成后在浏览器输入 <code>yourName.coding.me</code> 测试</p>
-
+<h2 id="网站源码管理最佳实践"><a href="#网站源码管理最佳实践" class="headerlink" title="网站源码管理最佳实践"></a>网站源码管理最佳实践</h2><p>本节主要介绍如何管理网站源码</p>
+<h3 id="NexT-源码"><a href="#NexT-源码" class="headerlink" title="NexT 源码"></a>NexT 源码</h3><p>大家总会对 NexT 自定义修改，目标是管理自定义修改源码兼顾 <a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next 官方</a>更新，涉及 Git 基础知识。</p>
+<ol>
+<li><p><code>cd themes/next</code> 进入 NexT 主题目录，本地仓库创建自己源码分支 <code>git checkout -b &lt;branch&gt;</code>, 并在该分支上修改自己的配置，源码</p>
+</li>
+<li><p>修改后的内容提交本地仓库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'注释'</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Fork <a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next</a> 至自己的 Github 仓库</p>
+</li>
+<li><p>执行以下命令添加自己的 Fork 的仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add github git@github.com:theme-next/hexo-theme-next.git <span class="comment"># 记得替换成自己的仓库</span></span><br><span class="line">git remote -v <span class="comment"># 添加成功后检查</span></span><br></pre></td></tr></table></figure></li>
+<li><p>把当前分支推送自己 Github 远程库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u github hoke</span><br><span class="line">Counting objects: 46, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (46/46), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (46/46), 287.64 KiB | 932.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 46 (delta 18), reused 0 (delta 0)</span><br><span class="line">remote: Resolving deltas: 100% (18/18), completed with 12 <span class="built_in">local</span> objects.</span><br><span class="line">remote: </span><br><span class="line">remote: Create a pull request <span class="keyword">for</span> <span class="string">'hoke'</span> on GitHub by visiting:</span><br><span class="line">remote:      https://github.com/hoke58/hexo-theme-next/pull/new/hoke</span><br><span class="line">remote: </span><br><span class="line">To github.com:hoke58/hexo-theme-next.git</span><br><span class="line"> * [new branch]      hoke -&gt; hoke</span><br><span class="line">Branch <span class="string">'hoke'</span> <span class="built_in">set</span> up to track remote branch <span class="string">'hoke'</span> from <span class="string">'origin'</span>.</span><br></pre></td></tr></table></figure>
+<h3 id="Hexo-站点源码管理"><a href="#Hexo-站点源码管理" class="headerlink" title="Hexo 站点源码管理"></a>Hexo 站点源码管理</h3><div class="note success">
+            <p>目标： 站点源码和托管在 Github 上的的静态资源同一个仓库，不同分支；站点源码库引用 NexT 源码仓库为子模块</p>
+          </div>
+</li>
+<li><p>进入站点根目录初始化 Git 仓库 <code>git init</code></p>
+</li>
+<li><p>创建并切换分支 <code>git checkout -b source</code></p>
+</li>
+<li><p>删除或移走 NexT 主题 <code>mv themes/next /tmp</code></p>
+</li>
+<li><p>（可选）如果之前已生成 Git 仓库，先删除仓库中的 NexT <code>git -rm themes/next</code></p>
+</li>
+<li><p>添加子模块，成功后会生成 <code>.gitmodules</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule add -b hoke git@github.com:hoke58/hexo-theme-next.git themes/hexo-theme-next/</span><br></pre></td></tr></table></figure></li>
+<li><p>提交本地仓库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'新增子模块'</span></span><br></pre></td></tr></table></figure></li>
+<li><p>本地 source 分支推送自己远程库 source 分支</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push -u origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure></li>
+<li><p>Github 网页上查看是否成功</p>
+</li>
+</ol>
+<div class="note info">
+            <p><code>git submodule</code> 更多说明移步 <a href="https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97" target="_blank" rel="noopener">Git 工具 - 子模块</a></p>
+          </div>
     </div>
 
     
@@ -388,12 +424,12 @@
   <div id="qr" style="display: none;">
       
       <div style="display: inline-block;">
-        <img src="/images/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
         <p>微信支付</p>
       </div>
       
       <div style="display: inline-block;">
-        <img src="/images/hoke/alipay.png" alt="Hoke 支付宝">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
         <p>支付宝</p>
       </div>
 
@@ -480,14 +516,14 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#托管至-Git"><span class="nav-number">6.</span> <span class="nav-text">托管至 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding-or-Gitee"><span class="nav-number">6.2.</span> <span class="nav-text">Coding or Gitee</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-及源码管理"><span class="nav-number">6.</span> <span class="nav-text">Git 及源码管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding-or-Gitee"><span class="nav-number">6.2.</span> <span class="nav-text">Coding or Gitee</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网站源码管理最佳实践"><span class="nav-number">6.3.</span> <span class="nav-text">网站源码管理最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT-源码"><span class="nav-number">6.3.1.</span> <span class="nav-text">NexT 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-站点源码管理"><span class="nav-number">6.3.2.</span> <span class="nav-text">Hexo 站点源码管理</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Hoke"
-      src="/images/hoke/hoke_avatar.png">
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
   <p class="site-author-name" itemprop="name">Hoke</p>
   <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
 </div>
@@ -503,7 +539,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -557,17 +593,22 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">20k</span>
+    <span title="站点总字数">21k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">18 分钟</span>
+    <span title="站点阅读时长">19 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
   </div>
 
         
