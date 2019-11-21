@@ -486,3 +486,7 @@ git commit -m '新增子模块'
 $ git push -u origin source
 ```
 8. Github 网页上查看是否成功
+
+{% note info %}
+`git submodule` 更多说明移步 [Git 工具 - 子模块](https://git-scm.com/book/zh/v1/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97)
+{% endnote %}

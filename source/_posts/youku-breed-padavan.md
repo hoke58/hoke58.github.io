@@ -1,7 +1,7 @@
 ---
 title: Youku 路由器刷 Padavan
 date: 2019-11-18 11:19:14
-categories: systemops
+categories: 系统运维
 tags: 
   - router
   - padavan
