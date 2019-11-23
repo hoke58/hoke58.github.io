@@ -46,18 +46,20 @@
   };
 </script>
 
-  <meta name="description" content="现象表象是容器无法 stop, restart, rm , 登录主机后执行1234[root@orderer0 &#x2F;home&#x2F;blockchain&#x2F;peer0.org1&#x2F;conf]# docker-compose downStopping peer0.org1 ... doneRemoving network conf_defaultERROR: network conf_default id a3">
-<meta name="keywords" content="docker">
+  <meta name="description" content="介绍Dnsmasq： 轻量级的 DNS，DHCP 服务器，适用于资源受限的路由器和防火墙。它还已广泛用于智能手机和便携式热点的网络共享，并在虚拟化框架中支持虚拟网络。受支持的平台包括Linux（带有glibc和uclibc），Android，* BSD和Mac OSX。Dnsmasq包含在大多数Linux发行版以及FreeBSD，OpenBSD和NetBSD的端口系统中。Dnsmasq提供完整的I">
+<meta name="keywords" content="Dnsmasq,DNS,DHCP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ERROR network conf_default id has active endpoints">
-<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;docker&#x2F;docker-network-error.html">
+<meta property="og:title" content="Dnsmasq 超好用DNS服务">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;dnsmasq.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="现象表象是容器无法 stop, restart, rm , 登录主机后执行1234[root@orderer0 &#x2F;home&#x2F;blockchain&#x2F;peer0.org1&#x2F;conf]# docker-compose downStopping peer0.org1 ... doneRemoving network conf_defaultERROR: network conf_default id a3">
+<meta property="og:description" content="介绍Dnsmasq： 轻量级的 DNS，DHCP 服务器，适用于资源受限的路由器和防火墙。它还已广泛用于智能手机和便携式热点的网络共享，并在虚拟化框架中支持虚拟网络。受支持的平台包括Linux（带有glibc和uclibc），Android，* BSD和Mac OSX。Dnsmasq包含在大多数Linux发行版以及FreeBSD，OpenBSD和NetBSD的端口系统中。Dnsmasq提供完整的I">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-21T14:37:01.252Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;dnsmasq-Dnsmasq.png">
+<meta property="og:updated_time" content="2019-11-23T04:30:01.219Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;dnsmasq-Dnsmasq.png">
 
-<link rel="canonical" href="https://blog.hoke58.cn/docker/docker-network-error.html">
+<link rel="canonical" href="https://blog.hoke58.cn/systemops/dnsmasq.html">
 
 
 <script id="page-configurations">
@@ -71,7 +73,7 @@
   };
 </script>
 
-  <title>ERROR network conf_default id has active endpoints | Hoke's blog</title>
+  <title>Dnsmasq 超好用DNS服务 | Hoke's blog</title>
   
 
 
@@ -192,7 +194,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/docker/docker-network-error.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/dnsmasq.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -205,7 +207,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ERROR network conf_default id has active endpoints
+          Dnsmasq 超好用DNS服务
         </h1>
 
         <div class="post-meta">
@@ -216,7 +218,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-21 22:14:25 / 修改时间：22:37:01" itemprop="dateCreated datePublished" datetime="2019-11-21T22:14:25+08:00">2019-11-21</time>
+              <time title="创建时间：2019-11-23 11:02:58 / 修改时间：12:30:01" itemprop="dateCreated datePublished" datetime="2019-11-23T11:02:58+08:00">2019-11-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -224,8 +226,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">系统运维</span>
                   </a>
                 </span>
             </span>
@@ -243,7 +245,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -262,19 +264,58 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>表象是容器无法 stop, restart, rm , 登录主机后执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain/peer0.org1/conf]<span class="comment"># docker-compose down</span></span><br><span class="line">Stopping peer0.org1 ... <span class="keyword">done</span></span><br><span class="line">Removing network conf_default</span><br><span class="line">ERROR: network conf_default id a3a2c67620436cc49e406a52ad724df3cbe93f965b7e4427b36ed811075d2e06 has active endpoints</span><br></pre></td></tr></table></figure><a id="more"></a>
+        <p><img src="https://upyun.hoke58.cn/img/dnsmasq-Dnsmasq.png" alt="dnsmasq-Dnsmasq.png"></p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Dnsmasq： 轻量级的 DNS，DHCP 服务器，适用于资源受限的路由器和防火墙。它还已广泛用于智能手机和便携式热点的网络共享，并在虚拟化框架中支持虚拟网络。受支持的平台包括Linux（带有glibc和uclibc），Android，* BSD和Mac OSX。Dnsmasq包含在大多数Linux发行版以及FreeBSD，OpenBSD和NetBSD的端口系统中。Dnsmasq提供完整的IPv6支持。</p><a id="more"></a>
 
-
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
-<li><p>检查 network </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain]<span class="comment"># docker network inspect conf_default</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"Name"</span>: <span class="string">"conf_default"</span>,</span><br><span class="line">        <span class="string">"Id"</span>: <span class="string">"412177b0cf14414b191fc99ab4411d65c201e52424217476eb6b5cc861a5b603"</span>,</span><br><span class="line">        <span class="string">"Created"</span>: <span class="string">"2019-11-21T22:08:45.523133411+08:00"</span>,</span><br><span class="line">        <span class="string">"Scope"</span>: <span class="string">"local"</span>,</span><br><span class="line">        <span class="string">"Driver"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">        <span class="string">"EnableIPv6"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"IPAM"</span>: &#123;</span><br><span class="line">            <span class="string">"Driver"</span>: <span class="string">"default"</span>,</span><br><span class="line">            <span class="string">"Options"</span>: null,</span><br><span class="line">            <span class="string">"Config"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="string">"Subnet"</span>: <span class="string">"172.21.0.0/16"</span>,</span><br><span class="line">                    <span class="string">"Gateway"</span>: <span class="string">"172.21.0.1"</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Internal"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Attachable"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Ingress"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"ConfigFrom"</span>: &#123;</span><br><span class="line">            <span class="string">"Network"</span>: <span class="string">""</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ConfigOnly"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Containers"</span>: &#123;</span><br><span class="line">            <span class="string">"19ffaa8a2c03891c1883f962e0076a04ec9461bfc8364d60052e34e5464e9762"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"peer0.org1"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"1f82857982ba62ce6003e15bb140686a24859ca7374bca110ab7e481af56c855"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:02"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.2/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"9c7dd8270317bb09aac306a9aa952b05fff5fa0a65ef3f4f7c4e1a5d8c03bf1e"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"dev-peer0.org1.finblockchain.cn-fft-2.0.0"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"33dbba6e9cc513d4e0b293fa7f2d4415bb1c13aa4d1c0c87f86d2063409b7bd1"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:03"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.3/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Options"</span>: &#123;&#125;,</span><br><span class="line">        <span class="string">"Labels"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ul>
+<li><p>CentOS</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y dnsmasq</span><br></pre></td></tr></table></figure></li>
+<li><p>Ubuntu/Debian/Deepin</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y dnsmasq</span><br></pre></td></tr></table></figure>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>DNSmasq 的配置文件位于 <code>/etc/dnsmasq.conf</code>，均有注释说明，记录我的 <code>dnsmasq.conf</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@repo ~]# egrep -v &apos;^#|^$&apos; /etc/dnsmasq.conf </span><br><span class="line"># 以下两个参数告诉Dnsmasq过滤一些查询：1.哪些公共DNS没有回答 2.哪些root根域不可达。</span><br><span class="line">domain-needed # 从不转发格式错误的域名</span><br><span class="line">bogus-priv # 从不转发不在路由地址中的域名</span><br><span class="line"></span><br><span class="line">resolv-file=/home/hoke/dnsmasq/upstream.conf # 上游地址</span><br><span class="line">local=/runchain.com/ # 增加一个本地域名，会在/etc/hosts中进行查询</span><br><span class="line">addn-hosts=/home/hoke/dnsmasq/add_hosts  # 自定义 hosts </span><br><span class="line"></span><br><span class="line">cache-size=10000 # 设置dns缓存大小,默认为150条</span><br><span class="line"></span><br><span class="line"># For debugging purposes, log each DNS query as it passes through</span><br><span class="line"># dnsmasq.</span><br><span class="line">log-queries</span><br><span class="line">log-facility=/var/log/dnsmasq.log</span><br><span class="line"></span><br><span class="line"># Include all files in a directory which end in .conf</span><br><span class="line">conf-dir=/home/hoke/dnsmasq/dnsmasq.d/,*.conf</span><br><span class="line"></span><br><span class="line">no-negcache # 不缓存未知域名缓存，默认情况下dnsmasq缓存未知域名并直接返回为客户端。</span><br><span class="line">clear-on-reload # 重启后清空缓存</span><br></pre></td></tr></table></figure>
+<p><code>upstream.conf</code> 上游地址配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@repo ~]# cat /home/hoke/dnsmasq/upstream.conf</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line">nameserver 8.8.8.8</span><br></pre></td></tr></table></figure>
+<p>以上仅开启 DNS，需要开启 DHCP 的朋友参看配置文件注释，配置修改后启动生效即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start dnsmasq</span><br></pre></td></tr></table></figure>
+<h1 id="高阶技能"><a href="#高阶技能" class="headerlink" title="高阶技能"></a>高阶技能</h1><h2 id="dnsmasq-china-list"><a href="#dnsmasq-china-list" class="headerlink" title="dnsmasq-china-list"></a>dnsmasq-china-list</h2><p>特定于中文的配置可改善您喜欢的DNS服务器。chnroutes的最佳合作伙伴。</p>
 </li>
-<li><p>断开关联的 Containers name 网络</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker network disconnect -f net_default peer0.org1</span></span><br><span class="line"><span class="comment"># docker network disconnect -f net_default dev-peer0.org1.finblockchain.cn-fft-2.0.0</span></span><br></pre></td></tr></table></figure></li>
-<li><p>然后就可以正常执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose down</span></span><br></pre></td></tr></table></figure>
+<li><p>提高中文域名的解析速度。</p>
+</li>
+<li><p>尽可能获取最佳的CDN节点，但不要妥协外来CDN的结果，因此您同时也可以获得VPN的最佳CDN节点。</p>
+</li>
+<li><p>在NXDOMAIN上阻止ISP广告（例如114so）。</p>
+</li>
+</ul>
+<p>项目地址: <a href="https://github.com/felixonmars/dnsmasq-china-list" target="_blank" rel="noopener">https://github.com/felixonmars/dnsmasq-china-list</a></p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ol>
+<li>clone 项目<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/felixonmars/dnsmasq-china-list.git</span><br></pre></td></tr></table></figure></li>
+<li>把 <code>*.conf</code> 拷贝至 <code>conf-dir=/home/hoke/dnsmasq/dnsmasq.d/</code> 目录中</li>
+<li>重启 DNSmasq <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart dnsmasq</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
+<h3 id="conf-说明"><a href="#conf-说明" class="headerlink" title="conf 说明"></a>conf 说明</h3><ul>
+<li><p><code>accelerated-domains.china.conf</code>：一般域加速。<br><br>使用中文DNS服务器时，这些域的解析速度和/或结果更好。要确定某个域是否符合条件，必须满足以下条件之一：</p>
+<ul>
+<li>域的NS服务器位于中国大陆。</li>
+<li>使用中国的DNS服务器时，该域将解析为位于中国大陆的IP，但使用外国的DNS服务器（例如，在中国具有节点的CDN加速站点）时，该域并非总是如此。但是，这不包括在中国大陆附近有节点的节点，例如日本，香港，台湾等。</li>
+<li>如果顶级域名已经在列表中，请不要添加子域名。这包括该/cn/规则已匹配的所有.cn域。</li>
+</ul>
+</li>
+<li><p><code>google.china.conf</code>：加速Google域。<br><br>使用中文DNS时，会将这些域解析到Google中国服务器。在大多数情况下，这将为使用Google网络服务（例如Google Web Fonts和AdSense）的网站缩短页面加载时间。</p>
+<blockquote>
+<p>请记住，它们不被认为是稳定的。使用风险自负。</p>
+</blockquote>
+</li>
+<li><p><code>apple.china.conf</code>：Apple域名将加速发展。<br><br>一些ISP（通常是较小的ISP）在使用其中国大陆CDN服务器访问Apple资产时遇到问题。如果发生这种情况，请考虑删除此文件。</p>
+</li>
+<li><p><code>bogus-nxdomain.china.conf</code>：反劫持，一般某域名如果不存在 dns 解析结果，会返回 nxdomain ，但是有些运营商会无良重定向至 114 导航等广告页面，dnsmasq-china-list 项目收集了一些这种污染 IP</p>
+</li>
+</ul>
+<h1 id="定时检测-hosts-自动刷新-Dnsmasq"><a href="#定时检测-hosts-自动刷新-Dnsmasq" class="headerlink" title="定时检测 hosts , 自动刷新 Dnsmasq"></a>定时检测 hosts , 自动刷新 Dnsmasq</h1><p>每次改动 hosts , 都需要手动 restart Dnsmasq ,整了个自动化脚本放到定时任务里，实现自动刷新<br>新增定时脚本<code>dnsmasq_crontab.sh</code>, 作用是检测 add_hosts 文件1分钟内有没有修改，如有修改执行 restart dnsmqsq 命令 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@repo /home/hoke/dnsmasq]<span class="comment"># cat dnsmasq_crontab.sh </span></span><br><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">find /home/hoke/dnsmasq/ -name add_hosts -mmin -1 -<span class="built_in">exec</span> /usr/bin/systemctl restart dnsmasq.service &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+<p>加入 crontab</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*/1 * * * * /home/hoke/dnsmasq/dnsmasq_crontab.sh</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -312,7 +353,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.hoke58.cn/docker/docker-network-error.html" title="ERROR network conf_default id has active endpoints">https://blog.hoke58.cn/docker/docker-network-error.html</a>
+    <a href="https://blog.hoke58.cn/systemops/dnsmasq.html" title="Dnsmasq 超好用DNS服务">https://blog.hoke58.cn/systemops/dnsmasq.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -324,24 +365,23 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+              <a href="/tags/Dnsmasq/" rel="tag"><i class="fa fa-tag"></i> Dnsmasq</a>
+              <a href="/tags/DNS/" rel="tag"><i class="fa fa-tag"></i> DNS</a>
+              <a href="/tags/DHCP/" rel="tag"><i class="fa fa-tag"></i> DHCP</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/systemops/youku-breed-padavan.html" rel="next" title="Youku 路由器刷 Padavan">
-                  <i class="fa fa-chevron-left"></i> Youku 路由器刷 Padavan
+                <a href="/docker/docker-network-error.html" rel="next" title="ERROR network conf_default id has active endpoints">
+                  <i class="fa fa-chevron-left"></i> ERROR network conf_default id has active endpoints
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/systemops/dnsmasq.html" rel="prev" title="Dnsmasq 超好用DNS服务">
-                  Dnsmasq 超好用DNS服务 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -380,7 +420,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#现象"><span class="nav-number">1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#高阶技能"><span class="nav-number">4.</span> <span class="nav-text">高阶技能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dnsmasq-china-list"><span class="nav-number">4.1.</span> <span class="nav-text">dnsmasq-china-list</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用法"><span class="nav-number">4.1.1.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conf-说明"><span class="nav-number">4.1.2.</span> <span class="nav-text">conf 说明</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#定时检测-hosts-自动刷新-Dnsmasq"><span class="nav-number">5.</span> <span class="nav-text">定时检测 hosts , 自动刷新 Dnsmasq</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

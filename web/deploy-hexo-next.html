@@ -61,9 +61,9 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121162031.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121162515.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121163236.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Molunerfinn&#x2F;test&#x2F;master&#x2F;picgo&#x2F;vs-picgo-clipboard.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Molunerfinn&#x2F;test&#x2F;master&#x2F;picgo&#x2F;vs-picgo-explorer.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;Molunerfinn&#x2F;test&#x2F;master&#x2F;picgo&#x2F;vs-picgo-inputbox.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-clipboard.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-explorer.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-inputbox.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121175316.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac1821b6621.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac1847b5907.png">
@@ -76,7 +76,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191439.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191734.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121193645.png">
-<meta property="og:updated_time" content="2019-11-21T11:37:24.555Z">
+<meta property="og:updated_time" content="2019-11-23T02:49:47.700Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121160122.png">
 
@@ -245,7 +245,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-21 19:37:24" itemprop="dateModified" datetime="2019-11-21T19:37:24+08:00">2019-11-21</time>
+                <time title="修改时间：2019-11-23 10:49:47" itemprop="dateModified" datetime="2019-11-23T10:49:47+08:00">2019-11-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -369,7 +369,7 @@
 </ol>
 <p>最佳实践为<strong>选择 1</strong> , copy 需要修改的选项至 <code>next.yml</code> , 配置文件中的注释说明基本够用, 不清楚地参考<a href="http://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">NexT官方文档</a>和<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT github</a>, <code>NexT github</code>托管项目 <code>docs</code> 目录下有markdown文档, 有中文版的哦。</p>
 <h3 id="自定义-scheme"><a href="#自定义-scheme" class="headerlink" title="自定义 scheme"></a><del>自定义 scheme</del></h3><div class="note info">
-            <p>不建议自定义，如果官方对 scheme 有更新，需要人工检查原 scheme 的修改内容，再更新至新增的自定义 scheme</p>
+            <p>不建议自定义，如果官方对 scheme 有更新，需要人工检查原 scheme 的修改内容，再更新至新增的自定义 scheme，费事儿</p>
           </div>
 
 <p><del>由于我对 scheme 修改较多, 怕 <code>git pull</code> 更新时报冲突, 干脆直接新增专用 scheme , 以下是基本思路：</del></p>
@@ -459,17 +459,13 @@
 </blockquote>
 <p>我是用<code>VScode</code>作为 markdown 编辑，主要介绍 <code>VScode</code> 插件 <a href="https://github.com/PicGo/vs-picgo" target="_blank" rel="noopener">vs-picgo</a>，在 VSCode 里使用 picgo，实现快速上传图片到远端图床并直接将 URL 写进 Markdown 文件里，极大提升 Markdown 贴图效率与体验。支持 <a href="https://github.com/Molunerfinn/PicGo" target="_blank" rel="noopener">PicGo</a> 原生自带的 8 种图床。</p>
 <ul>
-<li>截图上传</li>
+<li><p>截图上传<br><img src="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-clipboard.gif" alt="deploy-hexo-next-vs-picgo-clipboard.gif"></p>
+</li>
+<li><p>文件管理器选择上传<br><img src="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-explorer.gif" alt="deploy-hexo-next-vs-picgo-explorer.gif"></p>
+</li>
+<li><p>输入文件路径上传<br><img src="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-inputbox.gif" alt="deploy-hexo-next-vs-picgo-inputbox.gif"></p>
+</li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-clipboard.gif" alt></p>
-<ul>
-<li>文件管理器选择上传</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-explorer.gif" alt></p>
-<ul>
-<li>输入文件路径上传</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Molunerfinn/test/master/picgo/vs-picgo-inputbox.gif" alt></p>
 <h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>在插件商店中查找<strong>PicGo</strong>，并安装<br><img src="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121175316.png" alt="deploy-hexo-next-20191121175316.png"></p>
 <h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><details>
 <summary><b>2.0.0开始, VSCode 设置中可以自定义配置 Picgo</b></summary>
@@ -655,7 +651,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -668,7 +664,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -716,12 +712,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">27k</span>
+    <span title="站点总字数">29k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">24 分钟</span>
+    <span title="站点阅读时长">27 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
