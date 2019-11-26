@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
+  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦 还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp 流量走向browser client &amp;lt;==&amp;gt; nginx（公网） &amp;lt;==&amp;gt; frps（公网） &amp;lt;==&amp;gt; frpc（内网） &amp;lt;==&amp;g">
+<meta name="keywords" content="Nginx,frp,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 反代 frp https 隐藏端口并开启缓存加速">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;web&#x2F;nginx-frp-https.html">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦 还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp 流量走向browser client &amp;lt;==&amp;gt; nginx（公网） &amp;lt;==&amp;gt; frps（公网） &amp;lt;==&amp;gt; frpc（内网） &amp;lt;==&amp;g">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-11-26T09:26:34.241Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.hoke58.cn/web/nginx-frp-https.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Nginx 反代 frp https 隐藏端口并开启缓存加速 | Hoke's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hoke's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">何可的博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <a href="https://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/nginx-frp-https.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nginx 反代 frp https 隐藏端口并开启缓存加速
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-26 16:08:56 / 修改时间：17:26:34" itemprop="dateCreated datePublished" datetime="2019-11-26T16:08:56+08:00">2019-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦</p><blockquote>
+<p>还不知道 frp 的朋友，点击项目地址 <a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
+</blockquote><h2 id="流量走向"><a href="#流量走向" class="headerlink" title="流量走向"></a>流量走向</h2><p>browser client &lt;==&gt; <code>nginx（公网）</code> &lt;==&gt; <code>frps（公网）</code> &lt;==&gt; <code>frpc（内网）</code> &lt;==&gt; nginx &amp; app （内网）</p><a id="more"></a>
+
+
+<h1 id="frps"><a href="#frps" class="headerlink" title="frps"></a>frps</h1><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="comment"># A literal address or host name for IPv6 must be enclosed</span></span><br><span class="line"><span class="comment"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"</span></span><br><span class="line"><span class="attr">bind_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># udp port to help make udp hole to penetrate nat</span></span><br><span class="line"><span class="attr">bind_udp_port</span> = <span class="string">7001</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># udp port used for kcp protocol, it can be same with 'bind_port'</span></span><br><span class="line"><span class="comment"># if not set, kcp is disabled in frps</span></span><br><span class="line"><span class="attr">kcp_bind_port</span> = <span class="string">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># specify which address proxy will listen for, default value is same with bind_addr</span></span><br><span class="line"><span class="comment"># proxy_bind_addr = 127.0.0.1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if you want to support virtual host, you must set the http port for listening (optional)</span></span><br><span class="line"><span class="comment"># <span class="doctag">Note:</span> http port and https port can be same with bind_port</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="string">8080</span></span><br><span class="line"><span class="attr">vhost_https_port</span> = <span class="string">8443</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set dashboard_addr and dashboard_port to view dashboard of frps</span></span><br><span class="line"><span class="comment"># dashboard_addr's default value is same with bind_addr</span></span><br><span class="line"><span class="comment"># dashboard is available only if dashboard_port is set</span></span><br><span class="line"><span class="attr">dashboard_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">7500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dashboard user and passwd for basic auth protect, if not set, both default value is admin</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">admin</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">admin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># console or real logFile path like ./frps.log</span></span><br><span class="line"><span class="attr">log_file</span> = <span class="string">./frps.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># trace, debug, info, warn, error</span></span><br><span class="line"><span class="attr">log_level</span> = <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log_max_days</span> = <span class="string">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># auth token</span></span><br><span class="line"><span class="attr">token</span> = <span class="string">12345678</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># only allow frpc to bind ports you list, if you set nothing, there won't be any limit</span></span><br><span class="line"><span class="attr">allow_ports</span> = <span class="string">2000-3000,3001,3003,4000-50000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pool_count in each proxy will change to max_pool_count if they exceed the maximum value</span></span><br><span class="line"><span class="attr">max_pool_count</span> = <span class="string">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># max ports can be used for each client, default value is 0 means no limit</span></span><br><span class="line"><span class="attr">max_ports_per_client</span> = <span class="string">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if subdomain_host is not empty, you can set subdomain when type is http or https in frpc's configure file</span></span><br><span class="line"><span class="comment"># when subdomain is test, the host used by routing is test.frps.com</span></span><br><span class="line"><span class="attr">subdomain_host</span> = <span class="string">frps.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tcp stream multiplexing is used, default is true</span></span><br><span class="line"><span class="attr">tcp_mux</span> = <span class="string">true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="frpc"><a href="#frpc" class="headerlink" title="frpc"></a>frpc</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [common] is integral section</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="comment"># A literal address or host name for IPv6 must be enclosed</span></span><br><span class="line"><span class="comment"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">0.0.0.0 \\frps 公网IP</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">7000 \\frps 绑定端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果frpc不能上网还支持代理配置</span></span><br><span class="line"><span class="comment"># if you want to connect frps by http proxy or socks5 proxy, you can set http_proxy here or in global environment variables</span></span><br><span class="line"><span class="comment"># it only works when protocol is tcp</span></span><br><span class="line"><span class="comment"># http_proxy = http://user:passwd@192.168.1.128:8080</span></span><br><span class="line"><span class="comment"># http_proxy = socks5://user:passwd@192.168.1.128:1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># console or real logFile path like ./frpc.log</span></span><br><span class="line"><span class="attr">log_file</span> = <span class="string">./frpc.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># trace, debug, info, warn, error</span></span><br><span class="line"><span class="attr">log_level</span> = <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log_max_days</span> = <span class="string">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># disable log colors when log_file is console, default is false</span></span><br><span class="line"><span class="attr">disable_log_color</span> = <span class="string">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># for authentication</span></span><br><span class="line"><span class="attr">token</span> = <span class="string">12345678 \\要和 frps 值一样</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set admin address for control frpc's action by http api such as reload</span></span><br><span class="line"><span class="attr">admin_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">admin_port</span> = <span class="string">7400</span></span><br><span class="line"><span class="attr">admin_user</span> = <span class="string">admin</span></span><br><span class="line"><span class="attr">admin_pwd</span> = <span class="string">admin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># connections will be established in advance, default value is zero</span></span><br><span class="line"><span class="attr">pool_count</span> = <span class="string">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tcp stream multiplexing is used, default is true, it must be same with frps</span></span><br><span class="line"><span class="attr">tcp_mux</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># your proxy name will be changed to &#123;user&#125;.&#123;proxy&#125;</span></span><br><span class="line"><span class="attr">user</span> = <span class="string">your_name</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># decide if exit program when first login failed, otherwise continuous relogin to frps</span></span><br><span class="line"><span class="comment"># default is true</span></span><br><span class="line"><span class="attr">login_fail_exit</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># communication protocol used to connect to server</span></span><br><span class="line"><span class="comment"># now it supports tcp and kcp and websocket, default is tcp</span></span><br><span class="line"><span class="attr">protocol</span> = <span class="string">tcp</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tls_enable is true, frpc will connect frps by tls</span></span><br><span class="line"><span class="attr">tls_enable</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[web02]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">https</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">443</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="string">false</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="string">false</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">web02</span></span><br><span class="line"><span class="comment">#custom_domains = web02.frps.com</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果 frps 设置 <code>subdomain_host</code>，在 frpc http/https 类型中可以结合 <code>subdomain</code> 使用。</p>
+</blockquote>
+<p>例: <code>subdomain_host = frps.com</code> , <code>subdomain = web02</code> DNS 配置泛域名 <code>*.frps.com</code> 至公网主机上， 即可直接访问 <code>https://web02.frps.com:8843</code></p>
+<h1 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">server</span><br><span class="line">&#123;</span><br><span class="line">    listen <span class="number">80</span>;</span><br><span class="line">	listen <span class="number">443</span> ssl http2;</span><br><span class="line">    server_name pan.hoke58.cn;</span><br><span class="line">    index index.php index.html index.htm <span class="keyword">default</span>.php <span class="keyword">default</span>.htm <span class="keyword">default</span>.html;</span><br><span class="line">    </span><br><span class="line">    #SSL-START SSL相关配置，请勿删除或修改下一行带注释的404规则</span><br><span class="line">    #error_page 404/404.html;</span><br><span class="line">    #HTTP_TO_HTTPS_START</span><br><span class="line">    <span class="keyword">if</span> ($server_port !~ <span class="number">443</span>)&#123;</span><br><span class="line">        rewrite ^(<span class="regexp">/.*)$ https:/</span><span class="regexp">/$host$1 permanent;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    #HTTP_TO_HTTPS_END</span></span><br><span class="line"><span class="regexp">    ssl_certificate    /</span>www/server/panel/vhost/cert/pan.hoke58.cn/fullchain.pem;</span><br><span class="line">    ssl_certificate_key    /www/server/panel/vhost/cert/pan.hoke58.cn/privkey.pem;</span><br><span class="line">    ssl_protocols TLSv1 TLSv1<span class="number">.1</span> TLSv1<span class="number">.2</span> TLSv1<span class="number">.3</span>;</span><br><span class="line">    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">    ssl_prefer_server_ciphers on;</span><br><span class="line">    ssl_session_cache shared:SSL:<span class="number">10</span>m;</span><br><span class="line">    ssl_session_timeout <span class="number">10</span>m;</span><br><span class="line">    error_page <span class="number">497</span>  https:<span class="comment">//$host$request_uri;</span></span><br><span class="line">    #SSL-END</span><br><span class="line">    </span><br><span class="line">    #ERROR-PAGE-START  错误页配置，可以注释、删除或修改</span><br><span class="line">    #error_page 404 /404.html;</span><br><span class="line">    #error_page 502 /502.html;</span><br><span class="line">    #ERROR-PAGE-END</span><br><span class="line">    </span><br><span class="line">    location ~ ^\/(?:build|tests|config|lib|<span class="number">3</span>rdparty|templates|data)\/ &#123;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ ^\/(?:\.|autotest|occ|issue|indie|db_|<span class="built_in">console</span>) &#123;</span><br><span class="line">        deny all;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location = <span class="regexp">/.well-known/</span>carddav &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">301</span> $scheme:<span class="comment">//$host:$server_port/remote.php/dav;</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    location = <span class="regexp">/.well-known/</span>caldav &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="number">301</span> $scheme:<span class="comment">//$host:$server_port/remote.php/dav;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #PROXY-START/</span><br><span class="line">    location /</span><br><span class="line">    &#123;</span><br><span class="line">    resolver <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span> ipv6=off;</span><br><span class="line">    expires <span class="number">12</span>h;</span><br><span class="line">    <span class="keyword">if</span> ($request_uri ~* <span class="string">"(php|jsp|cgi|asp|aspx)"</span>)</span><br><span class="line">    &#123;</span><br><span class="line">         expires <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    # Add headers to serve security related headers</span><br><span class="line">    # Before enabling Strict-Transport-Security headers please read into this topic first.</span><br><span class="line">    add_header Strict-Transport-Security <span class="string">"max-age=15768000; includeSubDomains; preload;"</span>;    </span><br><span class="line">    </span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    proxy_pass https:<span class="comment">//$host:8443; # frps https 的端口</span></span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_ssl_server_name on;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-Proto $scheme;    </span><br><span class="line">    </span><br><span class="line">    #持久化连接相关配置</span><br><span class="line">    proxy_connect_timeout <span class="number">60</span>s;</span><br><span class="line">    proxy_read_timeout <span class="number">86400</span>s;</span><br><span class="line">    proxy_send_timeout <span class="number">30</span>s;</span><br><span class="line">    proxy_http_version <span class="number">1.1</span>;</span><br><span class="line">    proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">    proxy_set_header Connection <span class="string">"upgrade"</span>;</span><br><span class="line">    add_header X-Cache $upstream_cache_status;</span><br><span class="line">    </span><br><span class="line">    #Set Nginx Cache</span><br><span class="line">    proxy_cache cache_one;</span><br><span class="line">    proxy_cache_key $host$uri$is_args$args;</span><br><span class="line">    proxy_cache_valid <span class="number">200</span> <span class="number">304</span> <span class="number">30</span>m;</span><br><span class="line">    proxy_cache_valid  <span class="number">301</span> <span class="number">302</span> <span class="number">24</span>h;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location ~* \.(jpg|jpeg|gif|png|svg|css|scss|js|ico|xml|woff|woff2|ttf|otf|eot)$</span><br><span class="line">    &#123;</span><br><span class="line">    resolver <span class="number">114.114</span><span class="number">.114</span><span class="number">.114</span> ipv6=off;</span><br><span class="line">    expires <span class="number">30</span>d;</span><br><span class="line">    # Add headers to serve security related headers</span><br><span class="line">    # Before enabling Strict-Transport-Security headers please read into this topic first.</span><br><span class="line">    add_header Strict-Transport-Security <span class="string">"max-age=15768000; includeSubDomains; preload;"</span>;    </span><br><span class="line">    </span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    proxy_pass https:<span class="comment">//$host:8443; # frps https 的端口</span></span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_ssl_server_name on;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header REMOTE-HOST $remote_addr;</span><br><span class="line">    proxy_set_header X-Forwarded-Proto $scheme;    </span><br><span class="line">    </span><br><span class="line">    #持久化连接相关配置</span><br><span class="line">    proxy_connect_timeout <span class="number">60</span>s;</span><br><span class="line">    proxy_read_timeout <span class="number">86400</span>s;</span><br><span class="line">    proxy_send_timeout <span class="number">30</span>s;</span><br><span class="line">    proxy_http_version <span class="number">1.1</span>;</span><br><span class="line">    proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">    proxy_set_header Connection <span class="string">"upgrade"</span>;</span><br><span class="line">    add_header X-Cache $upstream_cache_status;</span><br><span class="line">    </span><br><span class="line">    #Set Nginx Cache</span><br><span class="line">    proxy_cache cache_one;</span><br><span class="line">    proxy_cache_key $host$uri$is_args$args;</span><br><span class="line">    proxy_cache_valid <span class="number">200</span> <span class="number">304</span> <span class="number">301</span> <span class="number">302</span> <span class="number">3</span>d;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #PROXY-END/</span><br><span class="line">    </span><br><span class="line">    #禁止访问的文件或目录</span><br><span class="line">    location ~ ^<span class="regexp">/(\.user.ini|\.htaccess|\.git|\.svn|\.project|LICENSE|README.md)</span></span><br><span class="line"><span class="regexp">    &#123;</span></span><br><span class="line"><span class="regexp">        return 404;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp">    #一键申请SSL证书验证目录相关设置</span></span><br><span class="line"><span class="regexp">    location ~ \.well-known&#123;</span></span><br><span class="line"><span class="regexp">        allow all;</span></span><br><span class="line"><span class="regexp">    &#125;</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp">	access_log  /</span>www/wwwlogs/access.log;</span><br><span class="line">    error_log  /www/wwwlogs/error.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><code>openssl s_client -connect 127.0.0.1:443 -tls1</code></p>
+
+    </div>
+
+    
+    
+    
+      
+
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.hoke58.cn/web/nginx-frp-https.html" title="Nginx 反代 frp https 隐藏端口并开启缓存加速">https://blog.hoke58.cn/web/nginx-frp-https.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"><i class="fa fa-tag"></i> Nginx</a>
+              <a href="/tags/frp/" rel="tag"><i class="fa fa-tag"></i> frp</a>
+              <a href="/tags/https/" rel="tag"><i class="fa fa-tag"></i> https</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/systemops/dnsmasq.html" rel="next" title="Dnsmasq 超好用DNS服务">
+                  <i class="fa fa-chevron-left"></i> Dnsmasq 超好用DNS服务
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流量走向"><span class="nav-number">1.1.</span> <span class="nav-text">流量走向</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#frps"><span class="nav-number">2.</span> <span class="nav-text">frps</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#frpc"><span class="nav-number">2.1.</span> <span class="nav-text">frpc</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx"><span class="nav-number">3.</span> <span class="nav-text">nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">37k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">33 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
