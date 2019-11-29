@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
+  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="前言             本文仅适合在线 Yum 方式安装升级           查看当前内核版本升级前查看下现在发行版的内核12# uname -srLinux 3.10.0-1062.4.1.el7.x86_64安装最新内核 导入 ELRepo 公钥1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org">
+<meta name="keywords" content="linux,centos,kernel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 升级内核的正确姿势">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;centos-upgrade-kernel&#x2F;">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="前言             本文仅适合在线 Yum 方式安装升级           查看当前内核版本升级前查看下现在发行版的内核12# uname -srLinux 3.10.0-1062.4.1.el7.x86_64安装最新内核 导入 ELRepo 公钥1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;centos-upgrade-kernel-grub.jpg">
+<meta property="og:updated_time" content="2019-11-29T06:43:29.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;centos-upgrade-kernel-grub.jpg">
+
+<link rel="canonical" href="https://blog.hoke58.cn/systemops/centos-upgrade-kernel/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Centos 升级内核的正确姿势 | Hoke's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hoke's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">何可的博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <a href="https://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/centos-upgrade-kernel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Centos 升级内核的正确姿势
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-29 09:14:35 / 修改时间：14:43:29" itemprop="dateCreated datePublished" datetime="2019-11-29T09:14:35+08:00">2019-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">系统运维</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><div class="note warn">
+            <p>本文仅适合在线 Yum 方式安装升级</p>
+          </div><h1 id="查看当前内核版本"><a href="#查看当前内核版本" class="headerlink" title="查看当前内核版本"></a>查看当前内核版本</h1><p>升级前查看下现在发行版的内核</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br><span class="line">Linux 3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure><h1 id="安装最新内核"><a href="#安装最新内核" class="headerlink" title="安装最新内核"></a>安装最新内核</h1><ol>
+<li>导入 ELRepo 公钥<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol><a id="more"></a>
+
+
+
+
+<p>ELRepo 项目使用的 GPG 密钥的详细信息访问<a href="https://www.elrepo.org/tiki/key" target="_blank" rel="noopener">https://www.elrepo.org/tiki/key</a></p>
+<ol start="2">
+<li>安装 ELRepo 仓库，根据自己 OS 的发行版选对应命令。</li>
+</ol>
+<ul>
+<li><p>To install ELRepo for <strong>RHEL-8</strong> or <strong>CentOS-8</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install https://www.elrepo.org/elrepo-release-8.0-2.el8.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>To install ELRepo for <strong>RHEL-7, SL-7 or CentOS-7</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>To install ELRepo for <strong>RHEL-6, SL-6 or CentOS-6</strong>:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install https://www.elrepo.org/elrepo-release-6-9.el6.elrepo.noarch.rpm</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li><p>为了使用镜像系统，请同时安装 <code>yum-plugin-fastestmirror</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install yum-plugin-fastestmirror -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ELRepo 安装后，使用下面的命令列出可用的系统内核相关包</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei ~]<span class="comment"># yum --disablerepo="*" --enablerepo="elrepo-kernel" list available</span></span><br><span class="line">Loaded plugins: fastestmirror</span><br><span class="line">Repository base is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Repository updates is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Repository extras is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Repository epel is listed more than once <span class="keyword">in</span> the configuration</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * elrepo-kernel: hkg.mirror.rackspace.com</span><br><span class="line">Available Packages</span><br><span class="line">kernel-lt.x86_64                                                 4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-devel.x86_64                                           4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-doc.noarch                                             4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-headers.x86_64                                         4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-tools.x86_64                                           4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-tools-libs.x86_64                                      4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel<span class="_">-lt</span>-tools-libs-devel.x86_64                                4.4.204-1.el7.elrepo                                elrepo-kernel</span><br><span class="line">kernel-ml-devel.x86_64                                           5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">kernel-ml-doc.noarch                                             5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">kernel-ml-headers.x86_64                                         5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">kernel-ml-tools.x86_64                                           5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">kernel-ml-tools-libs.x86_64                                      5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">kernel-ml-tools-libs-devel.x86_64                                5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">perf.x86_64                                                      5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br><span class="line">python-perf.x86_64                                               5.4.0-1.el7.elrepo                                  elrepo-kernel</span><br></pre></td></tr></table></figure>
+<p>可以看到 <code>kernel-ml</code> 最新版本是 5.4.0 了</p>
+</li>
+</ol>
+<ol start="5">
+<li>安装最新的主线稳定内核<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=elrepo-kernel install kernel-ml</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="修改grub中默认的内核版本"><a href="#修改grub中默认的内核版本" class="headerlink" title="修改grub中默认的内核版本"></a>修改grub中默认的内核版本</h1><p>内核升级完毕后，目前内核还是默认的版本，如果此时直接执行 <code>reboot</code> 命令，重启后使用的内核版本还是默认的 3.10，不会使用最新安装的内核版本，首先，我们可以通过命令查看默认启动顺序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei ~]<span class="comment"># awk -F\' '$1=="menuentry " &#123;print $2&#125;' /etc/grub2.cfg</span></span><br><span class="line">CentOS Linux (5.4.0-1.el7.elrepo.x86_64) 7 (Core)</span><br><span class="line">CentOS Linux (3.10.0-1062.4.1.el7.x86_64) 7 (Core)</span><br><span class="line">CentOS Linux (0-rescue-7d26c16f128042a684ea474c9e2c240f) 7 (Core)</span><br></pre></td></tr></table></figure>
+<p>由上面可以看出新内核(5.4.0)目前位置在0，原来的内核(3.10.0)目前位置在1，所以如果想生效最新的内核，还需要我们修改内核的启动顺序为0：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/etc/</span><span class="keyword">default</span><span class="regexp">/grub</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://upyun.hoke58.cn/img/centos-upgrade-kernel-grub.jpg" alt="centos-upgrade-kernel-grub.jpg"></p>
+<div class="note warn">
+            <p>Centos 6 更改的文件相同，使用命令确定新内核位置后，然后将参数default更改为0即可。</p>
+          </div>
+
+<p>接着运行grub2-mkconfig命令来重新创建内核配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei ~]<span class="comment"># grub2-mkconfig -o /boot/grub2/grub.cfg</span></span><br><span class="line">Generating grub configuration file ...</span><br><span class="line">Found linux image: /boot/vmlinuz-5.4.0-1.el7.elrepo.x86_64</span><br><span class="line">Found initrd image: /boot/initramfs-5.4.0-1.el7.elrepo.x86_64.img</span><br><span class="line">Found linux image: /boot/vmlinuz-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">Found initrd image: /boot/initramfs-3.10.0-1062.4.1.el7.x86_64.img</span><br><span class="line">Found linux image: /boot/vmlinuz-0-rescue-7d26c16f128042a684ea474c9e2c240f</span><br><span class="line">Found initrd image: /boot/initramfs-0-rescue-7d26c16f128042a684ea474c9e2c240f.img</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="重启，验证最新内核"><a href="#重启，验证最新内核" class="headerlink" title="重启，验证最新内核"></a>重启，验证最新内核</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br><span class="line"></span><br><span class="line">[root@yunwei ~]<span class="comment"># uname -sr</span></span><br><span class="line">Linux 5.4.0-1.el7.elrepo.x86_64</span><br></pre></td></tr></table></figure>
+
+<h1 id="删除旧内核"><a href="#删除旧内核" class="headerlink" title="删除旧内核"></a>删除旧内核</h1><ol>
+<li>查看系统中全部的内核 RPM 包<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei ~]<span class="comment"># rpm -aq |grep kernel</span></span><br><span class="line">kernel-headers-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">kernel-debug-devel-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">kernel-tools-libs-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">kernel-tools-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">kernel-ml-5.4.0-1.el7.elrepo.x86_64</span><br><span class="line">kernel-3.10.0-1062.4.1.el7.x86_64</span><br><span class="line">kernel-devel-3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure></li>
+<li>删除旧内核<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum remove kernel-headers-3.10.0-1062.4.1.el7.x86_64 kernel-debug-devel-3.10.0-1062.4.1.el7.x86_64 kernel-tools-3.10.0-1062.4.1.el7.x86_64 kernel-3.10.0-1062.4.1.el7.x86_64 kernel-devel-3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="安装最新版-kernel-tool，-kernel-headers，-kernel-devel"><a href="#安装最新版-kernel-tool，-kernel-headers，-kernel-devel" class="headerlink" title="安装最新版 kernel-tool， kernel-headers， kernel-devel"></a>安装最新版 kernel-tool， kernel-headers， kernel-devel</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=elrepo-kernel install kernel-ml-devel.x86_64 kernel-ml-headers.x86_64 kernel-ml-tools.x86_64</span><br></pre></td></tr></table></figure>
+
+<h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><ul>
+<li><a href="http://elrepo.org/tiki/index.php" target="_blank" rel="noopener">ELRepo.org</a></li>
+<li><a href="https://www.kernel.org" target="_blank" rel="noopener">The Linux Kernel Archives</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+        <div class="popular-posts-date">2019-10-28</div>
+      <div class="popular-posts-title"><a href="/systemops/Linux-proc-pid/" rel="bookmark">Linux下的/proc/[pid]目录下的文件分析</a></div>
+    </li>
+  </ul>
+
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.hoke58.cn/systemops/centos-upgrade-kernel/" title="Centos 升级内核的正确姿势">https://blog.hoke58.cn/systemops/centos-upgrade-kernel/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/centos/" rel="tag"><i class="fa fa-tag"></i> centos</a>
+              <a href="/tags/kernel/" rel="tag"><i class="fa fa-tag"></i> kernel</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/web/nginx-frp-https/" rel="next" title="Nginx 反代 frp https 隐藏端口并开启缓存加速">
+                  <i class="fa fa-chevron-left"></i> Nginx 反代 frp https 隐藏端口并开启缓存加速
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/systemops/google-bbr/" rel="prev" title="开启 Google-BBR 网络加速">
+                  开启 Google-BBR 网络加速 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看当前内核版本"><span class="nav-number">2.</span> <span class="nav-text">查看当前内核版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装最新内核"><span class="nav-number">3.</span> <span class="nav-text">安装最新内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改grub中默认的内核版本"><span class="nav-number">4.</span> <span class="nav-text">修改grub中默认的内核版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重启，验证最新内核"><span class="nav-number">5.</span> <span class="nav-text">重启，验证最新内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#删除旧内核"><span class="nav-number">6.</span> <span class="nav-text">删除旧内核</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装最新版-kernel-tool，-kernel-headers，-kernel-devel"><span class="nav-number">7.</span> <span class="nav-text">安装最新版 kernel-tool， kernel-headers， kernel-devel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#链接"><span class="nav-number">8.</span> <span class="nav-text">链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">42k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">38 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/nginx-frp-https.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/google-bbr/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -205,7 +205,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/web/nginx-frp-https.html" class="post-title-link" itemprop="url">Nginx 反代 frp https 隐藏端口并开启缓存加速</a>
+            <a href="/systemops/google-bbr/" class="post-title-link" itemprop="url">开启 Google-BBR 网络加速</a>
         </h1>
 
         <div class="post-meta">
@@ -216,8 +216,209 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-26 16:08:56 / 修改时间：17:26:34" itemprop="dateCreated datePublished" datetime="2019-11-26T16:08:56+08:00">2019-11-26</time>
+              <time title="创建时间：2019-11-29 15:11:43 / 修改时间：15:44:41" itemprop="dateCreated datePublished" datetime="2019-11-29T15:11:43+08:00">2019-11-29</time>
             </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">系统运维</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://upyun.hoke58.cn/img/google-bbr-bbr.png" alt="google-bbr-bbr.png"></p><h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p>BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。</p><p>BBR解决了两个问题：</p><ul>
+<li>一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。</li>
+<li>降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的用户。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/systemops/google-bbr/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/centos-upgrade-kernel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/systemops/centos-upgrade-kernel/" class="post-title-link" itemprop="url">Centos 升级内核的正确姿势</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-11-29 09:14:35 / 修改时间：14:43:29" itemprop="dateCreated datePublished" datetime="2019-11-29T09:14:35+08:00">2019-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">系统运维</span>
+                  </a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><div class="note warn">
+            <p>本文仅适合在线 Yum 方式安装升级</p>
+          </div><h1 id="查看当前内核版本"><a href="#查看当前内核版本" class="headerlink" title="查看当前内核版本"></a>查看当前内核版本</h1><p>升级前查看下现在发行版的内核</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br><span class="line">Linux 3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure><h1 id="安装最新内核"><a href="#安装最新内核" class="headerlink" title="安装最新内核"></a>安装最新内核</h1><ol>
+<li>导入 ELRepo 公钥<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/systemops/centos-upgrade-kernel/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      
+
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/nginx-frp-https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/web/nginx-frp-https/" class="post-title-link" itemprop="url">Nginx 反代 frp https 隐藏端口并开启缓存加速</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-26 16:08:56" itemprop="dateCreated datePublished" datetime="2019-11-26T16:08:56+08:00">2019-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-27 15:13:14" itemprop="dateModified" datetime="2019-11-27T15:13:14+08:00">2019-11-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -260,7 +461,7 @@
 </blockquote><h2 id="流量走向"><a href="#流量走向" class="headerlink" title="流量走向"></a>流量走向</h2><p>browser client &lt;==&gt; <code>nginx（公网）</code> &lt;==&gt; <code>frps（公网）</code> &lt;==&gt; <code>frpc（内网）</code> &lt;==&gt; nginx &amp; app （内网）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/web/nginx-frp-https.html#more" rel="contents">
+              <a class="btn" href="/web/nginx-frp-https/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -286,7 +487,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/dnsmasq.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/dnsmasq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -300,7 +501,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/systemops/dnsmasq.html" class="post-title-link" itemprop="url">Dnsmasq 超好用DNS服务</a>
+            <a href="/systemops/dnsmasq/" class="post-title-link" itemprop="url">Dnsmasq 超好用DNS服务</a>
         </h1>
 
         <div class="post-meta">
@@ -359,7 +560,7 @@
           <p><img src="https://upyun.hoke58.cn/img/dnsmasq-Dnsmasq.png" alt="dnsmasq-Dnsmasq.png"></p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Dnsmasq： 轻量级的 DNS，DHCP 服务器，适用于资源受限的路由器和防火墙。它还已广泛用于智能手机和便携式热点的网络共享，并在虚拟化框架中支持虚拟网络。受支持的平台包括Linux（带有glibc和uclibc），Android, BSD 和 Mac OSX。Dnsmasq包含在大多数Linux发行版以及FreeBSD，OpenBSD和NetBSD的端口系统中。Dnsmasq提供完整的IPv6支持。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/systemops/dnsmasq.html#more" rel="contents">
+              <a class="btn" href="/systemops/dnsmasq/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -385,7 +586,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/docker/docker-network-error.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/docker/docker-network-error/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -399,7 +600,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/docker/docker-network-error.html" class="post-title-link" itemprop="url">ERROR network conf_default id has active endpoints</a>
+            <a href="/docker/docker-network-error/" class="post-title-link" itemprop="url">ERROR network conf_default id has active endpoints</a>
         </h1>
 
         <div class="post-meta">
@@ -452,7 +653,7 @@
           <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>表象是容器无法 stop, restart, rm , 登录主机后执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain/peer0.org1/conf]<span class="comment"># docker-compose down</span></span><br><span class="line">Stopping peer0.org1 ... <span class="keyword">done</span></span><br><span class="line">Removing network conf_default</span><br><span class="line">ERROR: network conf_default id a3a2c67620436cc49e406a52ad724df3cbe93f965b7e4427b36ed811075d2e06 has active endpoints</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/docker/docker-network-error.html#more" rel="contents">
+              <a class="btn" href="/docker/docker-network-error/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -478,7 +679,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/youku-breed-padavan.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/youku-breed-padavan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -492,7 +693,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/systemops/youku-breed-padavan.html" class="post-title-link" itemprop="url">Youku 路由器刷 Padavan</a>
+            <a href="/systemops/youku-breed-padavan/" class="post-title-link" itemprop="url">Youku 路由器刷 Padavan</a>
         </h1>
 
         <div class="post-meta">
@@ -557,7 +758,7 @@
 </ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/systemops/youku-breed-padavan.html#more" rel="contents">
+              <a class="btn" href="/systemops/youku-breed-padavan/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -583,7 +784,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/deploy-hexo-next/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -597,7 +798,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/web/deploy-hexo-next.html" class="post-title-link" itemprop="url">Hexo+NexT打造极简个人博客[持续更新]</a>
+            <a href="/web/deploy-hexo-next/" class="post-title-link" itemprop="url">Hexo+NexT打造极简个人博客[持续更新]</a>
         </h1>
 
         <div class="post-meta">
@@ -663,7 +864,7 @@
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/web/deploy-hexo-next.html#more" rel="contents">
+              <a class="btn" href="/web/deploy-hexo-next/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -689,7 +890,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/Linux-proc-pid.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/Linux-proc-pid/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -703,7 +904,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/systemops/Linux-proc-pid.html" class="post-title-link" itemprop="url">Linux下的/proc/[pid]目录下的文件分析</a>
+            <a href="/systemops/Linux-proc-pid/" class="post-title-link" itemprop="url">Linux下的/proc/[pid]目录下的文件分析</a>
         </h1>
 
         <div class="post-meta">
@@ -762,7 +963,7 @@
           <p><a href="#auxv">/proc/[pid]/auxv</a><br><a href="#cmdline">/proc/[pid]/cmdline</a><br><a href="#comm">/proc/[pid]/comm</a><br><a href="#cwd">/proc/[pid]/cwd</a><br><a href="#environ">/proc/[pid]/environ</a><br><a href="#exe">/proc/[pid]/exe</a><br><a href="#fd">/proc/[pid]/fd</a><br><a href="#latency">/proc/[pid]/latency</a><br><a href="#limits">/proc/[pid]/limits</a><br><a href="#maps">/proc/[pid]/maps</a><br><a href="#root">/proc/[pid]/root</a><br><a href="#stack">/proc/[pid]/stack</a><br><a href="#statm">/proc/[pid]/statm</a><br><a href="#status">/proc/[pid]/status</a><br><a href="#syscall">/proc/[pid]/syscall</a><br><a href="#wchan">/proc/[pid]/wchan</a>  </p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/systemops/Linux-proc-pid.html#more" rel="contents">
+              <a class="btn" href="/systemops/Linux-proc-pid/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -831,7 +1032,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -844,7 +1045,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -892,12 +1093,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">37k</span>
+    <span title="站点总字数">42k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">33 分钟</span>
+    <span title="站点阅读时长">38 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
