@@ -46,18 +46,18 @@
   };
 </script>
 
-  <meta name="description" content="现象表象是容器无法 stop, restart, rm , 登录主机后执行1234[root@orderer0 &#x2F;home&#x2F;blockchain&#x2F;peer0.org1&#x2F;conf]# docker-compose downStopping peer0.org1 ... doneRemoving network conf_defaultERROR: network conf_default id a3">
-<meta name="keywords" content="docker">
+  <meta name="description" content="警告：刷机有风险，由此产生的一切后果请自行承担！！！           require 官改固件：YKL1_2.1.0613.8617_root_telnet.bin Breed：breed-mt7620-youku-yk1.bin Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)">
+<meta name="keywords" content="router,padavan,youku">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ERROR network conf_default id has active endpoints">
-<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;docker&#x2F;docker-network-error&#x2F;">
+<meta property="og:title" content="Youku 路由器刷 Padavan">
+<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;youku-breed-padavan.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="现象表象是容器无法 stop, restart, rm , 登录主机后执行1234[root@orderer0 &#x2F;home&#x2F;blockchain&#x2F;peer0.org1&#x2F;conf]# docker-compose downStopping peer0.org1 ... doneRemoving network conf_defaultERROR: network conf_default id a3">
+<meta property="og:description" content="警告：刷机有风险，由此产生的一切后果请自行承担！！！           require 官改固件：YKL1_2.1.0613.8617_root_telnet.bin Breed：breed-mt7620-youku-yk1.bin Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-21T14:37:01.252Z">
+<meta property="og:updated_time" content="2019-11-21T02:36:51.057Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://blog.hoke58.cn/docker/docker-network-error/">
+<link rel="canonical" href="https://blog.hoke58.cn/systemops/youku-breed-padavan.html">
 
 
 <script id="page-configurations">
@@ -71,7 +71,7 @@
   };
 </script>
 
-  <title>ERROR network conf_default id has active endpoints | Hoke's blog</title>
+  <title>Youku 路由器刷 Padavan | Hoke's blog</title>
   
 
 
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/docker/docker-network-error/">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/youku-breed-padavan.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -205,7 +205,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ERROR network conf_default id has active endpoints
+          Youku 路由器刷 Padavan
         </h1>
 
         <div class="post-meta">
@@ -214,18 +214,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-11-21 22:14:25 / 修改时间：22:37:01" itemprop="dateCreated datePublished" datetime="2019-11-21T22:14:25+08:00">2019-11-21</time>
+              <time title="创建时间：2019-11-18 11:19:14" itemprop="dateCreated datePublished" datetime="2019-11-18T11:19:14+08:00">2019-11-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-21 10:36:51" itemprop="dateModified" datetime="2019-11-21T10:36:51+08:00">2019-11-21</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
+                  <a href="/categories/systemops/" itemprop="url" rel="index">
+                    <span itemprop="name">系统运维</span>
                   </a>
                 </span>
             </span>
@@ -243,7 +249,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -262,19 +268,71 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>表象是容器无法 stop, restart, rm , 登录主机后执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain/peer0.org1/conf]<span class="comment"># docker-compose down</span></span><br><span class="line">Stopping peer0.org1 ... <span class="keyword">done</span></span><br><span class="line">Removing network conf_default</span><br><span class="line">ERROR: network conf_default id a3a2c67620436cc49e406a52ad724df3cbe93f965b7e4427b36ed811075d2e06 has active endpoints</span><br></pre></td></tr></table></figure><a id="more"></a>
+        <div class="note warning">
+            <p>警告：刷机有风险，由此产生的一切后果请自行承担！！！</p>
+          </div><h2 id="require"><a href="#require" class="headerlink" title="require"></a>require</h2><ol>
+<li>官改固件：YKL1_2.1.0613.8617_root_telnet.bin</li>
+<li>Breed：breed-mt7620-youku-yk1.bin</li>
+<li>Padavan 固件：RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx (2019-11-13版本)</li>
+</ol><a id="more"></a>
 
 
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
-<li><p>检查 network </p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain]<span class="comment"># docker network inspect conf_default</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"Name"</span>: <span class="string">"conf_default"</span>,</span><br><span class="line">        <span class="string">"Id"</span>: <span class="string">"412177b0cf14414b191fc99ab4411d65c201e52424217476eb6b5cc861a5b603"</span>,</span><br><span class="line">        <span class="string">"Created"</span>: <span class="string">"2019-11-21T22:08:45.523133411+08:00"</span>,</span><br><span class="line">        <span class="string">"Scope"</span>: <span class="string">"local"</span>,</span><br><span class="line">        <span class="string">"Driver"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">        <span class="string">"EnableIPv6"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"IPAM"</span>: &#123;</span><br><span class="line">            <span class="string">"Driver"</span>: <span class="string">"default"</span>,</span><br><span class="line">            <span class="string">"Options"</span>: null,</span><br><span class="line">            <span class="string">"Config"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="string">"Subnet"</span>: <span class="string">"172.21.0.0/16"</span>,</span><br><span class="line">                    <span class="string">"Gateway"</span>: <span class="string">"172.21.0.1"</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Internal"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Attachable"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Ingress"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"ConfigFrom"</span>: &#123;</span><br><span class="line">            <span class="string">"Network"</span>: <span class="string">""</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ConfigOnly"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Containers"</span>: &#123;</span><br><span class="line">            <span class="string">"19ffaa8a2c03891c1883f962e0076a04ec9461bfc8364d60052e34e5464e9762"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"peer0.org1"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"1f82857982ba62ce6003e15bb140686a24859ca7374bca110ab7e481af56c855"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:02"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.2/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"9c7dd8270317bb09aac306a9aa952b05fff5fa0a65ef3f4f7c4e1a5d8c03bf1e"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"dev-peer0.org1.finblockchain.cn-fft-2.0.0"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"33dbba6e9cc513d4e0b293fa7f2d4415bb1c13aa4d1c0c87f86d2063409b7bd1"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:03"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.3/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Options"</span>: &#123;&#125;,</span><br><span class="line">        <span class="string">"Labels"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>所需文件下载链接： <a href="http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f" target="_blank" rel="noopener">http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f</a></p>
+<h2 id="升级官改固件"><a href="#升级官改固件" class="headerlink" title="升级官改固件"></a>升级官改固件</h2><p>Breed 是必备，但是要刷 Breed 就得先刷已 root 和开启 Telnet 的固件。</p>
+<ol>
+<li><p>登录路由器管理界面，<code>「更多设置」</code> -&gt; <code>「系统升级」</code> -&gt; <code>「手动升级」</code>，选择前面下载的 <code>YKL1_2.1.0613.8617_root_telnet.bin</code>，点击 <code>「上传文件」</code>，等待升级包验证通过，点击<code>「立即升级」</code>，然后就等待路由器重启，这个过程中不要断开网线也不要断开电源。</p>
 </li>
-<li><p>断开关联的 Containers name 网络</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker network disconnect -f net_default peer0.org1</span></span><br><span class="line"><span class="comment"># docker network disconnect -f net_default dev-peer0.org1.finblockchain.cn-fft-2.0.0</span></span><br></pre></td></tr></table></figure></li>
-<li><p>然后就可以正常执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose down</span></span><br></pre></td></tr></table></figure>
+<li><p>重启完成后，按住路由器上 <code>RESET</code> 按键重置路由器。</p>
 </li>
 </ol>
+<blockquote>
+<p>第2步必须，否则还是无法 <code>Telnet</code> 连接路由器</p>
+</blockquote>
+<h2 id="刷入-Breed"><a href="#刷入-Breed" class="headerlink" title="刷入 Breed"></a>刷入 Breed</h2><ol>
+<li><p>使用 shell 客户端 <code>telnet 192.168.11.1</code> 登录路由器, 如果有登录身份验证，用户名和密码都是 admin ，或者试试 root/admin 组合</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[c:\~]$ telnet 192.168.11.1</span><br><span class="line">Connecting to 192.168.11.1:23...</span><br><span class="line">Connection established.</span><br><span class="line">To escape to <span class="built_in">local</span> shell, press <span class="string">'Ctrl+Alt+]'</span>.</span><br><span class="line"> === IMPORTANT ============================</span><br><span class="line">  Use <span class="string">'passwd'</span> to <span class="built_in">set</span> your login password</span><br><span class="line">  this will <span class="built_in">disable</span> telnet and <span class="built_in">enable</span> SSH</span><br><span class="line"> ------------------------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BusyBox v1.22.1 (2016-05-31 09:37:31 CST) built-in shell (ash)</span><br><span class="line">Enter <span class="string">'help'</span> <span class="keyword">for</span> a list of built-in commands.</span><br><span class="line"></span><br><span class="line">  _______                     ________        __              </span><br><span class="line"> |       |.-----.-----.-----.|  |  |  |.----.|  |_      </span><br><span class="line"> |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|        </span><br><span class="line"> |_______||   __|_____|__|__||________||__|  |____|       </span><br><span class="line">          |__| W I R E L E S S   F R E E D O M  </span><br><span class="line"></span><br><span class="line"> -----------------------------------------------------</span><br><span class="line"> BARRIER BREAKER (Barrier Breaker, unknown)</span><br><span class="line"> -----------------------------------------------------</span><br><span class="line">  * 1/2 oz Galliano         Pour all ingredients into</span><br><span class="line">  * 4 oz cold Coffee        an irish coffee mug filled</span><br><span class="line">  * 1 1/2 oz Dark Rum       with crushed ice. Stir.</span><br><span class="line">  * 2 tsp. Creme de Cacao</span><br><span class="line"> -----------------------------------------------------</span><br><span class="line"> customized by youku, </span><br><span class="line"> copyright (c) youku, 2015. all rights reserved.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入 breed-mt7620-youku-yk1.bin 文件至路由器</p>
+</li>
+</ol>
+<p align="center">以上步骤之后有 <b>两种选择</b>，请<b>任选其一</b>然后<b>继续后面的步骤</b>。</p>
+
+<ul>
+<li><p><strong>选择 1：U盘拷入</strong>：</p>
+<ol>
+<li>将 breed-mt7620-youku-yk1.bin 文件复制到U盘，U盘插上路由器</li>
+<li><code>ls /mnt/sda1</code> 查看U盘里 breed-mt7620-youku-yk1.bin 文件是否存在</li>
+</ol>
+</li>
+</ul>
+<p><strong>注意：</strong>U盘未必能挂载成功。可以执行 df -h 看看有没有类似「/dev/sda1」这样的设备，然后挂载U盘：<code>mount /dev/sda1 /mnt/sda1</code> ，若挂载成功，在检查一下U盘是否有 Breed 文件。</p>
+<ul>
+<li><p><strong>选择 2：<code>wget</code> 下载</strong>：</p>
+<ol>
+<li>确保路由器能访问外网</li>
+<li>执行以下命令，下载 Breed 至 <code>/tmp</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp &amp;&amp; wget --user-agent=<span class="string">"Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.204 Safari/534.16"</span> -O breed-mt7620-youku-yk1.bin <span class="string">'http://pan.hoke58.cn/index.php/s/5GNNJkwrtJDPe4f/download?path=%2F&amp;files=breed-mt7620-youku-yk1.bin'</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">3. 检查 Breed 的 MD5</span><br><span class="line">```shell</span><br><span class="line">[root@Youku-router]md5sum breed-mt7620-youku-yk1.bin </span><br><span class="line">44379c40f77d3d75bcba97ce136a880d  breed-mt7620-youku-yk1.bin</span><br></pre></td></tr></table></figure>
+如 MD5 不一致就重新下载！</li>
+</ol>
+</li>
+</ul>
+<ol start="4">
+<li><p>解锁 Bootloader</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@Youku-router]mtd unlock Bootloader</span><br><span class="line">Unlocking Bootloader ...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刷 Breed</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@Youku-router]mtd -r write /tmp/breed-mt7620-youku-yk1.bin Bootloader</span><br><span class="line">Unlocking Bootloader ...</span><br><span class="line"></span><br><span class="line">Writing from /tmp/breed-mt7620-youku-yk1.bin to Bootloader ...     </span><br><span class="line">Rebooting ...</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后路由器会自动重启, 至此 Breed 成功刷入，恭喜变成不死路由</p>
+<h2 id="刷入-Padavan-固件"><a href="#刷入-Padavan-固件" class="headerlink" title="刷入 Padavan 固件"></a>刷入 Padavan 固件</h2><ol>
+<li>需要有线电脑，IP设为<code>192.168.1.2</code>（新版本 Breed 设自动获取就行）</li>
+<li>路由器断电，按住复位键，上电，10来秒后松手</li>
+<li>电脑浏览器访问 <code>192.168.1.1</code> 进入 Breed 页面</li>
+<li>固件更新，刷入老毛子固件 RT-N14U-GPIO-1-youku1-128M_3.4.3.9-099.trx 即可</li>
+<li>刷好固件以后，手动断电，等待几秒，再通电开机！(路由可能无法自动开机重启)</li>
+</ol>
+<h2 id="Enjoy-it"><a href="#Enjoy-it" class="headerlink" title="Enjoy it"></a>Enjoy it</h2><p>Padavan 默认管理地址: <code>http://192.168.123.1</code><br>默认密码: <code>admin / admin</code><br>默认 SSID: <code>PDCN / 1234567890</code></p>
 
     </div>
 
@@ -312,7 +370,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.hoke58.cn/docker/docker-network-error/" title="ERROR network conf_default id has active endpoints">https://blog.hoke58.cn/docker/docker-network-error/</a>
+    <a href="https://blog.hoke58.cn/systemops/youku-breed-padavan.html" title="Youku 路由器刷 Padavan">https://blog.hoke58.cn/systemops/youku-breed-padavan.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -324,23 +382,25 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+              <a href="/tags/router/" rel="tag"><i class="fa fa-tag"></i> router</a>
+              <a href="/tags/padavan/" rel="tag"><i class="fa fa-tag"></i> padavan</a>
+              <a href="/tags/youku/" rel="tag"><i class="fa fa-tag"></i> youku</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/systemops/youku-breed-padavan/" rel="next" title="Youku 路由器刷 Padavan">
-                  <i class="fa fa-chevron-left"></i> Youku 路由器刷 Padavan
+                <a href="/web/deploy-hexo-next.html" rel="next" title="Hexo+NexT打造极简个人博客[持续更新]">
+                  <i class="fa fa-chevron-left"></i> Hexo+NexT打造极简个人博客[持续更新]
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/systemops/dnsmasq/" rel="prev" title="Dnsmasq 超好用DNS服务">
-                  Dnsmasq 超好用DNS服务 <i class="fa fa-chevron-right"></i>
+                <a href="/docker/docker-network-error.html" rel="prev" title="ERROR network conf_default id has active endpoints">
+                  ERROR network conf_default id has active endpoints <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -380,7 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#现象"><span class="nav-number">1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#require"><span class="nav-number">1.</span> <span class="nav-text">require</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级官改固件"><span class="nav-number">2.</span> <span class="nav-text">升级官改固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷入-Breed"><span class="nav-number">3.</span> <span class="nav-text">刷入 Breed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷入-Padavan-固件"><span class="nav-number">4.</span> <span class="nav-text">刷入 Padavan 固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enjoy-it"><span class="nav-number">5.</span> <span class="nav-text">Enjoy it</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -462,7 +522,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">38 分钟</span>
+    <span title="站点阅读时长">39 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
