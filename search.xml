@@ -3,7 +3,11 @@
   <entry>
     <title>博主的收藏夹</title>
     <url>/web/hoke-favorites.html</url>
-    <content><![CDATA[<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul>
+    <content><![CDATA[<div class="note success">
+            <p>博主的网络收藏夹，站点导航</p>
+          </div>
+<a id="more"></a>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul>
 <li>超级hash工具： <span class="exturl" data-url="aHR0cHM6Ly9tZDVoYXNoaW5nLm5ldA==" title="https://md5hashing.net">https://md5hashing.net<i class="fa fa-external-link"></i></span></li>
 </ul>
 <h1 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h1><ul>
