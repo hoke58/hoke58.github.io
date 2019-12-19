@@ -9,7 +9,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
   <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
-  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,18 +22,20 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://blog.hoke58.cn').hostname,
     root: '/',
     scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    version: '7.6.0',
+    exturl: true,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -41,21 +45,20 @@
     },
     localsearch: {"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},
     path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    sidebarPadding: 40
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
 
-  <meta name="description" content="前言             本文仅适合在线 Yum 方式安装升级           查看当前内核版本升级前查看下现在发行版的内核12# uname -srLinux 3.10.0-1062.4.1.el7.x86_64安装最新内核 导入 ELRepo 公钥1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org">
+  <meta name="description" content="前言             本文仅适合在线 Yum 方式安装升级">
 <meta name="keywords" content="linux,centos,kernel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Centos 升级内核的正确姿势">
 <meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;centos-upgrade-kernel.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="前言             本文仅适合在线 Yum 方式安装升级           查看当前内核版本升级前查看下现在发行版的内核12# uname -srLinux 3.10.0-1062.4.1.el7.x86_64安装最新内核 导入 ELRepo 公钥1rpm --import https:&#x2F;&#x2F;www.elrepo.org&#x2F;RPM-GPG-KEY-elrepo.org">
+<meta property="og:description" content="前言             本文仅适合在线 Yum 方式安装升级">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;centos-upgrade-kernel-grub.jpg">
-<meta property="og:updated_time" content="2019-11-29T06:43:29.401Z">
+<meta property="og:updated_time" content="2019-12-19T03:34:19.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;centos-upgrade-kernel-grub.jpg">
 
@@ -67,9 +70,7 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
+    isPost: true
   };
 </script>
 
@@ -121,7 +122,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">何可的博客</p>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -164,7 +166,7 @@
   </li>
         <li class="menu-item menu-item-cloud">
 
-    <a href="https://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -231,9 +233,9 @@
       <meta itemprop="name" content="Hoke's blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           Centos 升级内核的正确姿势
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -241,10 +243,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-11-29 09:14:35 / 修改时间：14:43:29" itemprop="dateCreated datePublished" datetime="2019-11-29T09:14:35+08:00">2019-11-29</time>
+              <time title="创建时间：2019-11-29 09:14:35" itemprop="dateCreated datePublished" datetime="2019-11-29T09:14:35+08:00">2019-11-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-19 11:34:19" itemprop="dateModified" datetime="2019-12-19T11:34:19+08:00">2019-12-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -305,16 +313,16 @@
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><div class="note warn">
             <p>本文仅适合在线 Yum 方式安装升级</p>
-          </div><h1 id="查看当前内核版本"><a href="#查看当前内核版本" class="headerlink" title="查看当前内核版本"></a>查看当前内核版本</h1><p>升级前查看下现在发行版的内核</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br><span class="line">Linux 3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure><h1 id="安装最新内核"><a href="#安装最新内核" class="headerlink" title="安装最新内核"></a>安装最新内核</h1><ol>
+          </div>
+<a id="more"></a>
+<h1 id="查看当前内核版本"><a href="#查看当前内核版本" class="headerlink" title="查看当前内核版本"></a>查看当前内核版本</h1><p>升级前查看下现在发行版的内核</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br><span class="line">Linux 3.10.0-1062.4.1.el7.x86_64</span><br></pre></td></tr></table></figure>
+<h1 id="安装最新内核"><a href="#安装最新内核" class="headerlink" title="安装最新内核"></a>安装最新内核</h1><ol>
 <li>导入 ELRepo 公钥<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br></pre></td></tr></table></figure>
 
 </li>
-</ol><a id="more"></a>
-
-
-
-
-<p>ELRepo 项目使用的 GPG 密钥的详细信息访问<a href="https://www.elrepo.org/tiki/key" target="_blank" rel="noopener">https://www.elrepo.org/tiki/key</a></p>
+</ol>
+<p>ELRepo 项目使用的 GPG 密钥的详细信息访问<span class="exturl" data-url="aHR0cHM6Ly93d3cuZWxyZXBvLm9yZy90aWtpL2tleQ==" title="https://www.elrepo.org/tiki/key">https://www.elrepo.org/tiki/key<i class="fa fa-external-link"></i></span></p>
 <ol start="2">
 <li>安装 ELRepo 仓库，根据自己 OS 的发行版选对应命令。</li>
 </ol>
@@ -366,8 +374,8 @@
 <h1 id="安装最新版-kernel-tool，-kernel-headers，-kernel-devel"><a href="#安装最新版-kernel-tool，-kernel-headers，-kernel-devel" class="headerlink" title="安装最新版 kernel-tool， kernel-headers， kernel-devel"></a>安装最新版 kernel-tool， kernel-headers， kernel-devel</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum --enablerepo=elrepo-kernel install kernel-ml-devel.x86_64 kernel-ml-headers.x86_64 kernel-ml-tools.x86_64</span><br></pre></td></tr></table></figure>
 
 <h1 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h1><ul>
-<li><a href="http://elrepo.org/tiki/index.php" target="_blank" rel="noopener">ELRepo.org</a></li>
-<li><a href="https://www.kernel.org" target="_blank" rel="noopener">The Linux Kernel Archives</a></li>
+<li><span class="exturl" data-url="aHR0cDovL2VscmVwby5vcmcvdGlraS9pbmRleC5waHA=" title="http://elrepo.org/tiki/index.php">ELRepo.org<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cua2VybmVsLm9yZw==" title="https://www.kernel.org">The Linux Kernel Archives<i class="fa fa-external-link"></i></span></li>
 </ul>
 
     </div>
@@ -381,6 +389,8 @@
     <li class="popular-posts-item">
         <div class="popular-posts-date">2019-10-28</div>
       <div class="popular-posts-title"><a href="/systemops/Linux-proc-pid.html" rel="bookmark">Linux下的/proc/[pid]目录下的文件分析</a></div>
+        <div class="popular-posts-excerpt"><p><h1 id="auxv"><a href="#auxv" class="headerlink" title="auxv"></a>auxv</h1><p><code>/proc/[pid]/auxv</code>包含传递给进程的<code>ELF</code>解释器信息，格式是每一项都是一个<code>unsigned long</code>长度的<code>ID</code>加上一个<code>unsigned long</code>长度的值。最后一项以连续的两个<code>0x00</code>开头。举例如下：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hexdump -x /proc/2948/auxv</span></span><br><span class="line">0000000    0021    0000    0000    0000    0000    1a82    7ffd    0000</span><br><span class="line">0000010    0010    0000    0000    0000    dbf5    1fc9    0000    0000</span><br><span class="line">0000020    0006    0000    0000    0000    1000    0000    0000    0000</span><br><span class="line">0000030    0011    0000    0000    0000    0064    0000    0000    0000</span><br><span class="line">0000040    0003    0000    0000    0000    2040    4326    7f4a    0000</span><br><span class="line">0000050    0004    0000    0000    0000    0038    0000    0000    0000</span><br><span class="line">0000060    0005    0000    0000    0000    0009    0000    0000    0000</span><br><span class="line">0000070    0007    0000    0000    0000    f000    4303    7f4a    0000</span><br><span class="line">0000080    0008    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">0000090    0009    0000    0000    0000    8e67    4327    7f4a    0000</span><br><span class="line">00000a0    000b    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">00000b0    000c    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">00000c0    000d    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">00000d0    000e    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">00000e0    0017    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">00000f0    0019    0000    0000    0000    3de9    1a80    7ffd    0000</span><br><span class="line">0000100    001f    0000    0000    0000    4fe5    1a80    7ffd    0000</span><br><span class="line">0000110    000f    0000    0000    0000    3df9    1a80    7ffd    0000</span><br><span class="line">0000120    0000    0000    0000    0000    0000    0000    0000    0000</span><br><span class="line">0000130</span><br></pre></td></tr></table></figure></p></div>
     </li>
   </ul>
 
@@ -416,7 +426,7 @@
     <a href="https://blog.hoke58.cn/systemops/centos-upgrade-kernel.html" title="Centos 升级内核的正确姿势">https://blog.hoke58.cn/systemops/centos-upgrade-kernel.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -432,21 +442,18 @@
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/web/nginx-frp-https.html" rel="next" title="Nginx 反代 frp https 隐藏端口并开启缓存加速">
-                  <i class="fa fa-chevron-left"></i> Nginx 反代 frp https 隐藏端口并开启缓存加速
-                </a>
-            </div>
 
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/systemops/google-bbr.html" rel="prev" title="开启 Google-BBR 网络加速">
-                  开启 Google-BBR 网络加速 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/nginx-frp-https.html" rel="prev" title="Nginx 反代 frp https 隐藏端口并开启缓存加速">
+      <i class="fa fa-chevron-left"></i> Nginx 反代 frp https 隐藏端口并开启缓存加速
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/systemops/google-bbr.html" rel="next" title="开启 Google-BBR 网络加速">
+      开启 Google-BBR 网络加速 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -459,7 +466,29 @@
 
           </div>
           
-    <div class="comments" id="comments"></div>
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
         </div>
           
@@ -518,17 +547,12 @@
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
       </span>
   </div>
 
@@ -546,8 +570,8 @@
     <footer class="footer">
       <div class="footer-inner">
         
-  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
-      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402010596" rel="noopener" target="_blank">苏公网安备 32011402010596号 </a>
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
   </div>
 
 <div class="copyright">
@@ -562,17 +586,17 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">44k</span>
+    <span title="站点总字数">45k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">40 分钟</span>
+    <span title="站点阅读时长">41 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.6.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="cdn-by">
@@ -609,11 +633,6 @@
 
 
 
-
-
-
-
-        
       </div>
     </footer>
   </div>
@@ -629,12 +648,20 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
 
   <script src="/js/local-search.js"></script>
-
 
 
 
@@ -653,29 +680,31 @@
 
 
 <script>
-NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail';
-  guest = guest.split(',').filter(item => {
-    return GUEST.includes(item);
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: true,
-    appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
-    appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
-    placeholder: "来说两句吧",
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false,
-    lang: 'zh-cn' || 'zh-cn',
-    path: location.pathname,
-    recordIP: true,
-    serverURLs: 'https://leancloud.hoke58.cn'
-  });
-}, window.Valine);
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
 </script>
 
 </body>

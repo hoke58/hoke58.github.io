@@ -9,7 +9,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
   <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
-  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,18 +22,20 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://blog.hoke58.cn').hostname,
     root: '/',
     scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    version: '7.6.0',
+    exturl: true,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -41,21 +45,18 @@
     },
     localsearch: {"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},
     path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    sidebarPadding: 40
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
 
-  <meta name="description" content="背景知识BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。BBR解决了两个问题： 一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。 降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的">
-<meta name="keywords" content="bbr,google">
+  <meta name="keywords" content="bbr,google">
 <meta property="og:type" content="article">
 <meta property="og:title" content="开启 Google-BBR 网络加速">
 <meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;systemops&#x2F;google-bbr.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="背景知识BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。BBR解决了两个问题： 一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。 降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;google-bbr-bbr.png">
-<meta property="og:updated_time" content="2019-11-29T08:05:07.115Z">
+<meta property="og:updated_time" content="2019-12-19T03:33:51.044Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;google-bbr-bbr.png">
 
@@ -67,9 +68,7 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
+    isPost: true
   };
 </script>
 
@@ -121,7 +120,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">何可的博客</p>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -164,7 +164,7 @@
   </li>
         <li class="menu-item menu-item-cloud">
 
-    <a href="https://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -231,9 +231,9 @@
       <meta itemprop="name" content="Hoke's blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           开启 Google-BBR 网络加速
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -241,10 +241,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-11-29 15:11:43 / 修改时间：16:05:07" itemprop="dateCreated datePublished" datetime="2019-11-29T15:11:43+08:00">2019-11-29</time>
+              <time title="创建时间：2019-11-29 15:11:43" itemprop="dateCreated datePublished" datetime="2019-11-29T15:11:43+08:00">2019-11-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-19 11:33:51" itemprop="dateModified" datetime="2019-12-19T11:33:51+08:00">2019-12-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -303,13 +309,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://upyun.hoke58.cn/img/google-bbr-bbr.png" alt="google-bbr-bbr.png"></p><h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p>BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。</p><p>BBR解决了两个问题：</p><ul>
+        <p><img src="https://upyun.hoke58.cn/img/google-bbr-bbr.png" alt="google-bbr-bbr.png"></p>
+<a id="more"></a>
+<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p>BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。</p>
+<p>BBR解决了两个问题：</p>
+<ul>
 <li>一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。</li>
 <li>降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的用户。</li>
-</ul><a id="more"></a>
-
-
-
+</ul>
 <p>网络链路上的包比较少时，道路很通畅，这个阶段，对于一个 TCP 连接来说，它的速度由这个连接两端之间的距离决定，也可以说是由 RTT 决定。当发包速率变大，把道路基本上填满了之后，这个阶段，带宽的大小决定了这个连接的速度，这时两端之间可能就会有包要排队，延迟时间除了 RTT 还有排队时间。</p>
 <p><code>cwnd</code> 是普通的拥塞控制算法里最终要求得的一个值，用来控制发包速率。BBR 也要求到这个值，但是它不是最主要的控制发包速率的变量，主要的变量是 <code>pacing_rate</code>。</p>
 <p>这两个变量都由探测到的带宽值和 RTT 值得到，整个过程都围绕着这两个值。在 BBR 算法中，有四种状态，几种状态可能会有如下的转换：</p>
@@ -319,7 +326,7 @@
 <p>进入 <code>DRAIN</code> 状态，增益系数小于 1，也就降速了。一个包来回，把 <code>STARTUP</code> 状态中产生的队列“抽干”，怎么样测算到队列空了？发出去还没有 ACK 的包量 <code>inflight</code>，与 BDP （带宽延迟积）进行比较，<code>inflight &lt; BDP</code> 说明空了，道路不那么满了，如果 <code>inflght &gt; BDP</code> 说明还不能到下一个状态，继续 <code>DRAIN</code>。</p>
 <p><code>PROBE_BW</code> 是稳定状态，这时已经测出来一个最大瓶颈带宽，而且尽量不会产生排队现象。之后的每个来回，在 <code>PROBE_BW</code> 状态循环（除非要进入下面提到的 <code>PROBE_RTT</code> 状态），轮询下面这些增益系数，5/4, 3/4, 1, 1, 1, 1, 1, 1，如此，最大瓶颈带宽就会在其停止增长的地方上下徘徊。大部分时间都应该处于 <code>PROBE_BW</code> 状态。</p>
 <p>前面三种状态，都可能进入 <code>PROBE_RTT</code> 状态。超过十秒没有估测到更小的 RTT 值，这时进入 <code>PROBE_RTT</code> 状态，把发包量降低，空出道路来比较准确得测一个 RTT 值，至少 200ms 或一个包的来回之后退出这个状态。检查带宽是否是满的，进入不同的状态：如果不满，进入 <code>STARTUP</code> 状态，如果满，进入 <code>PROBE_BW</code> 状态。</p>
-<h1 id="启用-BBR"><a href="#启用-BBR" class="headerlink" title="启用 BBR"></a>启用 BBR</h1><p>先甩一下 Google BBR 项目地址： <a href="https://github.com/google/bbr" target="_blank" rel="noopener">https://github.com/google/bbr</a></p>
+<h1 id="启用-BBR"><a href="#启用-BBR" class="headerlink" title="启用 BBR"></a>启用 BBR</h1><p>先甩一下 Google BBR 项目地址： <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dvb2dsZS9iYnI=" title="https://github.com/google/bbr">https://github.com/google/bbr<i class="fa fa-external-link"></i></span></p>
 <p>目前已有 BBR v2 Alpha/Preview 版本</p>
 <h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>Linux 内核 4.9 版本以上，请使用以下命令查看内核</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br></pre></td></tr></table></figure>
@@ -372,7 +379,7 @@
     <a href="https://blog.hoke58.cn/systemops/google-bbr.html" title="开启 Google-BBR 网络加速">https://blog.hoke58.cn/systemops/google-bbr.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -387,18 +394,15 @@
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/systemops/centos-upgrade-kernel.html" rel="next" title="Centos 升级内核的正确姿势">
-                  <i class="fa fa-chevron-left"></i> Centos 升级内核的正确姿势
-                </a>
-            </div>
 
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-            </div>
-          </div>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/systemops/centos-upgrade-kernel.html" rel="prev" title="Centos 升级内核的正确姿势">
+      <i class="fa fa-chevron-left"></i> Centos 升级内核的正确姿势
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
     
   </article>
@@ -411,7 +415,29 @@
 
           </div>
           
-    <div class="comments" id="comments"></div>
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
         </div>
           
@@ -470,17 +496,12 @@
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
       </span>
   </div>
 
@@ -498,8 +519,8 @@
     <footer class="footer">
       <div class="footer-inner">
         
-  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
-      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402010596" rel="noopener" target="_blank">苏公网安备 32011402010596号 </a>
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
   </div>
 
 <div class="copyright">
@@ -514,17 +535,17 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">44k</span>
+    <span title="站点总字数">45k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">40 分钟</span>
+    <span title="站点阅读时长">41 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.6.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="cdn-by">
@@ -561,11 +582,6 @@
 
 
 
-
-
-
-
-        
       </div>
     </footer>
   </div>
@@ -581,12 +597,20 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
 
   <script src="/js/local-search.js"></script>
-
 
 
 
@@ -605,29 +629,31 @@
 
 
 <script>
-NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail';
-  guest = guest.split(',').filter(item => {
-    return GUEST.includes(item);
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: true,
-    appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
-    appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
-    placeholder: "来说两句吧",
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false,
-    lang: 'zh-cn' || 'zh-cn',
-    path: location.pathname,
-    recordIP: true,
-    serverURLs: 'https://leancloud.hoke58.cn'
-  });
-}, window.Valine);
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
 </script>
 
 </body>

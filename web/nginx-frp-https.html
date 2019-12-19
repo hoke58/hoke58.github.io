@@ -9,7 +9,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
   <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
-  <link rel="alternate" href="/atom.xml" title="Hoke's blog" type="application/atom+xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -20,18 +22,20 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://blog.hoke58.cn').hostname,
     root: '/',
     scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    version: '7.6.0',
+    exturl: true,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
     copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
     fancybox: false,
     mediumzoom: false,
     lazyload: false,
     pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
     algolia: {
       appID: '',
       apiKey: '',
@@ -41,20 +45,19 @@
     },
     localsearch: {"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},
     path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    sidebarPadding: 40
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
 
-  <meta name="description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦 还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp 流量走向browser client &amp;lt;==&amp;gt; nginx（公网） &amp;lt;==&amp;gt; frps（公网） &amp;lt;==&amp;gt; frpc（内网） &amp;lt;==&amp;g">
+  <meta name="description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦  还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp">
 <meta name="keywords" content="Nginx,frp,https">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx 反代 frp https 隐藏端口并开启缓存加速">
 <meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;web&#x2F;nginx-frp-https.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
-<meta property="og:description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦 还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp 流量走向browser client &amp;lt;==&amp;gt; nginx（公网） &amp;lt;==&amp;gt; frps（公网） &amp;lt;==&amp;gt; frpc（内网） &amp;lt;==&amp;g">
+<meta property="og:description" content="前言折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦  还不知道 frp 的朋友，点击项目地址 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-27T07:13:14.880Z">
+<meta property="og:updated_time" content="2019-12-19T03:33:39.036Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://blog.hoke58.cn/web/nginx-frp-https.html">
@@ -65,9 +68,7 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
+    isPost: true
   };
 </script>
 
@@ -119,7 +120,8 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-        <p class="site-subtitle">何可的博客</p>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
   </div>
 
   <div class="site-nav-toggle">
@@ -162,7 +164,7 @@
   </li>
         <li class="menu-item menu-item-cloud">
 
-    <a href="https://pan.hoke58.cn/" rel="noopener" target="_blank"><i class="fa fa-fw fa-cloud"></i>云盘</a>
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -229,9 +231,9 @@
       <meta itemprop="name" content="Hoke's blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+        <h2 class="post-title" itemprop="name headline">
           Nginx 反代 frp https 隐藏端口并开启缓存加速
-        </h1>
+        </h2>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -247,7 +249,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-27 15:13:14" itemprop="dateModified" datetime="2019-11-27T15:13:14+08:00">2019-11-27</time>
+                <time title="修改时间：2019-12-19 11:33:39" itemprop="dateModified" datetime="2019-12-19T11:33:39+08:00">2019-12-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -307,11 +309,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦</p><blockquote>
-<p>还不知道 frp 的朋友，点击项目地址 <a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
-</blockquote><h2 id="流量走向"><a href="#流量走向" class="headerlink" title="流量走向"></a>流量走向</h2><p>browser client &lt;==&gt; <code>nginx（公网）</code> &lt;==&gt; <code>frps（公网）</code> &lt;==&gt; <code>frpc（内网）</code> &lt;==&gt; nginx &amp; app （内网）</p><a id="more"></a>
-
-
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>折腾了一次用nginx反代frp https，立帖记录，如果 frp 使用的是 http 相对简单些，本文不介绍啦</p>
+<blockquote>
+<p>还不知道 frp 的朋友，点击项目地址 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhdGVkaWVyL2ZycA==" title="https://github.com/fatedier/frp">https://github.com/fatedier/frp<i class="fa fa-external-link"></i></span></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="流量走向"><a href="#流量走向" class="headerlink" title="流量走向"></a>流量走向</h2><p>browser client &lt;==&gt; <code>nginx（公网）</code> &lt;==&gt; <code>frps（公网）</code> &lt;==&gt; <code>frpc（内网）</code> &lt;==&gt; nginx &amp; app （内网）</p>
 <h1 id="frps"><a href="#frps" class="headerlink" title="frps"></a>frps</h1><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="comment"># A literal address or host name for IPv6 must be enclosed</span></span><br><span class="line"><span class="comment"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"</span></span><br><span class="line"><span class="attr">bind_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="string">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># udp port to help make udp hole to penetrate nat</span></span><br><span class="line"><span class="attr">bind_udp_port</span> = <span class="string">7001</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># udp port used for kcp protocol, it can be same with 'bind_port'</span></span><br><span class="line"><span class="comment"># if not set, kcp is disabled in frps</span></span><br><span class="line"><span class="attr">kcp_bind_port</span> = <span class="string">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># specify which address proxy will listen for, default value is same with bind_addr</span></span><br><span class="line"><span class="comment"># proxy_bind_addr = 127.0.0.1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if you want to support virtual host, you must set the http port for listening (optional)</span></span><br><span class="line"><span class="comment"># <span class="doctag">Note:</span> http port and https port can be same with bind_port</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="string">8080</span></span><br><span class="line"><span class="attr">vhost_https_port</span> = <span class="string">8443</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set dashboard_addr and dashboard_port to view dashboard of frps</span></span><br><span class="line"><span class="comment"># dashboard_addr's default value is same with bind_addr</span></span><br><span class="line"><span class="comment"># dashboard is available only if dashboard_port is set</span></span><br><span class="line"><span class="attr">dashboard_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">dashboard_port</span> = <span class="string">7500</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dashboard user and passwd for basic auth protect, if not set, both default value is admin</span></span><br><span class="line"><span class="attr">dashboard_user</span> = <span class="string">admin</span></span><br><span class="line"><span class="attr">dashboard_pwd</span> = <span class="string">admin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># console or real logFile path like ./frps.log</span></span><br><span class="line"><span class="attr">log_file</span> = <span class="string">./frps.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># trace, debug, info, warn, error</span></span><br><span class="line"><span class="attr">log_level</span> = <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log_max_days</span> = <span class="string">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># auth token</span></span><br><span class="line"><span class="attr">token</span> = <span class="string">12345678</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># only allow frpc to bind ports you list, if you set nothing, there won't be any limit</span></span><br><span class="line"><span class="attr">allow_ports</span> = <span class="string">2000-3000,3001,3003,4000-50000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># pool_count in each proxy will change to max_pool_count if they exceed the maximum value</span></span><br><span class="line"><span class="attr">max_pool_count</span> = <span class="string">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># max ports can be used for each client, default value is 0 means no limit</span></span><br><span class="line"><span class="attr">max_ports_per_client</span> = <span class="string">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if subdomain_host is not empty, you can set subdomain when type is http or https in frpc's configure file</span></span><br><span class="line"><span class="comment"># when subdomain is test, the host used by routing is test.frps.com</span></span><br><span class="line"><span class="attr">subdomain_host</span> = <span class="string">frps.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tcp stream multiplexing is used, default is true</span></span><br><span class="line"><span class="attr">tcp_mux</span> = <span class="string">true</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="frpc"><a href="#frpc" class="headerlink" title="frpc"></a>frpc</h1><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># [common] is integral section</span></span><br><span class="line"><span class="attr">[common]</span></span><br><span class="line"><span class="comment"># A literal address or host name for IPv6 must be enclosed</span></span><br><span class="line"><span class="comment"># in square brackets, as in "[::1]:80", "[ipv6-host]:http" or "[ipv6-host%zone]:80"</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="string">0.0.0.0 \\frps 公网IP</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="string">7000 \\frps 绑定端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果frpc不能上网还支持代理配置</span></span><br><span class="line"><span class="comment"># if you want to connect frps by http proxy or socks5 proxy, you can set http_proxy here or in global environment variables</span></span><br><span class="line"><span class="comment"># it only works when protocol is tcp</span></span><br><span class="line"><span class="comment"># http_proxy = http://user:passwd@192.168.1.128:8080</span></span><br><span class="line"><span class="comment"># http_proxy = socks5://user:passwd@192.168.1.128:1080</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># console or real logFile path like ./frpc.log</span></span><br><span class="line"><span class="attr">log_file</span> = <span class="string">./frpc.log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># trace, debug, info, warn, error</span></span><br><span class="line"><span class="attr">log_level</span> = <span class="string">info</span></span><br><span class="line"></span><br><span class="line"><span class="attr">log_max_days</span> = <span class="string">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># disable log colors when log_file is console, default is false</span></span><br><span class="line"><span class="attr">disable_log_color</span> = <span class="string">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># for authentication</span></span><br><span class="line"><span class="attr">token</span> = <span class="string">12345678 \\要和 frps 值一样</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set admin address for control frpc's action by http api such as reload</span></span><br><span class="line"><span class="attr">admin_addr</span> = <span class="string">0.0.0.0</span></span><br><span class="line"><span class="attr">admin_port</span> = <span class="string">7400</span></span><br><span class="line"><span class="attr">admin_user</span> = <span class="string">admin</span></span><br><span class="line"><span class="attr">admin_pwd</span> = <span class="string">admin</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># connections will be established in advance, default value is zero</span></span><br><span class="line"><span class="attr">pool_count</span> = <span class="string">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tcp stream multiplexing is used, default is true, it must be same with frps</span></span><br><span class="line"><span class="attr">tcp_mux</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># your proxy name will be changed to &#123;user&#125;.&#123;proxy&#125;</span></span><br><span class="line"><span class="attr">user</span> = <span class="string">your_name</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># decide if exit program when first login failed, otherwise continuous relogin to frps</span></span><br><span class="line"><span class="comment"># default is true</span></span><br><span class="line"><span class="attr">login_fail_exit</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># communication protocol used to connect to server</span></span><br><span class="line"><span class="comment"># now it supports tcp and kcp and websocket, default is tcp</span></span><br><span class="line"><span class="attr">protocol</span> = <span class="string">tcp</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># if tls_enable is true, frpc will connect frps by tls</span></span><br><span class="line"><span class="attr">tls_enable</span> = <span class="string">true</span></span><br><span class="line"></span><br><span class="line"><span class="attr">[web02]</span></span><br><span class="line"><span class="attr">type</span> = <span class="string">https</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="string">127.0.0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="string">443</span></span><br><span class="line"><span class="attr">use_encryption</span> = <span class="string">false</span></span><br><span class="line"><span class="attr">use_compression</span> = <span class="string">false</span></span><br><span class="line"><span class="attr">subdomain</span> = <span class="string">web02</span></span><br><span class="line"><span class="comment">#custom_domains = web02.frps.com</span></span><br></pre></td></tr></table></figure>
@@ -363,7 +366,7 @@
     <a href="https://blog.hoke58.cn/web/nginx-frp-https.html" title="Nginx 反代 frp https 隐藏端口并开启缓存加速">https://blog.hoke58.cn/web/nginx-frp-https.html</a>
   </li>
   <li class="post-copyright-license">
-    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
   </li>
 </ul>
 </div>
@@ -379,21 +382,18 @@
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/systemops/dnsmasq.html" rel="next" title="Dnsmasq 超好用DNS服务">
-                  <i class="fa fa-chevron-left"></i> Dnsmasq 超好用DNS服务
-                </a>
-            </div>
 
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/systemops/centos-upgrade-kernel.html" rel="prev" title="Centos 升级内核的正确姿势">
-                  Centos 升级内核的正确姿势 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/systemops/dnsmasq.html" rel="prev" title="Dnsmasq 超好用DNS服务">
+      <i class="fa fa-chevron-left"></i> Dnsmasq 超好用DNS服务
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/systemops/centos-upgrade-kernel.html" rel="next" title="Centos 升级内核的正确姿势">
+      Centos 升级内核的正确姿势 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -406,7 +406,29 @@
 
           </div>
           
-    <div class="comments" id="comments"></div>
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
         </div>
           
@@ -465,17 +487,12 @@
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/hoke58" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:hoke58@qq.com" title="E-Mail → mailto:hoke58@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
       </span>
   </div>
 
@@ -493,8 +510,8 @@
     <footer class="footer">
       <div class="footer-inner">
         
-  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">苏ICP备19062979号 </a>
-      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32011402010596" rel="noopener" target="_blank">苏公网安备 32011402010596号 </a>
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
   </div>
 
 <div class="copyright">
@@ -509,17 +526,17 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">44k</span>
+    <span title="站点总字数">45k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">40 分钟</span>
+    <span title="站点阅读时长">41 分钟</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.6.0
   </div>
   <span class="post-meta-divider">|</span>
   <div class="cdn-by">
@@ -556,11 +573,6 @@
 
 
 
-
-
-
-
-        
       </div>
     </footer>
   </div>
@@ -576,12 +588,20 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
 
   <script src="/js/local-search.js"></script>
-
 
 
 
@@ -600,29 +620,31 @@
 
 
 <script>
-NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
-  var GUEST = ['nick', 'mail', 'link'];
-  var guest = 'nick,mail';
-  guest = guest.split(',').filter(item => {
-    return GUEST.includes(item);
-  });
-  new Valine({
-    el: '#comments',
-    verify: false,
-    notify: true,
-    appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
-    appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
-    placeholder: "来说两句吧",
-    avatar: 'mm',
-    meta: guest,
-    pageSize: '10' || 10,
-    visitor: false,
-    lang: 'zh-cn' || 'zh-cn',
-    path: location.pathname,
-    recordIP: true,
-    serverURLs: 'https://leancloud.hoke58.cn'
-  });
-}, window.Valine);
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: true,
+      appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: 'zh-cn' || 'zh-cn',
+      path: location.pathname,
+      recordIP: true,
+      serverURLs: 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
 </script>
 
 </body>
