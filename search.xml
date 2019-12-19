@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>博主的收藏夹</title>
+    <url>/web/hoke-favorites.html</url>
+    <content><![CDATA[<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><ul>
+<li>超级hash工具： <span class="exturl" data-url="aHR0cHM6Ly9tZDVoYXNoaW5nLm5ldA==" title="https://md5hashing.net">https://md5hashing.net<i class="fa fa-external-link"></i></span></li>
+</ul>
+<h1 id="生活"><a href="#生活" class="headerlink" title="生活"></a>生活</h1><ul>
+<li>张大妈工资计算器： <span class="exturl" data-url="aHR0cHM6Ly9oaXpkbS5jbg==" title="https://hizdm.cn">https://hizdm.cn<i class="fa fa-external-link"></i></span></li>
+</ul>
+<h1 id="影视"><a href="#影视" class="headerlink" title="影视"></a>影视</h1><ul>
+<li>四海影院： <span class="exturl" data-url="aHR0cDovL3d3dy5zaWhhaWthbi5jb20=" title="http://www.sihaikan.com">http://www.sihaikan.com<i class="fa fa-external-link"></i></span></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web</tag>
+        <tag>Website</tag>
+        <tag>sitemap</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>开启 Google-BBR 网络加速</title>
     <url>/systemops/google-bbr.html</url>
     <content><![CDATA[<p><img src="https://upyun.hoke58.cn/img/google-bbr-bbr.png" alt="google-bbr-bbr.png"></p>
