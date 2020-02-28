@@ -1,34 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.hoke58.cn/blockchain/hsl_blockchain.html</loc>
-    <lastmod>2019-12-20</lastmod>
+    <loc>https://blog.hoke58.cn/web/nginx-cors.html</loc>
+    <lastmod>2020-02-28</lastmod>
   </url>  <url>
-    <loc>https://blog.hoke58.cn/web/deploy-hexo-next.html</loc>
-    <lastmod>2019-12-20</lastmod>
+    <loc>https://blog.hoke58.cn/web/nginx-cors.html</loc>
+    <lastmod>2020-02-28</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/blockchain/HSL-Fabric-Test.html</loc>
+    <lastmod>2020-02-27</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/databases/mysql-tokudb-install.html</loc>
+    <lastmod>2020-02-27</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/development/python-innobackup.html</loc>
+    <lastmod>2020-02-27</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/web/hoke-favorites.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2020-02-27</lastmod>
   </url>  <url>
-    <loc>https://blog.hoke58.cn/systemops/Linux-proc-pid.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <loc>https://blog.hoke58.cn/devops/canary-release.html</loc>
+    <lastmod>2020-02-27</lastmod>
   </url>  <url>
-    <loc>https://blog.hoke58.cn/systemops/centos-upgrade-kernel.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <loc>https://blog.hoke58.cn/databases/mysql-check-sizes.html</loc>
+    <lastmod>2019-12-26</lastmod>
   </url>  <url>
-    <loc>https://blog.hoke58.cn/systemops/dnsmasq.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <loc>https://blog.hoke58.cn/web/deploy-hexo-next.html</loc>
+    <lastmod>2019-12-25</lastmod>
   </url>  <url>
-    <loc>https://blog.hoke58.cn/docker/docker-network-error.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <loc>https://blog.hoke58.cn/databases/sql.html</loc>
+    <lastmod>2019-12-25</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/databases/database-principles.html</loc>
+    <lastmod>2019-12-25</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/databases/mysql.html</loc>
+    <lastmod>2019-12-25</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/systemops/google-bbr.html</loc>
-    <lastmod>2019-12-19</lastmod>
-  </url>  <url>
-    <loc>https://blog.hoke58.cn/web/nginx-frp-https.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-20</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/systemops/youku-breed-padavan.html</loc>
-    <lastmod>2019-12-19</lastmod>
+    <lastmod>2019-12-20</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/systemops/centos-upgrade-kernel.html</loc>
+    <lastmod>2019-12-20</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/web/nginx-frp-https.html</loc>
+    <lastmod>2019-12-20</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/systemops/Linux-proc-pid.html</loc>
+    <lastmod>2019-12-20</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/docker/docker-network-error.html</loc>
+    <lastmod>2019-12-20</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/systemops/dnsmasq.html</loc>
+    <lastmod>2019-12-20</lastmod>
   </url>
 </urlset>

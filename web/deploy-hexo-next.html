@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#45b29a">
-<meta name="generator" content="Hexo 4.0.0">
+<meta name="generator" content="Hexo 4.2.0">
   <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
   <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
@@ -20,73 +20,58 @@
 <link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    hostname: new URL('https://blog.hoke58.cn').hostname,
-    root: '/',
-    scheme: 'Mist',
-    version: '7.6.0',
-    exturl: true,
-    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
-    copycode: {"enable":true,"show_result":true,"style":"mac"},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":true,"color":"#45b29a","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},
-    path: 'search.xml',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.hoke58.cn","root":"/","scheme":"Mist","version":"7.7.1","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#45b29a","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
   <meta name="description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾解锁各位高阶用法">
-<meta name="keywords" content="Hexo,NexT,Github,Coding">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo+NexT打造极简个人博客[持续更新]">
-<meta property="og:url" content="https:&#x2F;&#x2F;blog.hoke58.cn&#x2F;web&#x2F;deploy-hexo-next.html">
+<meta property="og:url" content="https://blog.hoke58.cn/web/deploy-hexo-next.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
 <meta property="og:description" content="前言markdown记录, 纯静态, git免费托管个人网站, 拥有网上个人小窝so easy, 来吧和我一起折腾解锁各位高阶用法">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121160122.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121161742.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121161831.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121161910.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121162031.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121162515.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121163236.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-clipboard.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-explorer.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-vs-picgo-inputbox.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121175316.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac1821b6621.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac1847b5907.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121181100.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac189446749.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;04&#x2F;09&#x2F;5cac18a5c9def.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191234.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191338.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191416.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191439.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121191734.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121193645.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-Valine-2019-12-9">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-Valine-setting-2019-12-9">
-<meta property="og:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;20191212162034-2019-12-12">
-<meta property="og:updated_time" content="2019-12-20T01:46:10.638Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121160122.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161742.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161831.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121161910.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121162031.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121162515.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121163236.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-clipboard.gif">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-explorer.gif">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-vs-picgo-inputbox.gif">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121175316.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac1821b6621.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac1847b5907.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121181100.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac189446749.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac18a5c9def.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191234.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191338.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191416.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191439.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121191734.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121193645.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-Valine-2019-12-9">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-Valine-setting-2019-12-9">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/20191212162034-2019-12-12">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225134406.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225134555.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225114313.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225144844.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225145040.png">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225140635.png">
+<meta property="article:published_time" content="2019-10-28T10:39:05.000Z">
+<meta property="article:modified_time" content="2019-12-25T07:04:17.894Z">
+<meta property="article:author" content="Hoke">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="NexT">
+<meta property="article:tag" content="Github">
+<meta property="article:tag" content="Coding">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;upyun.hoke58.cn&#x2F;img&#x2F;deploy-hexo-next-20191121160122.png">
+<meta name="twitter:image" content="https://upyun.hoke58.cn/img/deploy-hexo-next-20191121160122.png">
 
 <link rel="canonical" href="https://blog.hoke58.cn/web/deploy-hexo-next.html">
 
@@ -157,6 +142,14 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
   <div class="site-meta">
 
     <div>
@@ -170,11 +163,9 @@
       
   </div>
 
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -188,11 +179,6 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
-
-  </li>
         <li class="menu-item menu-item-tags">
 
     <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
@@ -201,6 +187,11 @@
         <li class="menu-item menu-item-categories">
 
     <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -227,9 +218,9 @@
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
            placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
+           type="search" class="search-input">
   </div>
   <span class="popup-btn-close">
     <i class="fa fa-times-circle"></i>
@@ -295,7 +286,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-20 09:46:10" itemprop="dateModified" datetime="2019-12-20T09:46:10+08:00">2019-12-20</time>
+                <time title="修改时间：2019-12-25 15:04:17" itemprop="dateModified" datetime="2019-12-25T15:04:17+08:00">2019-12-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,9 +294,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
-                  </a>
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
                 </span>
             </span>
 
@@ -325,7 +314,7 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/web/deploy-hexo-next.html#comments" itemprop="discussionUrl">
+    <a title="valine" href="/web/deploy-hexo-next.html#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/web/deploy-hexo-next.html" itemprop="commentCount"></span>
     </a>
   </span>
@@ -336,14 +325,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>17k</span>
+              <span>20k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>16 分钟</span>
+              <span>18 分钟</span>
             </span>
 
         </div>
@@ -631,17 +620,51 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure></li>
 </ol>
 <p><strong>public</strong> 目录下自动生成 <strong>sitemap.xml</strong> 和 <strong>baidusitemap.xml</strong></p>
+<h1 id="持续集成交付-CI-CD"><a href="#持续集成交付-CI-CD" class="headerlink" title="持续集成交付 CI/CD"></a>持续集成交付 CI/CD</h1><h2 id="达成效果"><a href="#达成效果" class="headerlink" title="达成效果"></a>达成效果</h2><p>原先发布博客流程：</p>
+<ol>
+<li>搭建hexo环境（一系列软件安装，配置）</li>
+<li>hexo new “文章名称”</li>
+<li>编写md文档</li>
+<li>hexo clean</li>
+<li>hexo generate</li>
+<li>hexo deploy<br>使用 <span class="exturl" data-url="aHR0cHM6Ly90cmF2aXMtY2kuY29tLw==" title="https://travis-ci.com/">Travis CI<i class="fa fa-external-link"></i></span> 后简化成：</li>
+<li>hexo new “文章名称”</li>
+<li>编写md文档</li>
+<li>git push</li>
+</ol>
+<p>也就是说以后发布博客只要更新源码库即可， <span class="exturl" data-url="aHR0cHM6Ly90cmF2aXMtY2kuY29tLw==" title="https://travis-ci.com/">Travis CI<i class="fa fa-external-link"></i></span> 会自动生成静态文件推送至 pages 仓库里</p>
+<h2 id="配置操作"><a href="#配置操作" class="headerlink" title="配置操作"></a>配置操作</h2><ol>
+<li>将 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21hcmtldHBsYWNlL3RyYXZpcy1jaQ==" title="https://github.com/marketplace/travis-ci">Travis CI<i class="fa fa-external-link"></i></span> 添加到你的 GitHub 账户中。</li>
+<li>前往 GitHub 的 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldHRpbmdzL2luc3RhbGxhdGlvbnM=" title="https://github.com/settings/installations">Applications settings<i class="fa fa-external-link"></i></span>，配置 Travis CI 权限，使其能够访问你的源码 repository。<br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225134406.png" alt="Hexo+NexT打造极简个人博客-20191225134406.png"></li>
+<li>你应该会被重定向到 Travis CI 的页面。如果没有，请 <span class="exturl" data-url="aHR0cHM6Ly90cmF2aXMtY2kuY29tLw==" title="https://travis-ci.com/">手动前往<i class="fa fa-external-link"></i></span>。</li>
+<li>在浏览器新建一个标签页，前往 GitHub <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3NldHRpbmdzL3Rva2Vucw==" title="https://github.com/settings/tokens">新建 Personal Access Token<i class="fa fa-external-link"></i></span>，只勾选 repo 的权限并生成一个新的 Token。Token 生成后请复制并保存好。<br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225134555.png" alt="Hexo+NexT打造极简个人博客-20191225134555.png"></li>
+<li>回到 Travis CI，前往你的 repository 的设置页面，在 <strong>Environment Variables</strong> 下新建一个环境变量，<strong>Name</strong> 为 <code>GH_TOKEN</code>，Value 为刚才你在 GitHub 生成的 Token。确保 <strong>DISPLAY VALUE IN BUILD LOG</strong> 保持 不被勾选 避免你的 Token 泄漏。点击 Add 保存。<br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225114313.png" alt="Hexo+NexT打造极简个人博客-20191225114313.png"></li>
+<li>前往 Github 源码库 repository 中添加 <strong>Deploy keys</strong><br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225144844.png" alt="Hexo+NexT打造极简个人博客-20191225144844.png"></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly90cmF2aXMtY2kuY29tLw==" title="https://travis-ci.com/">Travis CI<i class="fa fa-external-link"></i></span> <strong>Settings</strong> 中添加** SSH Key**，使其能有权限读取仓库<br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225145040.png" alt="Hexo+NexT打造极简个人博客-20191225145040.png"></li>
+<li>在你的 Hexo 站点文件夹中新建一个 .travis.yml 文件：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定构建环境是Node.js，当前版本是稳定版</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="string">stable</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置钩子只检测blog-source分支的push变动</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line"><span class="attr">  only:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">source</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置缓存文件</span></span><br><span class="line"><span class="attr">cache:</span></span><br><span class="line"><span class="attr">  directories:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">node_modules</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#在构建之前安装hexo环境</span></span><br><span class="line"><span class="attr">before_install:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span> <span class="bullet">-g</span> <span class="string">hexo-cli</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装git插件和搜索功能插件</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 设置git提交名，邮箱；替换真实token到_config.yml文件</span></span><br><span class="line"><span class="attr">before_script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.name</span> <span class="string">$&#123;UserName&#125;</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.email</span> <span class="string">$&#123;UserEmail&#125;</span></span><br><span class="line">  <span class="comment"># 替换同目录下的_config.yml文件中github_token字符串为travis后台刚才配置的变量，注&gt;意此处sed命令用了双引号。单引号无效！</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">sed</span> <span class="bullet">-i</span> <span class="string">"s/github_token/$&#123;GH_TOKEN&#125;/g"</span> <span class="string">_config.yml</span> <span class="string">||</span> <span class="string">exit</span> <span class="number">1</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">sed</span> <span class="bullet">-i</span> <span class="string">"s/coding_token/$&#123;CODING_TOKEN&#125;/g"</span> <span class="string">_config.yml</span> <span class="string">||</span> <span class="string">exit</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行清缓存，生成网页操作</span></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">git</span> <span class="string">submodule</span> <span class="string">init</span>      <span class="comment"># 用于更新主题</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">git</span> <span class="string">submodule</span> <span class="string">update</span>  </span><br><span class="line"><span class="bullet">  -</span> <span class="string">hexo</span> <span class="string">clean</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">hexo</span> <span class="string">deploy</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># configure notifications (email, IRC, campfire etc)</span></span><br><span class="line"><span class="comment"># please update this section to your needs!</span></span><br><span class="line"><span class="comment"># https://docs.travis-ci.com/user/notifications/</span></span><br><span class="line"><span class="attr">notifications:</span></span><br><span class="line"><span class="attr">  email:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">$&#123;UserEmail&#125;</span></span><br><span class="line"><span class="attr">  on_success:</span> <span class="string">change</span></span><br><span class="line"><span class="attr">  on_failure:</span> <span class="string">always</span></span><br></pre></td></tr></table></figure></li>
+<li>修改下 hexo 站点根目录下 <code>_config.yml</code> 文件的 deploy 节点<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[hoke@VM-202 ~/Documents/blog]$ git diff 58c6ba815d9893b6c760a6866d09079631ee27b5 d4184026a7ded278509a8b6b88cb5b98fa68c53c _config.yml</span><br><span class="line">diff --git a/_config.yml b/_config.yml</span><br><span class="line">index 6283ffb..8815cce 100644</span><br><span class="line"><span class="comment">--- a/_config.yml</span></span><br><span class="line"><span class="comment">+++ b/_config.yml</span></span><br><span class="line">@@ -108,8 +108,8 @@ symbols_count_time:</span><br><span class="line"> deploy:</span><br><span class="line">   type: git</span><br><span class="line">   repo: </span><br><span class="line"><span class="deletion">-    github: https://github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="deletion">-    coding: https://git.coding.net/hoke58/hoke58.git</span></span><br><span class="line"><span class="addition">+    github: https://github_token@github.com/hoke58/hoke58.github.io</span></span><br><span class="line"><span class="addition">+    coding: https://hoke58:coding_token@git.coding.net/hoke58/hoke58.git</span></span><br><span class="line">   branch: master</span><br><span class="line"> </span><br><span class="line"> search:</span><br></pre></td></tr></table></figure></li>
+<li><code>git push</code> 后查看 <span class="exturl" data-url="aHR0cHM6Ly90cmF2aXMtY2kuY29tLw==" title="https://travis-ci.com/">Travis CI<i class="fa fa-external-link"></i></span> 效果<br><img src="https://upyun.hoke58.cn/img/Hexo+NexT%E6%89%93%E9%80%A0%E6%9E%81%E7%AE%80%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2-20191225140635.png" alt="Hexo+NexT打造极简个人博客-20191225140635.png"></li>
+</ol>
+<h2 id="Travis-的-构建流程"><a href="#Travis-的-构建流程" class="headerlink" title="Travis 的 构建流程"></a>Travis 的 构建流程</h2><ul>
+<li><code>before_install</code></li>
+<li><code>install</code></li>
+<li><code>before_script</code></li>
+<li><code>script</code></li>
+<li><code>after_success</code> or <code>after_failure</code></li>
+<li><code>before_deploy</code>，可选</li>
+<li><code>deploy</code>，可选</li>
+<li><code>after_deploy</code>，可选</li>
+<li><code>after_script</code></li>
+</ul>
 
     </div>
 
     
     
     
-      
-
         <div class="reward-container">
   <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
     打赏
   </button>
   <div id="qr" style="display: none;">
@@ -759,7 +782,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-及源码管理"><span class="nav-number">6.</span> <span class="nav-text">Git 及源码管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding-or-Gitee"><span class="nav-number">6.2.</span> <span class="nav-text">Coding or Gitee</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网站源码管理最佳实践"><span class="nav-number">6.3.</span> <span class="nav-text">网站源码管理最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT-源码"><span class="nav-number">6.3.1.</span> <span class="nav-text">NexT 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-站点源码管理"><span class="nav-number">6.3.2.</span> <span class="nav-text">Hexo 站点源码管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图床"><span class="nav-number">7.</span> <span class="nav-text">图床</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#又拍云"><span class="nav-number">7.1.</span> <span class="nav-text">又拍云</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT-页脚悬挂又拍云联盟-Logo"><span class="nav-number">7.1.1.</span> <span class="nav-text">NexT 页脚悬挂又拍云联盟 Logo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图床工具"><span class="nav-number">7.2.</span> <span class="nav-text">图床工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">7.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-1"><span class="nav-number">7.2.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键盘快捷键"><span class="nav-number">7.2.3.</span> <span class="nav-text">键盘快捷键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN-加速"><span class="nav-number">8.</span> <span class="nav-text">CDN 加速</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启用评论系统"><span class="nav-number">9.</span> <span class="nav-text">启用评论系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#valine"><span class="nav-number">9.1.</span> <span class="nav-text">valine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#畅言"><span class="nav-number">9.2.</span> <span class="nav-text">畅言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站内搜索"><span class="nav-number">10.</span> <span class="nav-text">站内搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点地图-sitemap-xml"><span class="nav-number">11.</span> <span class="nav-text">站点地图 sitemap.xml</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境与工具"><span class="nav-number">1.1.</span> <span class="nav-text">环境与工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Node-js"><span class="nav-number">2.</span> <span class="nav-text">Node.js</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#升级Node-js和NPM（可选）"><span class="nav-number">2.1.</span> <span class="nav-text">升级Node.js和NPM（可选）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git"><span class="nav-number">3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo"><span class="nav-number">4.</span> <span class="nav-text">Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置文件"><span class="nav-number">4.2.</span> <span class="nav-text">配置文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NexT"><span class="nav-number">5.</span> <span class="nav-text">NexT</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置"><span class="nav-number">5.2.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据文件"><span class="nav-number">5.2.1.</span> <span class="nav-text">数据文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用法"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义-scheme"><span class="nav-number">5.2.2.</span> <span class="nav-text">自定义 scheme</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-及源码管理"><span class="nav-number">6.</span> <span class="nav-text">Git 及源码管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GitHub"><span class="nav-number">6.1.</span> <span class="nav-text">GitHub</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Coding-or-Gitee"><span class="nav-number">6.2.</span> <span class="nav-text">Coding or Gitee</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网站源码管理最佳实践"><span class="nav-number">6.3.</span> <span class="nav-text">网站源码管理最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT-源码"><span class="nav-number">6.3.1.</span> <span class="nav-text">NexT 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-站点源码管理"><span class="nav-number">6.3.2.</span> <span class="nav-text">Hexo 站点源码管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图床"><span class="nav-number">7.</span> <span class="nav-text">图床</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#又拍云"><span class="nav-number">7.1.</span> <span class="nav-text">又拍云</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#NexT-页脚悬挂又拍云联盟-Logo"><span class="nav-number">7.1.1.</span> <span class="nav-text">NexT 页脚悬挂又拍云联盟 Logo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图床工具"><span class="nav-number">7.2.</span> <span class="nav-text">图床工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">7.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-1"><span class="nav-number">7.2.2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键盘快捷键"><span class="nav-number">7.2.3.</span> <span class="nav-text">键盘快捷键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CDN-加速"><span class="nav-number">8.</span> <span class="nav-text">CDN 加速</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启用评论系统"><span class="nav-number">9.</span> <span class="nav-text">启用评论系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#valine"><span class="nav-number">9.1.</span> <span class="nav-text">valine</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#畅言"><span class="nav-number">9.2.</span> <span class="nav-text">畅言</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站内搜索"><span class="nav-number">10.</span> <span class="nav-text">站内搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#站点地图-sitemap-xml"><span class="nav-number">11.</span> <span class="nav-text">站点地图 sitemap.xml</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持续集成交付-CI-CD"><span class="nav-number">12.</span> <span class="nav-text">持续集成交付 CI&#x2F;CD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#达成效果"><span class="nav-number">12.1.</span> <span class="nav-text">达成效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置操作"><span class="nav-number">12.2.</span> <span class="nav-text">配置操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Travis-的-构建流程"><span class="nav-number">12.3.</span> <span class="nav-text">Travis 的 构建流程</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -775,20 +798,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -822,8 +845,8 @@
 
 <div class="copyright">
   
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heartbeat"></i>
   </span>
@@ -832,17 +855,17 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">188k</span>
+    <span title="站点总字数">123k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:51</span>
+    <span title="站点阅读时长">1:52</span>
 </div>
-  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动 v4.0.0
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.6.0
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.7.1
   </div>
   <span class="post-meta-divider">|</span>
   <div class="cdn-by">
@@ -887,9 +910,19 @@
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -907,7 +940,9 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  
+<script src="/js/local-search.js"></script>
+
 
 
 
@@ -934,20 +969,20 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       return GUEST.includes(item);
     });
     new Valine({
-      el: '#valine-comments',
-      verify: false,
-      notify: true,
-      appId: '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
-      appKey: 'Ru4kkS1IQa0YUBA40l2P6H22',
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey     : 'Ru4kkS1IQa0YUBA40l2P6H22',
       placeholder: "来说两句吧",
-      avatar: 'mm',
-      meta: guest,
-      pageSize: '10' || 10,
-      visitor: false,
-      lang: 'zh-cn' || 'zh-cn',
-      path: location.pathname,
-      recordIP: true,
-      serverURLs: 'https://leancloud.hoke58.cn'
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://leancloud.hoke58.cn'
     });
   }, window.Valine);
 });

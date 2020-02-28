@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="6M1tNsOwqP0HQYRu05OoRnwMrHht_QPFtI9zWYEXKwE">
+  <meta name="msvalidate.01" content="1E797E0277F06EFAFDD1B8812239CBF1">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.hoke58.cn","root":"/","scheme":"Mist","version":"7.7.1","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#45b29a","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="【MySQL】TokuDB引擎安装及数据迁移">
+<meta property="og:url" content="https://blog.hoke58.cn/databases/mysql-tokudb-install.html">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/%E3%80%90MySQL%E3%80%91TokuDB%E5%BC%95%E6%93%8E%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-20191223155418.png">
+<meta property="article:published_time" content="2019-12-23T06:06:44.000Z">
+<meta property="article:modified_time" content="2020-02-27T10:38:39.673Z">
+<meta property="article:author" content="Hoke">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="tokudb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upyun.hoke58.cn/img/%E3%80%90MySQL%E3%80%91TokuDB%E5%BC%95%E6%93%8E%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B-20191223155418.png">
+
+<link rel="canonical" href="https://blog.hoke58.cn/databases/mysql-tokudb-install.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>【MySQL】TokuDB引擎安装及数据迁移 | Hoke's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154875719-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-154875719-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a747a691426f25a8eddbceef7187a30f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hoke's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/databases/mysql-tokudb-install.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          【MySQL】TokuDB引擎安装及数据迁移
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-23 14:06:44" itemprop="dateCreated datePublished" datetime="2019-12-23T14:06:44+08:00">2019-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-27 18:38:39" itemprop="dateModified" datetime="2020-02-27T18:38:39+08:00">2020-02-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/databases/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/databases/mysql-tokudb-install.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/databases/mysql-tokudb-install.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <div align="center"> <img src="https://upyun.hoke58.cn/img/【MySQL】TokuDB引擎安装教程-20191223155418.png"> </div><br>
+
+<a id="more"></a>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>zabbix 数据库由阿里云 RDS 迁移至自建 DB，迁移过程中发现 RDS 为 tokudb 引擎</p>
+<h1 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h1><h2 id="libjemalloc-library"><a href="#libjemalloc-library" class="headerlink" title="libjemalloc library"></a>libjemalloc library</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install jemalloc -y</span><br></pre></td></tr></table></figure>
+<p>通过 yum 安装，生成的库文件为<code>/usr/lib64/libjemalloc.so.1</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei /www/server/data]<span class="comment"># rpm -qa |grep jemalloc</span></span><br><span class="line">jemalloc-3.6.0-1.el7.x86_64</span><br><span class="line">[root@yunwei /www/server/data]<span class="comment"># rpm -ql jemalloc-3.6.0-1.el7.x86_64</span></span><br><span class="line">/usr/bin/jemalloc.sh</span><br><span class="line">/usr/lib64/libjemalloc.so.1</span><br><span class="line">/usr/share/doc/jemalloc-3.6.0</span><br><span class="line">/usr/share/doc/jemalloc-3.6.0/COPYING</span><br><span class="line">/usr/share/doc/jemalloc-3.6.0/README</span><br><span class="line">/usr/share/doc/jemalloc-3.6.0/VERSION</span><br><span class="line">/usr/share/doc/jemalloc-3.6.0/jemalloc.html</span><br></pre></td></tr></table></figure>
+<h2 id="Transparent-huge-pages"><a href="#Transparent-huge-pages" class="headerlink" title="Transparent huge pages"></a>Transparent huge pages</h2><p>关闭内存大页</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line"><span class="built_in">echo</span> never &gt; /sys/kernel/mm/transparent_hugepage/defrag</span><br></pre></td></tr></table></figure>
+<p>查看下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ptest:~<span class="comment"># cat /sys/kernel/mm/transparent_hugepage/enabled</span></span><br><span class="line">always madvise [never]</span><br><span class="line">root@ptest:~<span class="comment"># cat /sys/kernel/mm/transparent_hugepage/defrag</span></span><br><span class="line">always madvise [never]</span><br></pre></td></tr></table></figure>
+
+<h2 id="Installing-Percona-Server-for-MySQL-from-Percona-yum-repository"><a href="#Installing-Percona-Server-for-MySQL-from-Percona-yum-repository" class="headerlink" title="Installing Percona Server for MySQL from Percona yum repository"></a>Installing Percona Server for MySQL from Percona yum repository</h2><ol>
+<li>Install the Percona repository</li>
+</ol>
+<p>You can install Percona yum repository by running the following command as a root user or with sudo:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install https://repo.percona.com/yum/percona-release-latest.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>Output example</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Retrieving https://repo.percona.com/yum/percona-release-latest.noarch.rpm</span><br><span class="line">Preparing...                <span class="comment">########################################### [100%]</span></span><br><span class="line">1:percona-release        <span class="comment">########################################### [100%]</span></span><br></pre></td></tr></table></figure>
+<p>To install Percona Server for MySQL with SELinux policies, you also need the Percona-Server-selinux-*.noarch.rpm package:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install http://repo.percona.com/centos/7/RPMS/x86_64/Percona-Server-selinux-56-5.6.42-rel84.2.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Testing the repository</li>
+</ol>
+<p>Make sure packages are now available from the repository, by executing the following command:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum list | grep percona</span><br></pre></td></tr></table></figure>
+<p>You should see output similar to the following:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">Percona-Server-56-debuginfo.x86_64          5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-client-56.x86_64             5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-devel-56.x86_64              5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-server-56.x86_64             5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-shared-56.x86_64             5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-test-56.x86_64               5.6.25-rel73.1.el6           @percona-release-x86_64</span><br><span class="line">Percona-Server-shared-compat.x86_64         5.1.68-rel14.6.551.rhel6     percona-release-x86_64</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>Install the packages</li>
+</ol>
+<p>You can now install Percona Server for MySQL by running:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install Percona-Server-server-56</span><br></pre></td></tr></table></figure>
+
+<h1 id="install"><a href="#install" class="headerlink" title="install"></a>install</h1><p>You can install the Percona Server for MySQL with TokuDB engine by using the apt/yum commands:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]<span class="comment"># yum install Percona-Server-tokudb-56.x86_64</span></span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@wheezy:~<span class="comment"># apt-get install percona-server-tokudb-5.6</span></span><br></pre></td></tr></table></figure>
+<h1 id="Enabling-the-TokuDB-Storage-Engine"><a href="#Enabling-the-TokuDB-Storage-Engine" class="headerlink" title="Enabling the TokuDB Storage Engine"></a>Enabling the TokuDB Storage Engine</h1><p>Once the TokuDB server package has been installed following output will be shown:</p>
+<div class="note default">
+            <ul><li><p>This release of Percona Server is distributed with TokuDB storage engine.</p><ul><li><p>Run the following script to enable the TokuDB storage engine in Percona Server:</p><p>ps_tokudb_admin –enable -u <mysql_admin_user> -p[mysql_admin_pass] [-S <socket>] [-h <host> -P <port>]</p></li><li><p>See <span class="exturl" data-url="aHR0cDovL3d3dy5wZXJjb25hLmNvbS9kb2MvcGVyY29uYS1zZXJ2ZXIvNS42L3Rva3VkYi90b2t1ZGJfaW5zdGFsbGF0aW9uLmh0bWw=" title="http://www.percona.com/doc/percona-server/5.6/tokudb/tokudb_installation.html">http://www.percona.com/doc/percona-server/5.6/tokudb/tokudb_installation.html<i class="fa fa-external-link"></i></span> for more installation details</p></li><li><p>See <span class="exturl" data-url="aHR0cDovL3d3dy5wZXJjb25hLmNvbS9kb2MvcGVyY29uYS1zZXJ2ZXIvNS42L3Rva3VkYi90b2t1ZGJfaW50cm8uaHRtbA==" title="http://www.percona.com/doc/percona-server/5.6/tokudb/tokudb_intro.html">http://www.percona.com/doc/percona-server/5.6/tokudb/tokudb_intro.html<i class="fa fa-external-link"></i></span> for an introduction to TokuDB</p></li></ul></li></ul>
+          </div>
+<p>Percona Server for MySQL 5.6.22-72.0 has implemented ps_tokudb_admin script to make the enabling the TokuDB storage engine easier. This script will automatically disable Transparent huge pages, if they’re enabled, and install and enable the TokuDB storage engine with all the required plugins. You need to run this script as root or with sudo. After you run the script with required parameters:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps_tokudb_admin --<span class="built_in">enable</span> -uroot -pPassw0rd</span><br></pre></td></tr></table></figure>
+<p>Following output will be displayed:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Checking <span class="keyword">if</span> Percona server is running with jemalloc enabled...</span><br><span class="line">&gt;&gt; Percona server is running with jemalloc enabled.</span><br><span class="line"></span><br><span class="line">Checking transparent huge pages status on the system...</span><br><span class="line">&gt;&gt; Transparent huge pages are currently disabled on the system.</span><br><span class="line"></span><br><span class="line">Checking <span class="keyword">if</span> thp-setting=never option is already <span class="built_in">set</span> <span class="keyword">in</span> config file...</span><br><span class="line">&gt;&gt; Option thp-setting=never is not <span class="built_in">set</span> <span class="keyword">in</span> the config file.</span><br><span class="line">&gt;&gt; (needed only <span class="keyword">if</span> THP is not disabled permanently on the system)</span><br><span class="line"></span><br><span class="line">Checking TokuDB plugin status...</span><br><span class="line">&gt;&gt; TokuDB plugin is not installed.</span><br><span class="line"></span><br><span class="line">Adding thp-setting=never option into /etc/mysql/my.cnf</span><br><span class="line">&gt;&gt; Successfuly added thp-setting=never option into /etc/mysql/my.cnf</span><br><span class="line"></span><br><span class="line">Installing TokuDB engine...</span><br><span class="line">&gt;&gt; Successfuly installed TokuDB plugin.</span><br></pre></td></tr></table></figure>
+<p>If the script returns no errors, TokuDB storage engine should be successfully enabled on your server. You can check it out by running:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW ENGINES;</span><br><span class="line">...</span><br><span class="line"> | TokuDB | YES | Tokutek TokuDB Storage Engine <span class="keyword">with</span> Fractal Tree(tm) Technology | YES | YES | YES |</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>To check if all the TokuDB plugins have been installed correctly you should run:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW PLUGINS;</span><br><span class="line">...</span><br><span class="line">| TokuDB                        | ACTIVE   | STORAGE ENGINE     | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_file_map               | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_fractal_tree_info      | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_fractal_tree_block_map | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_trx                    | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_locks                  | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_lock_waits             | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">| TokuDB_background_job_status  | ACTIVE   | INFORMATION SCHEMA | ha_tokudb.so | GPL     |</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>TokuDB Version<br>TokuDB storage engine version can be checked with:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT @@tokudb_version;</span><br><span class="line">+<span class="comment">------------------+</span></span><br><span class="line">| @@tokudb_version |</span><br><span class="line">+<span class="comment">------------------+</span></span><br><span class="line">| 5.6.27-76.0      |</span><br><span class="line">+<span class="comment">------------------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <p>TokuDB storage engine has the same version as Percona Server for MySQL after <code>5.6.26-74.0</code> release.</p>
+          </div>
+
+<h1 id="my-cnf"><a href="#my-cnf" class="headerlink" title="my.cnf"></a>my.cnf</h1><figure class="highlight profile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"># Percona<span class="number">-5.6</span><span class="number">.17</span>, TokuDB<span class="number">-7.1</span><span class="number">.6</span>，用于Zabbix数据库参考配置</span><br><span class="line"># 我的服务器配置：E5<span class="number">-2620</span> * <span class="number">2</span>，<span class="number">64</span>G内存，<span class="number">1</span>T可用磁盘空间（建议datadir所在分区设置为xfs文件系统）</span><br><span class="line"># TokuDB版本：Percona<span class="number">-5.6</span><span class="number">.17</span>, TokuDB<span class="number">-7.1</span><span class="number">.6</span>(<span class="string">插件加载模式</span>)</span><br><span class="line"># </span><br><span class="line"># created by yejr(<span class="string">http://imysql.com), 2014/06/24</span></span><br><span class="line"><span class="string"># </span></span><br><span class="line"><span class="string">[client]</span></span><br><span class="line"><span class="string">port            = 3306</span></span><br><span class="line"><span class="string">socket          = mysql.sock</span></span><br><span class="line"><span class="string">#default-character-set=utf8</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">[mysql]</span></span><br><span class="line"><span class="string">prompt="\\u@\\h \\D \\R:\\m:\\s [\\d]&gt;</span></span><br><span class="line"><span class="string">#pager="less -i -n -S"</span></span><br><span class="line"><span class="string">tee=/home/mysql/query.log</span></span><br><span class="line"><span class="string">no-auto-rehash</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">[mysqld]</span></span><br><span class="line"><span class="string">open_files_limit = 8192</span></span><br><span class="line"><span class="string">max_connect_errors = 100000</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">#buffer &amp; cache</span></span><br><span class="line"><span class="string">table_open_cache = 2048</span></span><br><span class="line"><span class="string">table_definition_cache = 2048</span></span><br><span class="line"><span class="string">max_heap_table_size = 96M</span></span><br><span class="line"><span class="string">sort_buffer_size = 2M</span></span><br><span class="line"><span class="string">join_buffer_size = 2M</span></span><br><span class="line"><span class="string">tmp_table_size = 96M</span></span><br><span class="line"><span class="string">key_buffer_size = 8M</span></span><br><span class="line"><span class="string">read_buffer_size = 2M</span></span><br><span class="line"><span class="string">read_rnd_buffer_size = 16M</span></span><br><span class="line"><span class="string">bulk_insert_buffer_size = 32M</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">#innodb</span></span><br><span class="line"><span class="string">#只有部分小表保留InnoDB引擎，因此InnoDB Buffer Pool设置为1G基本上够了</span></span><br><span class="line"><span class="string">innodb_buffer_pool_size = 1G</span></span><br><span class="line"><span class="string">innodb_buffer_pool_instances = 1</span></span><br><span class="line"><span class="string">innodb_data_file_path = ibdata1:1G:autoextend</span></span><br><span class="line"><span class="string">innodb_flush_log_at_trx_commit = 1</span></span><br><span class="line"><span class="string">innodb_log_buffer_size = 64M</span></span><br><span class="line"><span class="string">innodb_log_file_size = 256M</span></span><br><span class="line"><span class="string">innodb_log_files_in_group = 2</span></span><br><span class="line"><span class="string">innodb_file_per_table = 1</span></span><br><span class="line"><span class="string">innodb_status_file = 1</span></span><br><span class="line"><span class="string">transaction_isolation = READ-COMMITTED</span></span><br><span class="line"><span class="string">innodb_flush_method = O_DIRECT</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#tokudb</span></span><br><span class="line"><span class="string">malloc-lib= /usr/local/mysql/lib/mysql/libjemalloc.so</span></span><br><span class="line"><span class="string">plugin-dir = /usr/local/mysql/lib/mysql/plugin/</span></span><br><span class="line"><span class="string">plugin-load=ha_tokudb.so</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">#把TokuDB datadir以及logdir和MySQL的datadir分开，美观点，也可以不分开，注释掉本行以及下面2行即可</span></span><br><span class="line"><span class="string">tokudb-data-dir = /data/mysql/zabbix_3306/tokudbData</span></span><br><span class="line"><span class="string">tokudb-log-dir = /data/mysql/zabbix_3306/tokudbLog</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">#TokuDB的行模式，建议用 FAST 就足够了，如果磁盘空间很紧张，建议用 SMALL</span></span><br><span class="line"><span class="string">#tokudb_row_format = tokudb_small</span></span><br><span class="line"><span class="string">tokudb_row_format = tokudb_fast</span></span><br><span class="line"><span class="string">tokudb_cache_size = 44G</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">#其他大部分配置其实可以不用修改的，只需要几个关键配置即可</span></span><br><span class="line"><span class="string">tokudb_commit_sync = 0</span></span><br><span class="line"><span class="string">tokudb_directio = 1</span></span><br><span class="line"><span class="string">tokudb_read_block_size = 128K</span></span><br><span class="line"><span class="string">tokudb_read_buf_size = 128K</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="innobackupex-数据迁移"><a href="#innobackupex-数据迁移" class="headerlink" title="innobackupex 数据迁移"></a>innobackupex 数据迁移</h1><h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><ul>
+<li>部署 mysql</li>
+<li>下载 RDS 物理备份文件</li>
+</ul>
+<h2 id="数据迁移"><a href="#数据迁移" class="headerlink" title="数据迁移"></a>数据迁移</h2><ol>
+<li>执行如下命令，解压已下载的数据备份文件。<div class="note info">
+            <p><strong>说明</strong></p><ul><li>本文以自定义路径<code>/home/mysql/data</code>为例，您可以根据实际情况将其替换成实际路径。</li><li><code>innobackupex</code>解压命令需要安装<code>qpress</code>，您可以使用命令<code>yum install qpress -y</code>安装。</li></ul>
+          </div>
+目前物理备份集文件有3种格式：</li>
+</ol>
+<ul>
+<li>tar 压缩包 （.tar.gz 后缀）</li>
+<li>xbstream 压缩包 （.xb.gz 后缀）</li>
+<li>xbstream 文件包（_qp.xb 后缀）<div class="note info">
+            <p><strong>说明</strong></p><p>2019年2月20日后创建的<code>MySQL 5.6</code>实例，数据备份文件的格式为xbstream文件包（_qp.xb 后缀）。</p>
+          </div>
+对于tar 压缩包 （.tar.gz 后缀），使用命令：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -izxvf &lt;数据备份文件名&gt;.tar.gz -C /home/mysql/data</span><br></pre></td></tr></table></figure>
+对于xbstream 压缩包 （.xb.gz 后缀），使用命令：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzip -d -c &lt;数据备份文件名&gt;.xb.gz | xbstream -x -v -C /home/mysql/data</span><br></pre></td></tr></table></figure>
+对于xbstream 文件包（_qp.xb 后缀），使用命令：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 解包</span></span><br><span class="line">cat &lt;数据备份文件名&gt;_qp.xb | xbstream -x -v -C /home/mysql/data</span><br><span class="line"><span class="comment">## 解压</span></span><br><span class="line">innobackupex --decompress --remove-original /home/mysql/data</span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <p><strong>说明</strong> <code>-C</code>：指定文件要解压到的目录。可选参数，若不指定就解压到当前目录。</p>
+          </div>
+</li>
+</ul>
+<ol start="2">
+<li><p>为避免版本问题，需修改<code>backup-my.cnf</code>参数，具体操作步骤如下。</p>
+<ol>
+<li>执行如下命令，以文本方式编辑<code>backup-my.cnf</code>文件。<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /home/mysql/data/backup-my.cnf</span><br></pre></td></tr></table></figure></li>
+<li>自建数据库不支持如下参数，需要注释掉。<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#innodb_log_checksum_algorithm</span></span><br><span class="line"><span class="comment">#innodb_fast_checksum</span></span><br><span class="line"><span class="comment">#innodb_log_block_size</span></span><br><span class="line"><span class="comment">#innodb_doublewrite_file</span></span><br><span class="line"><span class="comment">#rds_encrypt_data</span></span><br><span class="line"><span class="comment">#innodb_encrypt_algorithm</span></span><br><span class="line"><span class="comment">#redo_log_version</span></span><br><span class="line"><span class="comment">#master_key_id</span></span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <ul><li>如果自建数据库使用的是MyISAM引擎，和阿里云的InnoDB不兼容，需要多注释掉如下参数并增加skip-grant-tables参数：<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#innodb_log_checksum_algorithm=strict_crc32</span></span><br><span class="line"><span class="comment">#redo_log_version=1</span></span><br><span class="line">skip-grant-tables</span><br></pre></td></tr></table></figure></li><li>如果自建数据库使用的是MyIAM引擎，且对系统表进行操作时报错（存储引擎相关），请按如下操作进行存储引擎的转换：<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">engine</span> &lt;表名&gt; <span class="keyword">engine</span>=myisam;</span><br></pre></td></tr></table></figure></li></ul>
+          </div>
+</li>
+</ol>
+</li>
+<li><p>执行如下命令，恢复解压好的备份文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei /www/server/data]<span class="comment"># innobackupex --defaults-file=/www/server/data/backup-my.cnf --apply-log /www/server/data/</span></span><br><span class="line">191226 13:42:51 innobackupex: Starting the apply-log operation</span><br><span class="line"></span><br><span class="line">IMPORTANT: Please check that the apply-log run completes successfully.</span><br><span class="line">           At the end of a successful apply-log run innobackupex</span><br><span class="line">           prints <span class="string">"completed OK!"</span>.</span><br><span class="line"></span><br><span class="line">innobackupex version 2.3.10 based on MySQL server 5.6.24 Linux (x86_64) (revision id: bd0d4403f36)</span><br><span class="line">xtrabackup: <span class="built_in">cd</span> to /www/server/data/</span><br><span class="line">xtrabackup: This target seems to be not prepared yet.</span><br><span class="line">xtrabackup: xtrabackup_logfile detected: size=2097152, start_lsn=(276623660719)</span><br><span class="line">xtrabackup: using the following InnoDB configuration <span class="keyword">for</span> recovery:</span><br><span class="line">xtrabackup:   innodb_data_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_data_file_path = ibdata1:200M:autoextend</span><br><span class="line">xtrabackup:   innodb_log_group_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_log_files_in_group = 1</span><br><span class="line">xtrabackup:   innodb_log_file_size = 2097152</span><br><span class="line">xtrabackup: using the following InnoDB configuration <span class="keyword">for</span> recovery:</span><br><span class="line">xtrabackup:   innodb_data_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_data_file_path = ibdata1:200M:autoextend</span><br><span class="line">xtrabackup:   innodb_log_group_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_log_files_in_group = 1</span><br><span class="line">xtrabackup:   innodb_log_file_size = 2097152</span><br><span class="line">xtrabackup: Starting InnoDB instance <span class="keyword">for</span> recovery.</span><br><span class="line">xtrabackup: Using 104857600 bytes <span class="keyword">for</span> buffer pool (<span class="built_in">set</span> by --use-memory parameter)</span><br><span class="line">InnoDB: Using atomics to ref count buffer pool pages</span><br><span class="line">InnoDB: The InnoDB memory heap is disabled</span><br><span class="line">InnoDB: Mutexes and rw_locks use GCC atomic builtins</span><br><span class="line">InnoDB: Memory barrier is not used</span><br><span class="line">InnoDB: Compressed tables use zlib 1.2.7</span><br><span class="line">InnoDB: Using CPU crc32 instructions</span><br><span class="line">InnoDB: Initializing buffer pool, size = 100.0M</span><br><span class="line">InnoDB: Completed initialization of buffer pool</span><br><span class="line">InnoDB: Highest supported file format is Barracuda.</span><br><span class="line">InnoDB: Log scan progressed past the checkpoint lsn 276623660719</span><br><span class="line">InnoDB: Database was not shutdown normally!</span><br><span class="line">InnoDB: Starting crash recovery.</span><br><span class="line">InnoDB: Reading tablespace information from the .ibd files...</span><br><span class="line">InnoDB: Restoring possible half-written data pages </span><br><span class="line">InnoDB: from the doublewrite buffer...</span><br><span class="line">InnoDB: Doing recovery: scanned up to <span class="built_in">log</span> sequence number 276625422981 (94%)</span><br><span class="line">InnoDB: Starting an apply batch of <span class="built_in">log</span> records to the database...</span><br><span class="line">InnoDB: Progress <span class="keyword">in</span> percent: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 </span><br><span class="line">InnoDB: Apply batch completed</span><br><span class="line">InnoDB: 128 rollback segment(s) are active.</span><br><span class="line">InnoDB: Waiting <span class="keyword">for</span> purge to start</span><br><span class="line">InnoDB: 5.6.24 started; <span class="built_in">log</span> sequence number 276625422981</span><br><span class="line"></span><br><span class="line">xtrabackup: starting shutdown with innodb_fast_shutdown = 1</span><br><span class="line">InnoDB: FTS optimize thread exiting.</span><br><span class="line">InnoDB: Starting shutdown...</span><br><span class="line">InnoDB: Shutdown completed; <span class="built_in">log</span> sequence number 276625423497</span><br><span class="line">xtrabackup: using the following InnoDB configuration <span class="keyword">for</span> recovery:</span><br><span class="line">xtrabackup:   innodb_data_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_data_file_path = ibdata1:200M:autoextend</span><br><span class="line">xtrabackup:   innodb_log_group_home_dir = ./</span><br><span class="line">xtrabackup:   innodb_log_files_in_group = 2</span><br><span class="line">xtrabackup:   innodb_log_file_size = 1048576000</span><br><span class="line">InnoDB: Using atomics to ref count buffer pool pages</span><br><span class="line">InnoDB: The InnoDB memory heap is disabled</span><br><span class="line">InnoDB: Mutexes and rw_locks use GCC atomic builtins</span><br><span class="line">InnoDB: Memory barrier is not used</span><br><span class="line">InnoDB: Compressed tables use zlib 1.2.7</span><br><span class="line">InnoDB: Using CPU crc32 instructions</span><br><span class="line">InnoDB: Initializing buffer pool, size = 100.0M</span><br><span class="line">InnoDB: Completed initialization of buffer pool</span><br><span class="line">InnoDB: Setting <span class="built_in">log</span> file ./ib_logfile101 size to 1000 MB</span><br><span class="line">InnoDB: Progress <span class="keyword">in</span> MB: 100 200 300 400 500 600 700 800 900 1000</span><br><span class="line">InnoDB: Setting <span class="built_in">log</span> file ./ib_logfile1 size to 1000 MB</span><br><span class="line">InnoDB: Progress <span class="keyword">in</span> MB: 100 200 300 400 500 600 700 800 900 1000</span><br><span class="line">InnoDB: Renaming <span class="built_in">log</span> file ./ib_logfile101 to ./ib_logfile0</span><br><span class="line">InnoDB: New <span class="built_in">log</span> files created, LSN=276625423497</span><br><span class="line">InnoDB: Highest supported file format is Barracuda.</span><br><span class="line">InnoDB: 128 rollback segment(s) are active.</span><br><span class="line">InnoDB: Waiting <span class="keyword">for</span> purge to start</span><br><span class="line">InnoDB: 5.6.24 started; <span class="built_in">log</span> sequence number 276625423884</span><br><span class="line">xtrabackup: starting shutdown with innodb_fast_shutdown = 1</span><br><span class="line">InnoDB: FTS optimize thread exiting.</span><br><span class="line">InnoDB: Starting shutdown...</span><br><span class="line">InnoDB: Shutdown completed; <span class="built_in">log</span> sequence number 276625427858</span><br><span class="line">191226 13:43:28 completed OK!</span><br></pre></td></tr></table></figure>
+<div class="note info">
+            <p><strong>说明</strong> 请确保您的Percona XtraBackup版本正确：<br>MySQL 5.6及之前的版本需要安装 Percona XtraBackup 2.3，安装指导请参见官方文档<span class="exturl" data-url="aHR0cHM6Ly93d3cucGVyY29uYS5jb20vZG9jL3BlcmNvbmEteHRyYWJhY2t1cC8yLjMvaW5zdGFsbGF0aW9uLmh0bWw/c3BtPWEyYzRnLjExMTg2NjIzLjIuMjUuM2Y0ZDFlMmY1VUNMSzM=" title="https://www.percona.com/doc/percona-xtrabackup/2.3/installation.html?spm=a2c4g.11186623.2.25.3f4d1e2f5UCLK3">Percona XtraBackup 2.3<i class="fa fa-external-link"></i></span>。<br>MySQL 5.7版本需要安装 Percona XtraBackup 2.4，安装指导请参见官方文档<span class="exturl" data-url="aHR0cHM6Ly93d3cucGVyY29uYS5jb20vZG9jL3BlcmNvbmEteHRyYWJhY2t1cC8yLjQvaW5zdGFsbGF0aW9uLmh0bWw/c3BtPWEyYzRnLjExMTg2NjIzLjIuMjYuM2Y0ZDFlMmY1VUNMSzM=" title="https://www.percona.com/doc/percona-xtrabackup/2.4/installation.html?spm=a2c4g.11186623.2.26.3f4d1e2f5UCLK3">Percona XtraBackup 2.4<i class="fa fa-external-link"></i></span>。<br>MySQL 8.0版本需要安装 Percona XtraBackup 8.0，安装指导请参见官方文档<span class="exturl" data-url="aHR0cHM6Ly93d3cucGVyY29uYS5jb20vZG9jL3BlcmNvbmEteHRyYWJhY2t1cC84LjAvaW5zdGFsbGF0aW9uLmh0bWw/c3BtPWEyYzRnLjExMTg2NjIzLjIuMjcuM2Y0ZDFlMmY1VUNMSzM=" title="https://www.percona.com/doc/percona-xtrabackup/8.0/installation.html?spm=a2c4g.11186623.2.27.3f4d1e2f5UCLK3">Percona XtraBackup 8.0<i class="fa fa-external-link"></i></span>。</p>
+          </div>
+
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cucGVyY29uYS5jb20vZG9jL3BlcmNvbmEtc2VydmVyLzUuNi90b2t1ZGIvdG9rdWRiX2luc3RhbGxhdGlvbi5odG1s" title="https://www.percona.com/doc/percona-server/5.6/tokudb/tokudb_installation.html">TokuDB Installation<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cucGVyY29uYS5jb20vZG9jL3BlcmNvbmEtc2VydmVyLzUuNi9pbnN0YWxsYXRpb24veXVtX3JlcG8uaHRtbCN5dW0tcmVwbw==" title="https://www.percona.com/doc/percona-server/5.6/installation/yum_repo.html#yum-repo">Installing Percona Server for MySQL on Red Hat Enterprise Linux and CentOS<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly95cS5hbGl5dW4uY29tL2FydGljbGVzLzY2Nzk2OQ==" title="https://yq.aliyun.com/articles/667969">自建Percona5.7.23同步阿里云RDS(MySQL5.6)TokuDB数据库<i class="fa fa-external-link"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9oZWxwLmFsaXl1bi5jb20va25vd2xlZGdlX2RldGFpbC80MTgxNy5odG1s" title="https://help.aliyun.com/knowledge_detail/41817.html">RDS MySQL 物理备份文件恢复到自建数据库<i class="fa fa-external-link"></i></span></li>
+</ul>
+<h1 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h1><p>关于RDS迁移后自动备份，请参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuaG9rZTU4LmNuL2RldmVsb3BtZW50L3B5dGhvbi1pbm5vYmFja3VwLmh0bWw=" title="https://www.hoke58.cn/development/python-innobackup.html">使用python实现innobackup自动化备份、清理、通知<i class="fa fa-external-link"></i></span></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.hoke58.cn/databases/mysql-tokudb-install.html" title="【MySQL】TokuDB引擎安装及数据迁移">https://blog.hoke58.cn/databases/mysql-tokudb-install.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> mysql</a>
+              <a href="/tags/tokudb/" rel="tag"><i class="fa fa-tag"></i> tokudb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web/hoke-favorites.html" rel="prev" title="博主的收藏夹">
+      <i class="fa fa-chevron-left"></i> 博主的收藏夹
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/databases/mysql.html" rel="next" title="Mysql 基础知识（转）">
+      Mysql 基础知识（转） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Prerequisites"><span class="nav-number">2.</span> <span class="nav-text">Prerequisites</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#libjemalloc-library"><span class="nav-number">2.1.</span> <span class="nav-text">libjemalloc library</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transparent-huge-pages"><span class="nav-number">2.2.</span> <span class="nav-text">Transparent huge pages</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Installing-Percona-Server-for-MySQL-from-Percona-yum-repository"><span class="nav-number">2.3.</span> <span class="nav-text">Installing Percona Server for MySQL from Percona yum repository</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#install"><span class="nav-number">3.</span> <span class="nav-text">install</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Enabling-the-TokuDB-Storage-Engine"><span class="nav-number">4.</span> <span class="nav-text">Enabling the TokuDB Storage Engine</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#my-cnf"><span class="nav-number">5.</span> <span class="nav-text">my.cnf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#innobackupex-数据迁移"><span class="nav-number">6.</span> <span class="nav-text">innobackupex 数据迁移</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-number">6.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据迁移"><span class="nav-number">6.2.</span> <span class="nav-text">数据迁移</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写在最后"><span class="nav-number">8.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">123k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:52</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey     : 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

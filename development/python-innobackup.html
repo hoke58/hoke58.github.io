@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="6M1tNsOwqP0HQYRu05OoRnwMrHht_QPFtI9zWYEXKwE">
+  <meta name="msvalidate.01" content="1E797E0277F06EFAFDD1B8812239CBF1">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.hoke58.cn","root":"/","scheme":"Mist","version":"7.7.1","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#45b29a","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="说明上篇博客【MySQL】TokuDB引擎安装及数据迁移迁移后拓展，解决自动备份。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用python实现innobackup自动化备份、清理、通知">
+<meta property="og:url" content="https://blog.hoke58.cn/development/python-innobackup.html">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="说明上篇博客【MySQL】TokuDB引擎安装及数据迁移迁移后拓展，解决自动备份。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-26T12:10:24.000Z">
+<meta property="article:modified_time" content="2020-02-27T10:38:39.673Z">
+<meta property="article:author" content="Hoke">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.hoke58.cn/development/python-innobackup.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>使用python实现innobackup自动化备份、清理、通知 | Hoke's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154875719-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-154875719-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a747a691426f25a8eddbceef7187a30f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hoke's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/development/python-innobackup.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          使用python实现innobackup自动化备份、清理、通知
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-26 20:10:24" itemprop="dateCreated datePublished" datetime="2019-12-26T20:10:24+08:00">2019-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-27 18:38:39" itemprop="dateModified" datetime="2020-02-27T18:38:39+08:00">2020-02-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/development/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/development/python-innobackup.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/development/python-innobackup.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>10 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>上篇博客<span class="exturl" data-url="aHR0cHM6Ly93d3cuaG9rZTU4LmNuL2RhdGFiYXNlcy9teXNxbC10b2t1ZGItaW5zdGFsbC5odG1s" title="https://www.hoke58.cn/databases/mysql-tokudb-install.html">【MySQL】TokuDB引擎安装及数据迁移<i class="fa fa-external-link"></i></span>迁移后拓展，解决自动备份。</p>
+<a id="more"></a>
+
+<h2 id="前置"><a href="#前置" class="headerlink" title="前置"></a>前置</h2><ul>
+<li>安装 python3.6</li>
+<li>安装 Percona XtraBackup</li>
+</ul>
+<h2 id="依赖模块"><a href="#依赖模块" class="headerlink" title="依赖模块"></a>依赖模块</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install jinja2 MarkupSafe</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ol>
+<li>编辑配置文件 <code>vim xb_back.cnf</code></li>
+<li>运行<code>xb_back.py</code>脚本<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3.6 ./xb_back.py -f ./xb_back.cnf</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="xb-back-py"><a href="#xb-back-py" class="headerlink" title="xb_back.py"></a>xb_back.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># edit by hoke</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line"><span class="keyword">import</span> configparser</span><br><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> jinja2</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> email.mime.text <span class="keyword">import</span> MIMEText</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> isfile</span><br><span class="line"><span class="keyword">from</span> tempfile <span class="keyword">import</span> TemporaryFile</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set logger</span></span><br><span class="line">LOG_FORMAT = <span class="string">"%(asctime)s - %(levelname)s - %(message)s"</span></span><br><span class="line">DATE_FORMAT = <span class="string">"%Y-%m-%d %H:%M:%S"</span></span><br><span class="line">logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT, datefmt=DATE_FORMAT)</span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get HOSTNAME</span></span><br><span class="line">HOSTNAME = socket.gethostname()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Get os time</span></span><br><span class="line">CURRENT_TIME = time.strftime(<span class="string">"%Y-%m-%d_%H:%M:%S"</span>, time.localtime())</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set statistics info</span></span><br><span class="line">STATISTICS_INFO = &#123;<span class="string">'备份主机'</span>: HOSTNAME&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set render html template</span></span><br><span class="line">module_path = os.path.dirname(__file__)</span><br><span class="line">html_template = os.path.join(module_path + <span class="string">'/table_template.html'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">render_to_template</span><span class="params">(html_path, html_context)</span>:</span></span><br><span class="line">    path, filename = os.path.split(html_path)</span><br><span class="line">    env = jinja2.Environment(</span><br><span class="line">        loader=jinja2.FileSystemLoader(path)</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">if</span> isinstance(html_context, dict):</span><br><span class="line">        <span class="keyword">return</span> env.get_template(filename).render(&#123;<span class="string">'data'</span>: html_context&#125;)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> env.get_template(filename).render(&#123;<span class="string">'err_msg'</span>: html_context&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_arguments</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Get user input </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    parser = argparse.ArgumentParser(description=<span class="string">'This a backup help document.'</span>)</span><br><span class="line">    parser.add_argument(<span class="string">'-f'</span>, <span class="string">'--file'</span>, type=str, help=<span class="string">'xtrabackup read config file'</span>)</span><br><span class="line">    args = parser.parse_args()</span><br><span class="line">    <span class="keyword">return</span> args.file</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_config_valid</span><span class="params">(file)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Check config file content valid</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    config = configparser.ConfigParser()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        config.read(file)</span><br><span class="line">    <span class="keyword">except</span> configparser.MissingSectionHeaderError:</span><br><span class="line">        logger.warning(<span class="string">'WARN: this first line must contains section headers'</span>)</span><br><span class="line"></span><br><span class="line">    config_items = [x <span class="keyword">for</span> x <span class="keyword">in</span> config.keys()]</span><br><span class="line"></span><br><span class="line">    config_keys = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> [config.items(x) <span class="keyword">for</span> x <span class="keyword">in</span> config.keys()]:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">            config_keys.append(j[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    keep_items = [<span class="string">'mysql'</span>, <span class="string">'xtrabackup'</span>, <span class="string">'compress'</span>, <span class="string">'mail'</span>, <span class="string">'expired'</span>]</span><br><span class="line">    keep_keys = [</span><br><span class="line">        <span class="string">'user'</span>,</span><br><span class="line">        <span class="string">'host'</span>,</span><br><span class="line">        <span class="string">'password'</span>,</span><br><span class="line">        <span class="string">'port'</span>,</span><br><span class="line">        <span class="string">'backup_tool'</span>,</span><br><span class="line">        <span class="string">'defaults-file'</span>,</span><br><span class="line">        <span class="string">'backupdir'</span>,</span><br><span class="line">        <span class="string">'title'</span>,</span><br><span class="line">        <span class="string">'mail_sender'</span>,</span><br><span class="line">        <span class="string">'mail_receiver'</span>,</span><br><span class="line">        <span class="string">'mail_host'</span>,</span><br><span class="line">        <span class="string">'mail_port'</span>,</span><br><span class="line">        <span class="string">'mail_user'</span>,</span><br><span class="line">        <span class="string">'mail_pass'</span>,</span><br><span class="line">        <span class="string">'expire_day'</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> header <span class="keyword">in</span> keep_items:</span><br><span class="line">        <span class="keyword">if</span> header <span class="keyword">not</span> <span class="keyword">in</span> config_items:</span><br><span class="line">            logger.error(<span class="string">f'FAILED: this section header [<span class="subst">&#123;header&#125;</span>] not found.'</span>)</span><br><span class="line">            sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> keep_keys:</span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> config_keys:</span><br><span class="line">            logger.error(<span class="string">f'FAILED: this argument [<span class="subst">&#123;key&#125;</span>] not found.'</span>)</span><br><span class="line">            sys.exit(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">General</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Process the config file and Generate variables</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isfile(file):</span><br><span class="line">            config = configparser.ConfigParser(allow_no_value=<span class="literal">True</span>)</span><br><span class="line">            config.read(file)</span><br><span class="line"></span><br><span class="line">            Mysql = config[<span class="string">'mysql'</span>]</span><br><span class="line">            self.user = Mysql[<span class="string">'user'</span>]</span><br><span class="line">            self.host = Mysql[<span class="string">'host'</span>]</span><br><span class="line">            self.password = Mysql[<span class="string">'password'</span>]</span><br><span class="line">            self.port = Mysql[<span class="string">'port'</span>]</span><br><span class="line"></span><br><span class="line">            Xtrabackup = config[<span class="string">'xtrabackup'</span>]</span><br><span class="line">            self.backup_tool = Xtrabackup[<span class="string">'backup_tool'</span>]</span><br><span class="line">            self.defaults_file = Xtrabackup[<span class="string">'defaults-file'</span>]</span><br><span class="line">            self.backupdir = Xtrabackup[<span class="string">'backupdir'</span>]</span><br><span class="line">            self.fmt_backupdir = <span class="string">'/'</span>.join((Xtrabackup[<span class="string">'backupdir'</span>], CURRENT_TIME))</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'xtra_options'</span> <span class="keyword">in</span> Xtrabackup:</span><br><span class="line">                self.xtra_options = Xtrabackup[<span class="string">'xtra_options'</span>]</span><br><span class="line"></span><br><span class="line">            Compress = config[<span class="string">'compress'</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'compress'</span> <span class="keyword">in</span> Compress:</span><br><span class="line">                self.compress = Compress[<span class="string">'compress'</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'compress_chunk_size'</span> <span class="keyword">in</span> Compress:</span><br><span class="line">                self.compress_chunk_size = Compress[<span class="string">'compress_chunk_size'</span>]</span><br><span class="line">            <span class="keyword">if</span> <span class="string">'compress_threads'</span> <span class="keyword">in</span> Compress:</span><br><span class="line">                self.compress_threads = Compress[<span class="string">'compress_threads'</span>]</span><br><span class="line"></span><br><span class="line">            Mail = config[<span class="string">'mail'</span>]</span><br><span class="line">            self.title = Mail[<span class="string">'title'</span>]</span><br><span class="line">            self.mail_sender = Mail[<span class="string">'mail_sender'</span>]</span><br><span class="line">            self.mail_receiver = Mail[<span class="string">'mail_receiver'</span>]</span><br><span class="line">            self.mail_host = Mail[<span class="string">'mail_host'</span>]</span><br><span class="line">            self.mail_port = Mail[<span class="string">'mail_port'</span>]</span><br><span class="line">            self.mail_user = Mail[<span class="string">'mail_user'</span>]</span><br><span class="line">            self.mail_pass = Mail[<span class="string">'mail_pass'</span>]</span><br><span class="line"></span><br><span class="line">            Expired = config[<span class="string">'expired'</span>]</span><br><span class="line">            self.expire_day = Expired[<span class="string">'expire_day'</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToolsUtils</span><span class="params">(General)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Define some tools</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file)</span>:</span></span><br><span class="line">        self.file = file</span><br><span class="line">        General.__init__(self, self.file)</span><br><span class="line"></span><br><span class="line">        self.xb_output_log = <span class="string">'/'</span>.join((self.fmt_backupdir, <span class="string">'xb_output.log'</span>))</span><br><span class="line"></span><br><span class="line">        STATISTICS_INFO[<span class="string">'备份目录'</span>] = self.fmt_backupdir</span><br><span class="line">        STATISTICS_INFO[<span class="string">'备份工具'</span>] = self.backup_tool</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create_backup_dir</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">""" create backup directory """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(self.fmt_backupdir):</span><br><span class="line">            os.makedirs(self.fmt_backupdir)</span><br><span class="line">            logger.info(<span class="string">f'OK: the backup dir not exisit, create <span class="subst">&#123;self.fmt_backupdir&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">    FMT_INFO = <span class="string">'&#123;:.2f&#125;GB'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_backup_file_size</span><span class="params">(self)</span>:</span></span><br><span class="line">        size = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(self.fmt_backupdir):</span><br><span class="line">            size += sum([os.path.getsize(os.path.join(root, name))</span><br><span class="line">                         <span class="keyword">for</span> name <span class="keyword">in</span> files])</span><br><span class="line">        logger.info(<span class="string">f'OK: get backup file size'</span>)</span><br><span class="line">        STATISTICS_INFO[<span class="string">'备份大小'</span>] = self.FMT_INFO.format(float(size / <span class="number">1024</span> / <span class="number">1024</span> / <span class="number">1024</span>))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_partition_size</span><span class="params">(self)</span>:</span></span><br><span class="line">        vfs = os.statvfs(self.fmt_backupdir)</span><br><span class="line">        free = (vfs.f_bavail * vfs.f_bsize) / (<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">1024</span>)</span><br><span class="line">        total = (vfs.f_blocks * vfs.f_bsize) / (<span class="number">1024</span> * <span class="number">1024</span> * <span class="number">1024</span>)</span><br><span class="line">        partition_free_size = self.FMT_INFO.format(free)</span><br><span class="line">        partition_total_size = self.FMT_INFO.format(total)</span><br><span class="line">        logger.info(<span class="string">f'OK: get disk partition usage'</span>)</span><br><span class="line">        STATISTICS_INFO[<span class="string">'可用空间'</span>] = partition_free_size</span><br><span class="line">        STATISTICS_INFO[<span class="string">'总空间'</span>] = partition_total_size</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">send_mail</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        <span class="string">""" </span></span><br><span class="line"><span class="string">        Send mail notice </span></span><br><span class="line"><span class="string">        Read TemporaryFile content</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        msg = MIMEText(data, _subtype=<span class="string">'html'</span>, _charset=<span class="string">'utf-8'</span>)</span><br><span class="line">        msg[<span class="string">'Subject'</span>] = <span class="string">'&#123;&#125; from &#123;&#125;'</span>.format(self.title, HOSTNAME)</span><br><span class="line">        msg[<span class="string">'From'</span>] = self.mail_sender</span><br><span class="line">        msg[<span class="string">'To'</span>] = <span class="string">";"</span>.join(list(self.mail_receiver.split(<span class="string">','</span>)))</span><br><span class="line">        mail_receiver = list(self.mail_receiver.split(<span class="string">','</span>))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            server = smtplib.SMTP()</span><br><span class="line">            server.connect(self.mail_host, self.mail_port)</span><br><span class="line">            <span class="comment"># server.ehlo()</span></span><br><span class="line">            <span class="comment"># enable tls encrypt</span></span><br><span class="line">            server.starttls()</span><br><span class="line">            server.set_debuglevel(<span class="number">1</span>)</span><br><span class="line">            server.login(self.mail_user, self.mail_pass)</span><br><span class="line">            server.sendmail(self.mail_sender, mail_receiver, msg.as_string())</span><br><span class="line">            server.close()</span><br><span class="line">            logger.info(<span class="string">f'OK: send mail success'</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> err:</span><br><span class="line">            logger.error(<span class="string">f'FAILED: send mail fail'</span>)</span><br><span class="line">            logger.error(err)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">remove_expired_directory</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment">#当前时间</span></span><br><span class="line">        today = datetime.datetime.now()</span><br><span class="line">        today_init = int(today.strftime(<span class="string">'%Y%m%d'</span>))</span><br><span class="line">        print(<span class="string">"today_init:"</span>, today_init)</span><br><span class="line">        <span class="comment"># #n天前时间</span></span><br><span class="line">        <span class="comment"># n_days = datetime.timedelta(days=int(expire_time))</span></span><br><span class="line">        <span class="comment"># n_days_agos = today - n_days</span></span><br><span class="line">        <span class="comment"># n_days_agos_init = int(n_days_agos.strftime('%Y%m%d'))</span></span><br><span class="line">        remove_dir = []</span><br><span class="line">        print(<span class="string">"backupdir"</span>, self.backupdir)</span><br><span class="line">        list = os.listdir(self.backupdir)</span><br><span class="line">        print(<span class="string">"list:"</span>, list)</span><br><span class="line">        <span class="keyword">for</span> directory_name <span class="keyword">in</span> list:</span><br><span class="line">            abs_dir = os.path.join(self.backupdir, directory_name)</span><br><span class="line">            print(<span class="string">"abs_dir:"</span>, abs_dir)</span><br><span class="line">            dir_timestamp = os.path.getctime(abs_dir)</span><br><span class="line">            dir_init = int(datetime.datetime.fromtimestamp(dir_timestamp).strftime(<span class="string">'%Y%m%d'</span>))</span><br><span class="line">            print(<span class="string">"dir_init:"</span>, dir_init)</span><br><span class="line">            print(<span class="string">"expire_day:"</span>, int(self.expire_day))</span><br><span class="line">            print(today_init - dir_init)</span><br><span class="line">            <span class="keyword">if</span> today_init - dir_init &gt;= int(self.expire_day):</span><br><span class="line">                print(<span class="string">"remove:"</span>, os.path.join(self.backupdir, directory_name))</span><br><span class="line">                shutil.rmtree(os.path.join(self.backupdir, directory_name))</span><br><span class="line">                logger.info(<span class="string">f"OK: the directory <span class="subst">&#123;directory_name&#125;</span> remove success"</span>)</span><br><span class="line">                remove_dir.append(directory_name)</span><br><span class="line">                </span><br><span class="line">            STATISTICS_INFO[<span class="string">'过期备份'</span>] = remove_dir</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Prepare</span><span class="params">(General)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Generate command</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, file)</span>:</span></span><br><span class="line">        self.file = file</span><br><span class="line">        General.__init__(self, self.file)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generate_xb_cmd</span><span class="params">(self)</span>:</span></span><br><span class="line">        mysql_cmd = <span class="string">f"--user=<span class="subst">&#123;self.user&#125;</span> --password=<span class="subst">&#123;self.password&#125;</span> --host=<span class="subst">&#123;self.host&#125;</span> --port=<span class="subst">&#123;self.port&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">        cmd_list = []</span><br><span class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'compress'</span>) <span class="keyword">and</span> hasattr(self, <span class="string">'compress_chunk_size'</span>) <span class="keyword">and</span> hasattr(self, <span class="string">'compress_threads'</span>):</span><br><span class="line">            compress_cmd = <span class="string">f"--compress=<span class="subst">&#123;self.compress&#125;</span> --compress-chunk-size=<span class="subst">&#123;self.compress_chunk_size&#125;</span> --compress-threads=<span class="subst">&#123;self.compress_threads&#125;</span>"</span></span><br><span class="line">            cmd_list.append(compress_cmd)</span><br><span class="line">            STATISTICS_INFO[<span class="string">'是否压缩'</span>] = <span class="string">'Yes'</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            STATISTICS_INFO[<span class="string">'是否压缩'</span>] = <span class="string">'No'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'xtra_options'</span>):</span><br><span class="line">            xtra_options = self.xtra_options</span><br><span class="line">            cmd_list.append(xtra_options)</span><br><span class="line"></span><br><span class="line">        xb_cmd = <span class="string">f"<span class="subst">&#123;self.backup_tool&#125;</span> --defaults-file=<span class="subst">&#123;self.defaults_file&#125;</span>"</span> </span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">' '</span>.join((xb_cmd, mysql_cmd, <span class="string">' '</span>.join(cmd_list), self.fmt_backupdir)) </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RunCommand</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, command)</span>:</span></span><br><span class="line">        self.command = command</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">runner</span><span class="params">(self)</span>:</span></span><br><span class="line">        status, output = subprocess.getstatusoutput(self.command)</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'status'</span>: status, <span class="string">'output'</span>: output&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    start_time = time.time()</span><br><span class="line"></span><br><span class="line">    config_file = get_arguments()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># check whether the config file is valid</span></span><br><span class="line">    check_config_valid(config_file)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># instance Prepare and Toolskit</span></span><br><span class="line">    prepare = Prepare(config_file)</span><br><span class="line">    tools = ToolsUtils(config_file)</span><br><span class="line"></span><br><span class="line">    xb_cmd = prepare.generate_xb_cmd</span><br><span class="line">    logger.info(<span class="string">f'OK: generate xtrabackup command \n <span class="subst">&#123;xb_cmd&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># exec backup</span></span><br><span class="line">    backup_result = RunCommand(xb_cmd).runner</span><br><span class="line">    logger.info(<span class="string">f'OK: perform backup process, please waiting.'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> TemporaryFile(<span class="string">'w+t'</span>, encoding=<span class="string">'gbk'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">if</span> backup_result[<span class="string">'status'</span>] == <span class="number">0</span>:</span><br><span class="line">            logger.info(<span class="string">f'OK: xtrabackup backup success'</span>)</span><br><span class="line">            tools.get_backup_file_size()</span><br><span class="line">            tools.get_partition_size()</span><br><span class="line">            tools.remove_expired_directory()</span><br><span class="line"></span><br><span class="line">            end_time = time.time()</span><br><span class="line">            STATISTICS_INFO[<span class="string">'备份耗时'</span>] = <span class="string">'&#123;:0.2f&#125;s'</span>.format(end_time - start_time)</span><br><span class="line"></span><br><span class="line">            result = render_to_template(html_template, STATISTICS_INFO)</span><br><span class="line">            f.write(result)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            logger.error(<span class="string">f"ERROR: <span class="subst">&#123;backup_result[<span class="string">'output'</span>]&#125;</span>"</span>)</span><br><span class="line">            f.write(backup_result[<span class="string">'output'</span>])</span><br><span class="line"></span><br><span class="line">        f.seek(<span class="number">0</span>)</span><br><span class="line">        TEXT_DATA = f.read()</span><br><span class="line"></span><br><span class="line">        tools.send_mail(TEXT_DATA)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h1 id="xb-back-cnf"><a href="#xb-back-cnf" class="headerlink" title="xb_back.cnf"></a>xb_back.cnf</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[mysql]</span><br><span class="line"><span class="comment"># mysql backup user</span></span><br><span class="line">user = root</span><br><span class="line">password = langke121</span><br><span class="line">host = 127.0.0.1</span><br><span class="line">port = 3306</span><br><span class="line"></span><br><span class="line">[xtrabackup]</span><br><span class="line">backup_tool = /usr/bin/innobackupex</span><br><span class="line">defaults-file = /etc/my.cnf</span><br><span class="line">backupdir = /home/hoke/zabbixDB-backup/AutoBackup</span><br><span class="line">xtra_options = --no-version-check --rsync</span><br><span class="line"></span><br><span class="line">[compress]</span><br><span class="line"><span class="comment"># Optional</span></span><br><span class="line"><span class="comment"># Enable only if you want to use compression.</span></span><br><span class="line">compress = quicklz</span><br><span class="line">compress_chunk_size = 64k</span><br><span class="line">compress_threads = 4</span><br><span class="line"></span><br><span class="line">[mail]</span><br><span class="line"><span class="comment"># mail setting</span></span><br><span class="line">title = [ZabbixDB AutoBackup]</span><br><span class="line">mail_sender = rd_sys@xxx.xxx</span><br><span class="line">mail_receiver = runchain_ops@xxx.xxx,hoke58@qq.com</span><br><span class="line">mail_host = smtp.263.net</span><br><span class="line">mail_port = 25</span><br><span class="line">mail_user = rd_sys@xxx.xxx</span><br><span class="line">mail_pass = password</span><br><span class="line"></span><br><span class="line">[expired]</span><br><span class="line"><span class="comment"># Enable only if you want to clean expired backup.</span></span><br><span class="line">expire_day = 5</span><br></pre></td></tr></table></figure>
+
+<h1 id="table-template-html"><a href="#table-template-html" class="headerlink" title="table_template.html"></a>table_template.html</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"gbk"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">        body &#123;</span><br><span class="line">            font-size: 14px;</span><br><span class="line"><span class="css">            <span class="selector-tag">line-height</span>: 1<span class="selector-class">.42857143</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">color</span>: <span class="selector-id">#333</span>;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">background-color</span>: <span class="selector-id">#fff</span>;</span></span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.row</span> &#123;</span></span><br><span class="line">            margin-right: -15px;</span><br><span class="line">            margin-left: -15px;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.col-sm-10</span> &#123;</span></span><br><span class="line">            width: 85%;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.col-sm-2</span> &#123;</span></span><br><span class="line">            width: 15%;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.table</span> &#123;</span></span><br><span class="line">            width: 85%;</span><br><span class="line">            max-width: 85%;</span><br><span class="line">            margin-bottom: 1rem;</span><br><span class="line">            background-color: transparent;</span><br><span class="line">            border-collapse: collapse;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="css">        <span class="selector-class">.table</span> <span class="selector-tag">td</span>, <span class="selector-class">.table</span> <span class="selector-tag">th</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="selector-tag">padding</span>: <span class="selector-class">.65rem</span>;</span></span><br><span class="line">            vertical-align: top;</span><br><span class="line"><span class="css">            <span class="selector-tag">border-top</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#dee2e6</span>;</span></span><br><span class="line">            word-wrap: break-word;</span><br><span class="line">            word-break: break-all;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    &#123;% if data %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        &#123;% for key in data %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span> <span class="attr">class</span>=<span class="string">"row"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"col-sm-2"</span>&gt;</span>&#123;&#123; key &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">"col-sm-10"</span>&gt;</span>&#123;&#123; data[key] &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    &#123;% elif err_msg %&#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>err_msg<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.hoke58.cn/development/python-innobackup.html" title="使用python实现innobackup自动化备份、清理、通知">https://blog.hoke58.cn/development/python-innobackup.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/databases/mysql-check-sizes.html" rel="prev" title="mysql数据库查看库大小、表大小">
+      <i class="fa fa-chevron-left"></i> mysql数据库查看库大小、表大小
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/devops/canary-release.html" rel="next" title="浅析灰度发布">
+      浅析灰度发布 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置"><span class="nav-number">1.1.</span> <span class="nav-text">前置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖模块"><span class="nav-number">1.2.</span> <span class="nav-text">依赖模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">1.3.</span> <span class="nav-text">使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xb-back-py"><span class="nav-number">2.</span> <span class="nav-text">xb_back.py</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xb-back-cnf"><span class="nav-number">3.</span> <span class="nav-text">xb_back.cnf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#table-template-html"><span class="nav-number">4.</span> <span class="nav-text">table_template.html</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">123k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:52</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey     : 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>

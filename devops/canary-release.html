@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#45b29a">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://upyun.hoke58.cn/hoke/120.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://upyun.hoke58.cn/hoke/32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://upyun.hoke58.cn/hoke/16.png">
+  <link rel="mask-icon" href="https://upyun.hoke58.cn/hoke/me.svg" color="#45b29a">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="6M1tNsOwqP0HQYRu05OoRnwMrHht_QPFtI9zWYEXKwE">
+  <meta name="msvalidate.01" content="1E797E0277F06EFAFDD1B8812239CBF1">
+  <meta name="baidu-site-verification" content="CGRbkP3WuK">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.proxy.ustclug.org/css?family=Noto Serif TC:300,300italic,400,400italic,700,700italic|Rock Salt:300,300italic,400,400italic,700,700italic|Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.hoke58.cn","root":"/","scheme":"Mist","version":"7.7.1","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#45b29a","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="什么是灰度发布灰度发布，又名金丝雀发布，或者灰度测试，是指在黑与白之间能够平滑过渡的一种发布方式。在其上可以进行A&#x2F;B testing，即让一部分用户继续用产品特性A，一部分用户开始用产品特性B，如果用户对B没有什么反对意见，那么逐步扩大范围，把所有用户都迁移到B上面来。 灰度发布是对某一产品的发布逐步扩大使用群体范围，也叫灰度放量。灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析灰度发布">
+<meta property="og:url" content="https://blog.hoke58.cn/devops/canary-release.html">
+<meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="什么是灰度发布灰度发布，又名金丝雀发布，或者灰度测试，是指在黑与白之间能够平滑过渡的一种发布方式。在其上可以进行A&#x2F;B testing，即让一部分用户继续用产品特性A，一部分用户开始用产品特性B，如果用户对B没有什么反对意见，那么逐步扩大范围，把所有用户都迁移到B上面来。 灰度发布是对某一产品的发布逐步扩大使用群体范围，也叫灰度放量。灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-14T01:24:52.000Z">
+<meta property="article:modified_time" content="2020-02-27T10:38:39.673Z">
+<meta property="article:author" content="Hoke">
+<meta property="article:tag" content="灰度发布">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://blog.hoke58.cn/devops/canary-release.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>浅析灰度发布 | Hoke's blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154875719-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-154875719-1');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a747a691426f25a8eddbceef7187a30f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hoke's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">何可的博客</h1>
+      
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-cloud">
+
+    <span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNu"><i class="fa fa-fw fa-cloud"></i>云盘</span>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/devops/canary-release.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          浅析灰度发布
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-14 09:24:52" itemprop="dateCreated datePublished" datetime="2020-01-14T09:24:52+08:00">2020-01-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-27 18:38:39" itemprop="dateModified" datetime="2020-02-27T18:38:39+08:00">2020-02-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/devops/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/devops/canary-release.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/devops/canary-release.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="什么是灰度发布"><a href="#什么是灰度发布" class="headerlink" title="什么是灰度发布"></a>什么是灰度发布</h1><p>灰度发布，又名金丝雀发布，或者灰度测试，是指在黑与白之间能够平滑过渡的一种发布方式。在其上可以进行<strong>A/B testing</strong>，即让一部分用户继续用产品特性<strong>A</strong>，一部分用户开始用产品特性<strong>B</strong>，如果用户对<strong>B</strong>没有什么反对意见，那么逐步扩大范围，把所有用户都迁移到<strong>B</strong>上面来。</p>
+<p>灰度发布是对某一产品的发布逐步扩大使用群体范围，也叫灰度放量。灰度发布可以保证整体系统的稳定，在初始灰度的时候就可以发现、调整问题，以保证其影响度。</p>
+<p><strong>灰度期：</strong>灰度发布开始到结束期间的这一段时间，称为灰度期。</p>
+<a id="more"></a>
+<h1 id="灰度发布的意义"><a href="#灰度发布的意义" class="headerlink" title="灰度发布的意义"></a>灰度发布的意义</h1><p>灰度发布能及早获得用户的意见反馈，完善产品功能，提升产品质量，让用户参与产品测试，加强与用户互动，降低产品升级所影响的用户范围。</p>
+<p>灰度系统的使用场景，无非是为了配合高节奏的产品上限频率，没有时间进行传统的穷尽式测试，所兴起的测试方法。所以，灰度系统的灵活性，对现有系统的很小的侵入性，是其最重要的特征。</p>
+<h1 id="灰度发布步骤"><a href="#灰度发布步骤" class="headerlink" title="灰度发布步骤"></a>灰度发布步骤</h1><ol>
+<li>定义目标</li>
+<li>选定策略：包括用户规模、发布频率、功能覆盖度、回滚策略、运营策略、新旧系统部署策略等</li>
+<li>筛选用户：包括用户特征、用户数量、用户常用功能、用户范围等</li>
+<li>部署系统：部署新系统、部署用户行为分析系统（web analytics）、设定分流规则、运营数据分析、分流规则微调</li>
+<li>发布总结：用户行为分析报告、用户问卷调查、社会化媒体意见收集、形成产品功能改进列表</li>
+<li>产品完善</li>
+<li>新一轮灰度发布或完整发布</li>
+</ol>
+<h1 id="实现一套灰度发布系统需要考虑哪些问题"><a href="#实现一套灰度发布系统需要考虑哪些问题" class="headerlink" title="实现一套灰度发布系统需要考虑哪些问题"></a>实现一套灰度发布系统需要考虑哪些问题</h1><p>仔细考虑一下灰度发布系统要达到哪些目的，基本就能有答案了。需要注意的是，客户端应用（无论PC端还是移动端）的灰度发布要比Web应用的灰度发布更为复杂，因为应用运行在用户持有的终端上，数据采集和回滚都更为困难（但可采集的数据类型要更加丰富）。</p>
+<p>我所理解的灰度发布系统，主要任务是从产品用户群中按照一定策略选取部分用户，让他们先行体验新版本的应用，通过收集这部分用户对新版本应用的显式反馈（论坛、微博）或隐式反馈（应用自身统计数据），对新版本应用的功能、性能、稳定性等指标进行评判，进而决定继续放大新版本投放范围直至全量升级或回滚至老版本。</p>
+<p>从上述描述可以得出灰度发布系统需要具备的一些要素：</p>
+<h2 id="用户标识"><a href="#用户标识" class="headerlink" title="用户标识"></a>用户标识</h2><p>用于区分用户，辅助数据统计，保证灰度发布过程中用户体验的连贯性（避免用户在新旧版本中跳变，匿名Web应用比较容易有这个问题）。匿名Web应用可采用IP、Cookie等，需登录的应用可直接采用应用的帐号体系。</p>
+<h2 id="目标用户选取策略"><a href="#目标用户选取策略" class="headerlink" title="目标用户选取策略"></a>目标用户选取策略</h2><p>即选取哪些用户先行体验新版本，是强制升级还是让用户自主选择等。可考虑的因素很多，包括但不限于地理位置、用户终端特性（如分辨率、性能）、用户自身特点（性别、年龄、忠诚度等）。对于细微修改（如文案、少量控件位置调整）可直接强制升级，对于类似新浪微博改版这样的大型升级，应让用户自主选择，最好能够提供让用户自主回滚至旧版本的渠道。对于客户端应用，可以考虑类似<strong>Chrome</strong>的多<strong>channel</strong>升级策略，让用户自主选择采用<strong>stable</strong>、<strong>beta</strong>、<strong>unstable channel</strong>的版本。在用户有明确预期的情况下自行承担试用风险。</p>
+<h2 id="数据反馈"><a href="#数据反馈" class="headerlink" title="数据反馈"></a>数据反馈</h2><p>用户数据反馈：在得到用户允许的前提下，收集用户的使用新版本应用的情况。如客户端性能、客户端稳定性、使用次数、使用频率等。用于与旧版本进行对比，决策后续是继续扩大新版本投放范围还是回滚。服务端数据反馈：新版本服务端性能、服务端稳定性等，作用与用户数据反馈类似。</p>
+<h2 id="新版本回滚策略"><a href="#新版本回滚策略" class="headerlink" title="新版本回滚策略"></a>新版本回滚策略</h2><p>当新版本灰度发布表现不佳时，应回滚至旧版本。对于纯粹的<strong>Web</strong>应用而言，回滚相对简单。主要难点在于用户数据的无缝切换。对于客户端应用，如果期待用户自行卸载新版本另行安装旧版本，成本和流失率都太高。可以考虑通过快速另行发布新版本，利用升级来“<span style="border-bottom:1px dashed yellow;">回滚</span>”，覆盖上次灰度发布的修改。对于移动客户端，新版本发布成本较高，需要<strong>Appstore</strong>、<strong>Market</strong>审核。</p>
+<h2 id="新版本公关运营支持"><a href="#新版本公关运营支持" class="headerlink" title="新版本公关运营支持"></a>新版本公关运营支持</h2><p>对于改版级别的大型升级，需要配合公关运营支持，用于及时处理用户在微博、博客等渠道给出的“显式反馈”。对比通过隐式数据反馈得到的结论后，综合考虑应对策略。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/wechatpay.png" alt="Hoke 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="https://upyun.hoke58.cn/hoke/alipay.png" alt="Hoke 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hoke
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.hoke58.cn/devops/canary-release.html" title="浅析灰度发布">https://blog.hoke58.cn/devops/canary-release.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E7%81%B0%E5%BA%A6%E5%8F%91%E5%B8%83/" rel="tag"><i class="fa fa-tag"></i> 灰度发布</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/development/python-innobackup.html" rel="prev" title="使用python实现innobackup自动化备份、清理、通知">
+      <i class="fa fa-chevron-left"></i> 使用python实现innobackup自动化备份、清理、通知
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/web/nginx-cors.html" rel="next" title="Nginx解决跨域问题">
+      Nginx解决跨域问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是灰度发布"><span class="nav-number">1.</span> <span class="nav-text">什么是灰度发布</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#灰度发布的意义"><span class="nav-number">2.</span> <span class="nav-text">灰度发布的意义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#灰度发布步骤"><span class="nav-number">3.</span> <span class="nav-text">灰度发布步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现一套灰度发布系统需要考虑哪些问题"><span class="nav-number">4.</span> <span class="nav-text">实现一套灰度发布系统需要考虑哪些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户标识"><span class="nav-number">4.1.</span> <span class="nav-text">用户标识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标用户选取策略"><span class="nav-number">4.2.</span> <span class="nav-text">目标用户选取策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据反馈"><span class="nav-number">4.3.</span> <span class="nav-text">数据反馈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新版本回滚策略"><span class="nav-number">4.4.</span> <span class="nav-text">新版本回滚策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新版本公关运营支持"><span class="nav-number">4.5.</span> <span class="nav-text">新版本公关运营支持</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hoke"
+      src="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+  <p class="site-author-name" itemprop="name">Hoke</p>
+  <div class="site-description" itemprop="description">一名追求简单实用的运维开发工程师</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2hva2U1OA==" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hoke58"><i class="fa fa-fw fa-github"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOmhva2U1OEBxcS5jb20=" title="E-Mail → mailto:hoke58@qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+  <div class="beian"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5taWl0Lmdvdi5jbg==">苏ICP备19062979号 </span>
+      <img src="https://upyun.hoke58.cn/hoke/备案图标.png" style="display: inline-block;"><span class="exturl" data-url="aHR0cDovL3d3dy5iZWlhbi5nb3YuY24vcG9ydGFsL3JlZ2lzdGVyU3lzdGVtSW5mbz9yZWNvcmRjb2RlPTMyMDExNDAyMDEwNTk2">苏公网安备 32011402010596号 </span>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heartbeat"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hoke</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">123k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:52</span>
+</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly9taXN0LnRoZW1lLW5leHQub3Jn">NexT.Mist</span> v7.7.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="cdn-by">
+  <span style="display: inline-block;vertical-align: middle;">CDN 加速</span>
+  <a class="theme-link" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" title="又拍云提供 CDN 服务" rel="external nofollow noopener noreferrer" target="_blank" style="display: inline-block;border: none;vertical-align: middle;"><img src="https://upyun.hoke58.cn/upyun/%E5%8F%88%E6%8B%8D%E4%BA%91_logo5.png" style="width:50px"></a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : true,
+      appId      : '673lhPxhfzi9igdgEAffu3EE-gzGzoHsz',
+      appKey     : 'Ru4kkS1IQa0YUBA40l2P6H22',
+      placeholder: "来说两句吧",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://leancloud.hoke58.cn'
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
