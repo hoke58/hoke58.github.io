@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.hoke58.cn/web/deploy-hexo-next.html</loc>
+    <lastmod>2020-02-28</lastmod>
+  </url>  <url>
     <loc>https://blog.hoke58.cn/web/hexo-next-upgrade.html</loc>
     <lastmod>2020-02-28</lastmod>
   </url>  <url>
@@ -24,9 +27,6 @@
   </url>  <url>
     <loc>https://blog.hoke58.cn/databases/mysql-check-sizes.html</loc>
     <lastmod>2019-12-26</lastmod>
-  </url>  <url>
-    <loc>https://blog.hoke58.cn/web/deploy-hexo-next.html</loc>
-    <lastmod>2019-12-25</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/databases/sql.html</loc>
     <lastmod>2019-12-25</lastmod>
