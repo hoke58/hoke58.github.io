@@ -25,21 +25,22 @@
     var CONFIG = {"hostname":"blog.hoke58.cn","root":"/","scheme":"Mist","version":"7.7.1","exturl":true,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#45b29a","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="开启 Google-BBR 网络加速">
-<meta property="og:url" content="https://blog.hoke58.cn/systemops/google-bbr.html">
+  <meta name="description" content="Hexo &amp; Next 升级github 博客的源码库惊现风险漏洞，去官网看了下现行版本，着手更新一版">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo Next 升级">
+<meta property="og:url" content="https://blog.hoke58.cn/web/hexo-next-upgrade.html">
 <meta property="og:site_name" content="Hoke&#39;s blog">
+<meta property="og:description" content="Hexo &amp; Next 升级github 博客的源码库惊现风险漏洞，去官网看了下现行版本，着手更新一版">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://upyun.hoke58.cn/img/google-bbr-bbr.png">
-<meta property="article:published_time" content="2019-11-29T07:11:43.000Z">
-<meta property="article:modified_time" content="2019-12-20T06:54:46.855Z">
+<meta property="og:image" content="https://upyun.hoke58.cn/img/Untitled-1-20200228141917.png">
+<meta property="article:published_time" content="2020-02-28T14:37:55.000Z">
+<meta property="article:modified_time" content="2020-02-28T08:15:40.827Z">
 <meta property="article:author" content="Hoke">
-<meta property="article:tag" content="bbr">
-<meta property="article:tag" content="google">
+<meta property="article:tag" content="Hexo Next">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upyun.hoke58.cn/img/google-bbr-bbr.png">
+<meta name="twitter:image" content="https://upyun.hoke58.cn/img/Untitled-1-20200228141917.png">
 
-<link rel="canonical" href="https://blog.hoke58.cn/systemops/google-bbr.html">
+<link rel="canonical" href="https://blog.hoke58.cn/web/hexo-next-upgrade.html">
 
 
 <script id="page-configurations">
@@ -51,7 +52,7 @@
   };
 </script>
 
-  <title>开启 Google-BBR 网络加速 | Hoke's blog</title>
+  <title>Hexo Next 升级 | Hoke's blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-154875719-1"></script>
     <script>
@@ -222,7 +223,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/systemops/google-bbr.html">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/web/hexo-next-upgrade.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
@@ -235,7 +236,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          开启 Google-BBR 网络加速
+          Hexo Next 升级
         </h2>
 
         <div class="post-meta">
@@ -244,23 +245,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-29 15:11:43" itemprop="dateCreated datePublished" datetime="2019-11-29T15:11:43+08:00">2019-11-29</time>
+              <time title="创建时间：2020-02-28 22:37:55 / 修改时间：16:15:40" itemprop="dateCreated datePublished" datetime="2020-02-28T22:37:55+08:00">2020-02-28</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-20 14:54:46" itemprop="dateModified" datetime="2019-12-20T14:54:46+08:00">2019-12-20</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/systemops/" itemprop="url" rel="index"><span itemprop="name">系统运维</span></a>
+                  <a href="/categories/web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
                 </span>
             </span>
 
@@ -280,8 +275,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/systemops/google-bbr.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/systemops/google-bbr.html" itemprop="commentCount"></span>
+    <a title="valine" href="/web/hexo-next-upgrade.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/web/hexo-next-upgrade.html" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -291,7 +286,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -310,36 +305,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://upyun.hoke58.cn/img/google-bbr-bbr.png" alt="google-bbr-bbr.png"></p>
+        <h1 id="Hexo-amp-Next-升级"><a href="#Hexo-amp-Next-升级" class="headerlink" title="Hexo &amp; Next 升级"></a>Hexo &amp; Next 升级</h1><p>github 博客的源码库惊现风险漏洞，去官网看了下现行版本，着手更新一版</p>
 <a id="more"></a>
-<h1 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h1><p>BBR (Bottleneck Bandwidth and RTT) 是 Google 出品的 TCP 拥塞控制算法，BBR 目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR 可以起到单边加速 TCP 连接的效果。</p>
-<p>BBR解决了两个问题：</p>
-<ul>
-<li>一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。</li>
-<li>降低网络链路上的 buffer 占用率，从而降低延迟。非常适合慢速接入网络的用户。</li>
+
+<p><img src="https://upyun.hoke58.cn/img/Untitled-1-20200228141917.png" alt="Untitled-1-20200228141917.png"></p>
+<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><ul>
+<li>使用npm 命令查看已经过期的安装包<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">npm</span> outdated</span><br></pre></td></tr></table></figure></li>
+<li>安装npm升级插件<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">npm</span> install -g <span class="built_in">npm</span>-check-updates</span><br></pre></td></tr></table></figure></li>
+<li>查看最新的版本命令<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ncu</span></span><br></pre></td></tr></table></figure></li>
+<li>升级低版本的npm包文件<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ncu -u</span></span><br></pre></td></tr></table></figure></li>
+<li>更新生产依赖包<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> <span class="comment">--save</span></span><br></pre></td></tr></table></figure></li>
+<li>查看依赖版本已更新了<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[root@VM<span class="number">-202</span> /home/hoke/Documents/blog]# git diff package.json</span><br><span class="line">diff <span class="comment">--git a/package.json b/package.json</span></span><br><span class="line"><span class="keyword">index</span> a473667.<span class="number">.54</span>ad330 <span class="number">100644</span></span><br><span class="line"><span class="comment">--- a/package.json</span></span><br><span class="line">+++ b/package.json</span><br><span class="line">@@ <span class="number">-9</span>,<span class="number">11</span> +<span class="number">9</span>,<span class="number">11</span> @@</span><br><span class="line">     "server": "hexo server"</span><br><span class="line">   &#125;,</span><br><span class="line">   "hexo": &#123;</span><br><span class="line">-    "version": "4.0.0"</span><br><span class="line">+    "version": "4.2.0"</span><br><span class="line">   &#125;,</span><br><span class="line">   "dependencies": &#123;</span><br><span class="line">-    "hexo": "^4.0.0",</span><br><span class="line">-    "hexo-deployer-git": "^2.0.0",</span><br><span class="line">+    "hexo": "^4.2.0",</span><br><span class="line">+    "hexo-deployer-git": "^2.1.0",</span><br><span class="line">     "hexo-generator-archive": "^1.0.0",</span><br><span class="line">     "hexo-generator-baidu-sitemap": "^0.1.6",</span><br><span class="line">     "hexo-generator-category": "^1.0.0",</span><br><span class="line">@@ <span class="number">-21</span>,<span class="number">11</span> +<span class="number">21</span>,<span class="number">11</span> @@</span><br><span class="line">     "hexo-generator-searchdb": "^1.2.0",</span><br><span class="line">     "hexo-generator-sitemap": "^2.0.0",</span><br><span class="line">     "hexo-generator-tag": "^1.0.0",</span><br><span class="line">-    "hexo-related-popular-posts": "^3.0.6",</span><br><span class="line">+    "hexo-related-popular-posts": "^4.0.0",</span><br><span class="line">     "hexo-renderer-ejs": "^1.0.0",</span><br><span class="line">     "hexo-renderer-marked": "^2.0.0",</span><br><span class="line">     "hexo-renderer-stylus": "^1.1.0",</span><br><span class="line">     "hexo-server": "^1.0.0",</span><br><span class="line">-    "hexo-symbols-count-time": "^0.6.3"</span><br><span class="line">+    "hexo-symbols-count-time": "^0.7.0"</span><br><span class="line">   &#125;</span><br><span class="line">-&#125;</span><br><span class="line">+&#125;</span><br><span class="line">\ <span class="keyword">No</span> newline at <span class="keyword">end</span> <span class="keyword">of</span> file</span><br></pre></td></tr></table></figure>
+升级完成后记得 <code>commit</code> 至仓库</li>
 </ul>
-<p>网络链路上的包比较少时，道路很通畅，这个阶段，对于一个 TCP 连接来说，它的速度由这个连接两端之间的距离决定，也可以说是由 RTT 决定。当发包速率变大，把道路基本上填满了之后，这个阶段，带宽的大小决定了这个连接的速度，这时两端之间可能就会有包要排队，延迟时间除了 RTT 还有排队时间。</p>
-<p><code>cwnd</code> 是普通的拥塞控制算法里最终要求得的一个值，用来控制发包速率。BBR 也要求到这个值，但是它不是最主要的控制发包速率的变量，主要的变量是 <code>pacing_rate</code>。</p>
-<p>这两个变量都由探测到的带宽值和 RTT 值得到，整个过程都围绕着这两个值。在 BBR 算法中，有四种状态，几种状态可能会有如下的转换：</p>
-<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">         |</span><br><span class="line"><span class="string">         V</span></span><br><span class="line"><span class="string">+---&gt; STARTUP  ----+</span></span><br><span class="line">|<span class="string">        </span>|<span class="string">         </span>|</span><br><span class="line">|<span class="string">        V         </span>|</span><br><span class="line">|<span class="string">      DRAIN   ----+</span></span><br><span class="line">|<span class="string">        </span>|<span class="string">         </span>|</span><br><span class="line">|<span class="string">        V         </span>|</span><br><span class="line">+---&gt; PROBE_BW ----+</span><br><span class="line">|<span class="string">      ^    </span>|<span class="string">      </span>|</span><br><span class="line">|<span class="string">      </span>|<span class="string">    </span>|<span class="string">      </span>|</span><br><span class="line">|<span class="string">      +----+      </span>|</span><br><span class="line">|<span class="string">                  </span>|</span><br><span class="line">+---- PROBE_RTT <span class="variable">&lt;--+</span></span><br></pre></td></tr></table></figure>
-<p>另外还有一个重要变量，是在不同状态，不同阶段取的不同增益系数，比如有时需要多发包探测到最大瓶颈带宽，有时需要把发包量降下来探测较为准确的 RTT。</p>
-<p><code>STARTUP</code> 类似与普通拥塞控制里的慢启动，增益系数是 <code>2ln2</code>，每一个来回都以这个系数增大发包速率，估测到带宽满了就进入 <code>DRAIN</code> 状态 —— 连续三个来回，测得的最大瓶颈带宽没有比上一轮增大 25% 以上，就算做带宽满了。</p>
-<p>进入 <code>DRAIN</code> 状态，增益系数小于 1，也就降速了。一个包来回，把 <code>STARTUP</code> 状态中产生的队列“抽干”，怎么样测算到队列空了？发出去还没有 ACK 的包量 <code>inflight</code>，与 BDP （带宽延迟积）进行比较，<code>inflight &lt; BDP</code> 说明空了，道路不那么满了，如果 <code>inflght &gt; BDP</code> 说明还不能到下一个状态，继续 <code>DRAIN</code>。</p>
-<p><code>PROBE_BW</code> 是稳定状态，这时已经测出来一个最大瓶颈带宽，而且尽量不会产生排队现象。之后的每个来回，在 <code>PROBE_BW</code> 状态循环（除非要进入下面提到的 <code>PROBE_RTT</code> 状态），轮询下面这些增益系数，5/4, 3/4, 1, 1, 1, 1, 1, 1，如此，最大瓶颈带宽就会在其停止增长的地方上下徘徊。大部分时间都应该处于 <code>PROBE_BW</code> 状态。</p>
-<p>前面三种状态，都可能进入 <code>PROBE_RTT</code> 状态。超过十秒没有估测到更小的 RTT 值，这时进入 <code>PROBE_RTT</code> 状态，把发包量降低，空出道路来比较准确得测一个 RTT 值，至少 200ms 或一个包的来回之后退出这个状态。检查带宽是否是满的，进入不同的状态：如果不满，进入 <code>STARTUP</code> 状态，如果满，进入 <code>PROBE_BW</code> 状态。</p>
-<h1 id="启用-BBR"><a href="#启用-BBR" class="headerlink" title="启用 BBR"></a>启用 BBR</h1><p>先甩一下 Google BBR 项目地址： <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dvb2dsZS9iYnI=" title="https://github.com/google/bbr">https://github.com/google/bbr<i class="fa fa-external-link"></i></span></p>
-<p>目前已有 BBR v2 Alpha/Preview 版本</p>
-<h2 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h2><p>Linux 内核 4.9 版本以上，请使用以下命令查看内核</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># uname -sr</span></span><br></pre></td></tr></table></figure>
-<p>如果你是 Centos 系统可参照 <a href="/systemops/centos-upgrade-kernel.html">Centos 升级内核的正确姿势</a> ，升级内核</p>
-<blockquote>
-<p>Linux 内核从 4.9 开始已经支持 BBR 算法</p>
-</blockquote>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a>设置</h2><ol>
-<li>执行以下命令，sysctl.conf 增加 BBR 配置<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"# google bbr"</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"net.core.default_qdisc=fq"</span> &gt;&gt; /etc/sysctl.conf</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"net.ipv4.tcp_congestion_control=bbr"</span> &gt;&gt; /etc/sysctl.conf</span><br></pre></td></tr></table></figure></li>
-<li>保存生效<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure></li>
-<li>验证<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@yunwei ~]<span class="comment"># sysctl net.ipv4.tcp_available_congestion_control</span></span><br><span class="line">net.ipv4.tcp_available_congestion_control = reno cubic bbr</span><br><span class="line"></span><br><span class="line">[root@yunwei ~]<span class="comment"># lsmod | grep bbr</span></span><br><span class="line">tcp_bbr                20480  1</span><br></pre></td></tr></table></figure></li>
-</ol>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/hexo-theme-next]<span class="comment"># git remote -v</span></span><br><span class="line">next	https://github.com/theme-next/hexo-theme-next.git (fetch)</span><br><span class="line">next	https://github.com/theme-next/hexo-theme-next.git (push)</span><br><span class="line">origin	git@github.com:hoke58/hexo-theme-next.git (fetch)</span><br><span class="line">origin	git@github.com:hoke58/hexo-theme-next.git (push)</span><br><span class="line">[root@VM-202 /home/hoke/Documents/blog/themes/hexo-theme-next]<span class="comment"># git pull next</span></span><br><span class="line">remote: Enumerating objects: 354, <span class="keyword">done</span>.</span><br><span class="line">remote: Counting objects: 100% (354/354), <span class="keyword">done</span>.</span><br><span class="line">remote: Compressing objects: 100% (36/36), <span class="keyword">done</span>.</span><br><span class="line">remote: Total 715 (delta 322), reused 327 (delta 318), pack-reused 361</span><br><span class="line">Receiving objects: 100% (715/715), 124.12 KiB | 19.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Resolving deltas: 100% (462/462), completed with 147 <span class="built_in">local</span> objects.</span><br><span class="line">From https://github.com/theme-next/hexo-theme-next</span><br><span class="line"> * [new branch]      cdn        -&gt; next/cdn</span><br><span class="line"> * [new branch]      funding    -&gt; next/funding</span><br><span class="line"> * [new branch]      i18n       -&gt; next/i18n</span><br><span class="line">   982d243..97230d1  master     -&gt; next/master</span><br><span class="line"> * [new tag]         v7.6.0     -&gt; v7.6.0</span><br><span class="line"> * [new tag]         v7.7.0     -&gt; v7.7.0</span><br><span class="line"> * [new tag]         v7.7.1     -&gt; v7.7.1</span><br><span class="line">You asked to pull from the remote <span class="string">'next'</span>, but did not specify</span><br><span class="line">a branch. Because this is not the default configured remote</span><br><span class="line"><span class="keyword">for</span> your current branch, you must specify a branch on the <span class="built_in">command</span> line.</span><br></pre></td></tr></table></figure>
+<p>有冲突的文件修改一下，然后 <code>merge</code> 至自己仓库</p>
 
     </div>
 
@@ -375,7 +355,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.hoke58.cn/systemops/google-bbr.html" title="开启 Google-BBR 网络加速">https://blog.hoke58.cn/systemops/google-bbr.html</a>
+    <a href="https://blog.hoke58.cn/web/hexo-next-upgrade.html" title="Hexo Next 升级">https://blog.hoke58.cn/web/hexo-next-upgrade.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</span> 许可协议。转载请注明出处！
@@ -387,8 +367,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/bbr/" rel="tag"><i class="fa fa-tag"></i> bbr</a>
-              <a href="/tags/google/" rel="tag"><i class="fa fa-tag"></i> google</a>
+              <a href="/tags/Hexo-Next/" rel="tag"><i class="fa fa-tag"></i> Hexo Next</a>
           </div>
 
         
@@ -397,13 +376,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/systemops/centos-upgrade-kernel.html" rel="prev" title="Centos 升级内核的正确姿势">
-      <i class="fa fa-chevron-left"></i> Centos 升级内核的正确姿势
+    <a href="/web/nginx-cors.html" rel="prev" title="Nginx解决跨域问题">
+      <i class="fa fa-chevron-left"></i> Nginx解决跨域问题
     </a></div>
-      <div class="post-nav-item">
-    <a href="/blockchain/HSL-Fabric-Test.html" rel="next" title="某厂 Fabric 初探">
-      某厂 Fabric 初探 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -464,7 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景知识"><span class="nav-number">1.</span> <span class="nav-text">背景知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启用-BBR"><span class="nav-number">2.</span> <span class="nav-text">启用 BBR</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前置条件"><span class="nav-number">2.1.</span> <span class="nav-text">前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置"><span class="nav-number">2.2.</span> <span class="nav-text">设置</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo-amp-Next-升级"><span class="nav-number">1.</span> <span class="nav-text">Hexo &amp; Next 升级</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo"><span class="nav-number">1.1.</span> <span class="nav-text">Hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Next"><span class="nav-number">1.2.</span> <span class="nav-text">Next</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Nginx解决跨域问题</title>
-    <url>/web/nginx-cors.html</url>
+    <title>Hexo Next 升级</title>
+    <url>/web/hexo-next-upgrade.html</url>
     <content><![CDATA[<h1 id="Hexo-amp-Next-升级"><a href="#Hexo-amp-Next-升级" class="headerlink" title="Hexo &amp; Next 升级"></a>Hexo &amp; Next 升级</h1><p>github 博客的源码库惊现风险漏洞，去官网看了下现行版本，着手更新一版</p>
 <a id="more"></a>
 
@@ -23,7 +23,7 @@
         <category>Web</category>
       </categories>
       <tags>
-        <tag>Nginx</tag>
+        <tag>Hexo Next</tag>
       </tags>
   </entry>
   <entry>
