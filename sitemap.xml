@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-privatedata.html</loc>
+    
+    <lastmod>2020-03-10T04:15:52.296Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.hoke58.cn/systemops/dell-cmc-log.html</loc>
+    
+    <lastmod>2020-03-10T03:55:26.165Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.hoke58.cn/databases/mongod-start-failed.html</loc>
     
-    <lastmod>2020-03-04T03:38:46.279Z</lastmod>
+    <lastmod>2020-03-05T02:40:13.097Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.hoke58.cn/blockchain/HSL-Fabric-Test.html</loc>
+    
+    <lastmod>2020-03-05T02:39:24.032Z</lastmod>
     
   </url>
   
@@ -30,13 +51,6 @@
   </url>
   
   <url>
-    <loc>https://blog.hoke58.cn/blockchain/HSL-Fabric-Test.html</loc>
-    
-    <lastmod>2020-02-27T10:38:39.673Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.hoke58.cn/databases/mysql-tokudb-install.html</loc>
     
     <lastmod>2020-02-27T10:38:39.673Z</lastmod>
@@ -51,14 +65,14 @@
   </url>
   
   <url>
-    <loc>https://blog.hoke58.cn/web/hoke-favorites.html</loc>
+    <loc>https://blog.hoke58.cn/devops/canary-release.html</loc>
     
     <lastmod>2020-02-27T10:38:39.673Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.hoke58.cn/devops/canary-release.html</loc>
+    <loc>https://blog.hoke58.cn/web/hoke-favorites.html</loc>
     
     <lastmod>2020-02-27T10:38:39.673Z</lastmod>
     

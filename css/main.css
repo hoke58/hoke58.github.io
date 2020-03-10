@@ -761,7 +761,7 @@ pre .javascript .function {
 .post-body .note {
   border-radius: 3px;
   margin-bottom: 20px;
-  padding: 15px;
+  padding: 1em;
   position: relative;
   border: 1px solid #eee;
   border-left-width: 5px;
@@ -1238,7 +1238,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #f725ff;
+  background: #6173ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3139,7 +3139,7 @@ figure {
   text-align: center;
 }
 .posts-expand .post-body img {
-  margin-left: 0;
+  margin: auto;
 }
 .posts-expand .post-tags {
   text-align: left;
