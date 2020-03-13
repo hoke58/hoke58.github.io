@@ -5,6 +5,7 @@
     <url>/blockchain/hyperledger-fabric-upgrade.html</url>
     <content><![CDATA[<p><img src="https://upyun.hoke58.cn/img/CHFA-hyperledger-fabric.png" alt="CHFA-hyperledger-fabric.png"></p>
 <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>hyperledger fabric v1.x 升级至 v2.x</p>
+<a id="more"></a>
 <h1 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h1><ol>
 <li>版本跨度较大，升级步骤及组件多而杂</li>
 <li>技术特性发生重大变化，从而带来系统架构变化（是否需要重新评估架构）</li>

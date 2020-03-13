@@ -259,7 +259,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-13 10:28:05" itemprop="dateModified" datetime="2020-03-13T10:28:05+08:00">2020-03-13</time>
+                <time title="修改时间：2020-03-13 10:31:13" itemprop="dateModified" datetime="2020-03-13T10:31:13+08:00">2020-03-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -312,57 +312,14 @@
       
           <p><img src="https://upyun.hoke58.cn/img/CHFA-hyperledger-fabric.png" alt="CHFA-hyperledger-fabric.png"></p>
 <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>hyperledger fabric v1.x 升级至 v2.x</p>
-<h1 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h1><ol>
-<li>版本跨度较大，升级步骤及组件多而杂</li>
-<li>技术特性发生重大变化，从而带来系统架构变化（是否需要重新评估架构）</li>
-<li>升级是单向的，一旦服务启用则无法降级，仅允许回退至备份时间点，意味着新版本启用后的数据将丢失。</li>
-<li>2.x 版本于 2020 年 1 月 30 日发布，缺少经过验证的案例</li>
-<li>2.x 版本对于 Java 应用改造量尚未评估</li>
-<li>2.x 版本对于国密改造量尚未评估</li>
-</ol>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><div class="note info">
-            <p>分三个阶段实施，每个阶段依次滚动升级节点（每次升级一个节点）</p>
-          </div>
-
-<ol>
-<li><strong>阶段一：</strong> v1.x to v1.4.2(kafka)</li>
-<li><strong>阶段二：</strong> v1.4.2(kafka) to v1.4.2(raft)</li>
-<li><strong>阶段三：</strong> v1.4.2(raft) to v2.x</li>
-</ol>
-<h2 id="阶段一-v1-x-to-v1-4-2-kafka"><a href="#阶段一-v1-x-to-v1-4-2-kafka" class="headerlink" title="阶段一 v1.x to v1.4.2(kafka)"></a>阶段一 v1.x to v1.4.2(kafka)</h2><p>适用任何低于 v1.4 的升级</p>
-<p>主要过程如下：</p>
-<ol>
-<li>依次停止 SDK, peer, orderer, kafka, zookeeper</li>
-<li>备份 MSP, artifacts 文件及 zookeeper, kafka, orderer, peer 的持久化数据</li>
-<li>kafka 集群升级</li>
-<li>Orderer 升级</li>
-<li>Peer 升级</li>
-<li>capability 更新</li>
-<li>chaincode 升级</li>
-<li>SDK 升级</li>
-</ol>
-<h2 id="阶段二-v1-4-2-kafka-to-v1-4-2-raft"><a href="#阶段二-v1-4-2-kafka-to-v1-4-2-raft" class="headerlink" title="阶段二 v1.4.2(kafka) to v1.4.2(raft)"></a>阶段二 v1.4.2(kafka) to v1.4.2(raft)</h2><p>主要过程如下：</p>
-<ol>
-<li>备份 zookeeper, kafka, orderer, peer 的持久化数据</li>
-<li>备份应用版本及配置文件</li>
-<li>动态增加 Orderer 节点（生产环境建议 5 或 7 个节点）</li>
-<li>备份文件及持久化数据</li>
-<li>更新通道配置 <code>ConsensusType.State</code> 打开维护模式</li>
-<li>更新通道配置 <code>ConsensusType.type</code> 切换至 raft</li>
-<li>依次停止 orderer, kafka, zookeeper 后，仅重启 orderer</li>
-<li>切出维护模式</li>
-</ol>
-<h2 id="阶段三-v1-4-2-raft-to-v2-x"><a href="#阶段三-v1-4-2-raft-to-v2-x" class="headerlink" title="阶段三 v1.4.2(raft) to v2.x"></a>阶段三 v1.4.2(raft) to v2.x</h2><p>主要过程如下：</p>
-<ol>
-<li>备份 orderer, peer 的持久化数据</li>
-<li>备份应用版本及配置文件</li>
-<li>Orderer 升级</li>
-<li>Peer 升级</li>
-<li>capability 更新</li>
-<li>chaincode 升级</li>
-<li>SDK 升级</li>
-</ol>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/blockchain/hyperledger-fabric-upgrade.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1498,26 +1455,6 @@
   </div>
 
         
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
 
 
 
