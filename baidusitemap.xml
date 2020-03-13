@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-upgrade.html</loc>
+    <lastmod>2020-03-13</lastmod>
+  </url>  <url>
     <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-privatedata.html</loc>
-    <lastmod>2020-03-11</lastmod>
+    <lastmod>2020-03-13</lastmod>
+  </url>  <url>
+    <loc>https://blog.hoke58.cn/web/hexo-next-upgrade.html</loc>
+    <lastmod>2020-03-13</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/systemops/dell-cmc-log.html</loc>
     <lastmod>2020-03-10</lastmod>
@@ -14,9 +20,6 @@
     <lastmod>2020-03-05</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/web/deploy-hexo-next.html</loc>
-    <lastmod>2020-02-28</lastmod>
-  </url>  <url>
-    <loc>https://blog.hoke58.cn/web/hexo-next-upgrade.html</loc>
     <lastmod>2020-02-28</lastmod>
   </url>  <url>
     <loc>https://blog.hoke58.cn/web/nginx-cors.html</loc>

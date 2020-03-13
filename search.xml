@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>hyperledger fabric 升级路线</title>
+    <url>/blockchain/hyperledger-fabric-upgrade.html</url>
+    <content><![CDATA[<p><img src="https://upyun.hoke58.cn/img/CHFA-hyperledger-fabric.png" alt="CHFA-hyperledger-fabric.png"></p>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>hyperledger fabric v1.x 升级至 v2.x</p>
+<h1 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h1><ol>
+<li>版本跨度较大，升级步骤及组件多而杂</li>
+<li>技术特性发生重大变化，从而带来系统架构变化（是否需要重新评估架构）</li>
+<li>升级是单向的，一旦服务启用则无法降级，仅允许回退至备份时间点，意味着新版本启用后的数据将丢失。</li>
+<li>2.x 版本于 2020 年 1 月 30 日发布，缺少经过验证的案例</li>
+<li>2.x 版本对于 Java 应用改造量尚未评估</li>
+<li>2.x 版本对于国密改造量尚未评估</li>
+</ol>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><div class="note info">
+            <p>分三个阶段实施，每个阶段依次滚动升级节点（每次升级一个节点）</p>
+          </div>
+
+<ol>
+<li><strong>阶段一：</strong> v1.x to v1.4.2(kafka)</li>
+<li><strong>阶段二：</strong> v1.4.2(kafka) to v1.4.2(raft)</li>
+<li><strong>阶段三：</strong> v1.4.2(raft) to v2.x</li>
+</ol>
+<h2 id="阶段一-v1-x-to-v1-4-2-kafka"><a href="#阶段一-v1-x-to-v1-4-2-kafka" class="headerlink" title="阶段一 v1.x to v1.4.2(kafka)"></a>阶段一 v1.x to v1.4.2(kafka)</h2><p>适用任何低于 v1.4 的升级</p>
+<p>主要过程如下：</p>
+<ol>
+<li>依次停止 SDK, peer, orderer, kafka, zookeeper</li>
+<li>备份 MSP, artifacts 文件及 zookeeper, kafka, orderer, peer 的持久化数据</li>
+<li>kafka 集群升级</li>
+<li>Orderer 升级</li>
+<li>Peer 升级</li>
+<li>capability 更新</li>
+<li>chaincode 升级</li>
+<li>SDK 升级</li>
+</ol>
+<h2 id="阶段二-v1-4-2-kafka-to-v1-4-2-raft"><a href="#阶段二-v1-4-2-kafka-to-v1-4-2-raft" class="headerlink" title="阶段二 v1.4.2(kafka) to v1.4.2(raft)"></a>阶段二 v1.4.2(kafka) to v1.4.2(raft)</h2><p>主要过程如下：</p>
+<ol>
+<li>备份 zookeeper, kafka, orderer, peer 的持久化数据</li>
+<li>备份应用版本及配置文件</li>
+<li>动态增加 Orderer 节点（生产环境建议 5 或 7 个节点）</li>
+<li>备份文件及持久化数据</li>
+<li>更新通道配置 <code>ConsensusType.State</code> 打开维护模式</li>
+<li>更新通道配置 <code>ConsensusType.type</code> 切换至 raft</li>
+<li>依次停止 orderer, kafka, zookeeper 后，仅重启 orderer</li>
+<li>切出维护模式</li>
+</ol>
+<h2 id="阶段三-v1-4-2-raft-to-v2-x"><a href="#阶段三-v1-4-2-raft-to-v2-x" class="headerlink" title="阶段三 v1.4.2(raft) to v2.x"></a>阶段三 v1.4.2(raft) to v2.x</h2><p>主要过程如下：</p>
+<ol>
+<li>备份 orderer, peer 的持久化数据</li>
+<li>备份应用版本及配置文件</li>
+<li>Orderer 升级</li>
+<li>Peer 升级</li>
+<li>capability 更新</li>
+<li>chaincode 升级</li>
+<li>SDK 升级</li>
+</ol>
+]]></content>
+      <categories>
+        <category>区块链</category>
+      </categories>
+      <tags>
+        <tag>fabric</tag>
+        <tag>Hyperledger</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hyperledger Fabric 扫盲之私有数据</title>
     <url>/blockchain/hyperledger-fabric-privatedata.html</url>
     <content><![CDATA[<p><img src="https://upyun.hoke58.cn/img/CHFA-hyperledger-fabric.png" alt="CHFA-hyperledger-fabric.png"></p>
@@ -112,7 +176,8 @@
         <category>区块链</category>
       </categories>
       <tags>
-        <tag>fabric PrivateData</tag>
+        <tag>fabric</tag>
+        <tag>Private Data</tag>
       </tags>
   </entry>
   <entry>
@@ -306,7 +371,8 @@
         <category>Web</category>
       </categories>
       <tags>
-        <tag>Hexo Next</tag>
+        <tag>Hexo</tag>
+        <tag>Next</tag>
       </tags>
   </entry>
   <entry>

@@ -228,6 +228,159 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/blockchain/hyperledger-fabric-upgrade.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
+      <meta itemprop="name" content="Hoke">
+      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hoke's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/blockchain/hyperledger-fabric-upgrade.html" class="post-title-link" itemprop="url">hyperledger fabric 升级路线</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-12 18:39:05" itemprop="dateCreated datePublished" datetime="2020-03-12T18:39:05+08:00">2020-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-13 10:28:05" itemprop="dateModified" datetime="2020-03-13T10:28:05+08:00">2020-03-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/blockchain/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/blockchain/hyperledger-fabric-upgrade.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/blockchain/hyperledger-fabric-upgrade.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>813</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="https://upyun.hoke58.cn/img/CHFA-hyperledger-fabric.png" alt="CHFA-hyperledger-fabric.png"></p>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>hyperledger fabric v1.x 升级至 v2.x</p>
+<h1 id="风险"><a href="#风险" class="headerlink" title="风险"></a>风险</h1><ol>
+<li>版本跨度较大，升级步骤及组件多而杂</li>
+<li>技术特性发生重大变化，从而带来系统架构变化（是否需要重新评估架构）</li>
+<li>升级是单向的，一旦服务启用则无法降级，仅允许回退至备份时间点，意味着新版本启用后的数据将丢失。</li>
+<li>2.x 版本于 2020 年 1 月 30 日发布，缺少经过验证的案例</li>
+<li>2.x 版本对于 Java 应用改造量尚未评估</li>
+<li>2.x 版本对于国密改造量尚未评估</li>
+</ol>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><div class="note info">
+            <p>分三个阶段实施，每个阶段依次滚动升级节点（每次升级一个节点）</p>
+          </div>
+
+<ol>
+<li><strong>阶段一：</strong> v1.x to v1.4.2(kafka)</li>
+<li><strong>阶段二：</strong> v1.4.2(kafka) to v1.4.2(raft)</li>
+<li><strong>阶段三：</strong> v1.4.2(raft) to v2.x</li>
+</ol>
+<h2 id="阶段一-v1-x-to-v1-4-2-kafka"><a href="#阶段一-v1-x-to-v1-4-2-kafka" class="headerlink" title="阶段一 v1.x to v1.4.2(kafka)"></a>阶段一 v1.x to v1.4.2(kafka)</h2><p>适用任何低于 v1.4 的升级</p>
+<p>主要过程如下：</p>
+<ol>
+<li>依次停止 SDK, peer, orderer, kafka, zookeeper</li>
+<li>备份 MSP, artifacts 文件及 zookeeper, kafka, orderer, peer 的持久化数据</li>
+<li>kafka 集群升级</li>
+<li>Orderer 升级</li>
+<li>Peer 升级</li>
+<li>capability 更新</li>
+<li>chaincode 升级</li>
+<li>SDK 升级</li>
+</ol>
+<h2 id="阶段二-v1-4-2-kafka-to-v1-4-2-raft"><a href="#阶段二-v1-4-2-kafka-to-v1-4-2-raft" class="headerlink" title="阶段二 v1.4.2(kafka) to v1.4.2(raft)"></a>阶段二 v1.4.2(kafka) to v1.4.2(raft)</h2><p>主要过程如下：</p>
+<ol>
+<li>备份 zookeeper, kafka, orderer, peer 的持久化数据</li>
+<li>备份应用版本及配置文件</li>
+<li>动态增加 Orderer 节点（生产环境建议 5 或 7 个节点）</li>
+<li>备份文件及持久化数据</li>
+<li>更新通道配置 <code>ConsensusType.State</code> 打开维护模式</li>
+<li>更新通道配置 <code>ConsensusType.type</code> 切换至 raft</li>
+<li>依次停止 orderer, kafka, zookeeper 后，仅重启 orderer</li>
+<li>切出维护模式</li>
+</ol>
+<h2 id="阶段三-v1-4-2-raft-to-v2-x"><a href="#阶段三-v1-4-2-raft-to-v2-x" class="headerlink" title="阶段三 v1.4.2(raft) to v2.x"></a>阶段三 v1.4.2(raft) to v2.x</h2><p>主要过程如下：</p>
+<ol>
+<li>备份 orderer, peer 的持久化数据</li>
+<li>备份应用版本及配置文件</li>
+<li>Orderer 升级</li>
+<li>Peer 升级</li>
+<li>capability 更新</li>
+<li>chaincode 升级</li>
+<li>SDK 升级</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/blockchain/hyperledger-fabric-privatedata.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -251,10 +404,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-11 21:37:55 / 修改时间：21:53:54" itemprop="dateCreated datePublished" datetime="2020-03-11T21:37:55+08:00">2020-03-11</time>
+              <time title="创建时间：2020-03-11 21:37:55" itemprop="dateCreated datePublished" datetime="2020-03-11T21:37:55+08:00">2020-03-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-13 10:22:51" itemprop="dateModified" datetime="2020-03-13T10:22:51+08:00">2020-03-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -574,10 +733,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-28 22:37:55 / 修改时间：16:18:39" itemprop="dateCreated datePublished" datetime="2020-02-28T22:37:55+08:00">2020-02-28</time>
+              <time title="创建时间：2020-02-28 22:37:55" itemprop="dateCreated datePublished" datetime="2020-02-28T22:37:55+08:00">2020-02-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-13 10:22:41" itemprop="dateModified" datetime="2020-03-13T10:22:41+08:00">2020-03-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -1185,110 +1350,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.hoke58.cn/databases/database-principles.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://upyun.hoke58.cn/hoke/hoke_avatar.png">
-      <meta itemprop="name" content="Hoke">
-      <meta itemprop="description" content="一名追求简单实用的运维开发工程师">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hoke's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/databases/database-principles.html" class="post-title-link" itemprop="url">数据库系统原理（转）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-25 09:44:32 / 修改时间：14:28:04" itemprop="dateCreated datePublished" datetime="2019-12-25T09:44:32+08:00">2019-12-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/databases/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/databases/database-principles.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/databases/database-principles.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。</p>
-<div align="center"> <img src="https://upyun.hoke58.cn/img/数据库系统原理/image-20191207222237925.png"/> </div><br>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/databases/database-principles.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1361,7 +1422,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1374,7 +1435,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1418,12 +1479,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">155k</span>
+    <span title="站点总字数">156k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:21</span>
+    <span title="站点阅读时长">2:22</span>
 </div>
   <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
   </div>
