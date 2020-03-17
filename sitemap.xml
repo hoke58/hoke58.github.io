@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-discover.html</loc>
+    
+    <lastmod>2020-03-17T13:36:55.675Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.hoke58.cn/systemops/dell-cmc-log.html</loc>
     
     <lastmod>2020-03-17T13:34:30.635Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-upgrade.html</loc>
     
     <lastmod>2020-03-17T13:34:20.173Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.hoke58.cn/blockchain/hyperledger-fabric-discover.html</loc>
-    
-    <lastmod>2020-03-17T13:33:59.383Z</lastmod>
     
   </url>
   
