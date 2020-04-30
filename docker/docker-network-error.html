@@ -33,7 +33,7 @@
 <meta property="og:description" content="现象表象是容器无法 stop, restart, rm , 登录主机后执行 1234[root@orderer0 &#x2F;home&#x2F;blockchain&#x2F;peer0.org1&#x2F;conf]# docker-compose downStopping peer0.org1 ... doneRemoving network conf_defaultERROR: network conf_default id a">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-11-21T14:14:25.000Z">
-<meta property="article:modified_time" content="2019-12-20T06:49:01.323Z">
+<meta property="article:modified_time" content="2020-03-18T02:29:48.289Z">
 <meta property="article:author" content="Hoke">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -251,7 +251,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-20 14:49:01" itemprop="dateModified" datetime="2019-12-20T14:49:01+08:00">2019-12-20</time>
+                <time title="修改时间：2020-03-18 10:29:48" itemprop="dateModified" datetime="2020-03-18T10:29:48+08:00">2020-03-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,14 +283,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.7k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -305,7 +305,7 @@
         <h1 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h1><p>表象是容器无法 stop, restart, rm , 登录主机后执行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain/peer0.org1/conf]<span class="comment"># docker-compose down</span></span><br><span class="line">Stopping peer0.org1 ... <span class="keyword">done</span></span><br><span class="line">Removing network conf_default</span><br><span class="line">ERROR: network conf_default id a3a2c67620436cc49e406a52ad724df3cbe93f965b7e4427b36ed811075d2e06 has active endpoints</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
+<h1 id="临时处理"><a href="#临时处理" class="headerlink" title="临时处理"></a>临时处理</h1><ol>
 <li><p>检查 network </p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">[root@orderer0 /home/blockchain]<span class="comment"># docker network inspect conf_default</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">"Name"</span>: <span class="string">"conf_default"</span>,</span><br><span class="line">        <span class="string">"Id"</span>: <span class="string">"412177b0cf14414b191fc99ab4411d65c201e52424217476eb6b5cc861a5b603"</span>,</span><br><span class="line">        <span class="string">"Created"</span>: <span class="string">"2019-11-21T22:08:45.523133411+08:00"</span>,</span><br><span class="line">        <span class="string">"Scope"</span>: <span class="string">"local"</span>,</span><br><span class="line">        <span class="string">"Driver"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">        <span class="string">"EnableIPv6"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"IPAM"</span>: &#123;</span><br><span class="line">            <span class="string">"Driver"</span>: <span class="string">"default"</span>,</span><br><span class="line">            <span class="string">"Options"</span>: null,</span><br><span class="line">            <span class="string">"Config"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="string">"Subnet"</span>: <span class="string">"172.21.0.0/16"</span>,</span><br><span class="line">                    <span class="string">"Gateway"</span>: <span class="string">"172.21.0.1"</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Internal"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Attachable"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Ingress"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"ConfigFrom"</span>: &#123;</span><br><span class="line">            <span class="string">"Network"</span>: <span class="string">""</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ConfigOnly"</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">"Containers"</span>: &#123;</span><br><span class="line">            <span class="string">"19ffaa8a2c03891c1883f962e0076a04ec9461bfc8364d60052e34e5464e9762"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"peer0.org1"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"1f82857982ba62ce6003e15bb140686a24859ca7374bca110ab7e481af56c855"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:02"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.2/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"9c7dd8270317bb09aac306a9aa952b05fff5fa0a65ef3f4f7c4e1a5d8c03bf1e"</span>: &#123;</span><br><span class="line">                <span class="string">"Name"</span>: <span class="string">"dev-peer0.org1.finblockchain.cn-fft-2.0.0"</span>, <span class="comment"># 关联的 Containers name</span></span><br><span class="line">                <span class="string">"EndpointID"</span>: <span class="string">"33dbba6e9cc513d4e0b293fa7f2d4415bb1c13aa4d1c0c87f86d2063409b7bd1"</span>,</span><br><span class="line">                <span class="string">"MacAddress"</span>: <span class="string">"02:42:ac:15:00:03"</span>,</span><br><span class="line">                <span class="string">"IPv4Address"</span>: <span class="string">"172.21.0.3/16"</span>,</span><br><span class="line">                <span class="string">"IPv6Address"</span>: <span class="string">""</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"Options"</span>: &#123;&#125;,</span><br><span class="line">        <span class="string">"Labels"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 </li>
@@ -313,8 +313,19 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker network disconnect -f net_default peer0.org1</span></span><br><span class="line"><span class="comment"># docker network disconnect -f net_default dev-peer0.org1.finblockchain.cn-fft-2.0.0</span></span><br></pre></td></tr></table></figure></li>
 <li><p>然后就可以正常执行</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker-compose down</span></span><br></pre></td></tr></table></figure>
+<h1 id="根本解决"><a href="#根本解决" class="headerlink" title="根本解决"></a>根本解决</h1><p>在 <code>docker.service</code>中加上：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">MountFlags=slave</span><br><span class="line">```  </span><br><span class="line">来保证 docker 及 container 运行在 私有 的 **mount namespace** 上。当 docker 以这种方式启动时，可以使用 `<span class="keyword">grep</span> /mnt /proc/self/mountinfo` 来检测以这种方式启动的容器确实看不到 **mount point** 了，而之前遗留的挂载点仍然可以看到。</span><br><span class="line"></span><br><span class="line">很多线上机器已经跑着业务容器不能重启 **docker daemon** 怎么办？</span><br><span class="line"></span><br><span class="line">在生产中，需要尽可能保证所有的操作 不影响正在运行的业务容器。</span><br><span class="line"></span><br><span class="line">所以，在已有条件下，既不能停止 nginx，又不能重启 **docker daemon**，唯一的方法只有在 `docker-compose down` 出错的情况下通过执行</span><br><span class="line">```<span class="keyword">sh</span></span><br><span class="line"># docker rm -<span class="keyword">f</span> $(docker <span class="keyword">ps</span> -<span class="keyword">a</span> -q -<span class="keyword">f</span> status=dead)</span><br></pre></td></tr></table></figure>
+<p>来强制删除 <strong>dead container</strong> 了。虽然仍然会有错误信息提示，但是可以看到 <strong>Dead container</strong> 确实被删除了。之后可以正常运行 <code>docker-compose up -d</code></p>
 </li>
 </ol>
+<p>有没有方法可以在不影响业务容器的前提下重新配置 <strong>docker daemon</strong> 呢？</p>
+<p>docker 从 1.12.0 开始支持在 不重启 container 的情况下重启 <strong>docker daemon</strong>，只需要在 <strong>docker daemon</strong> 启动时增加 <code>--live-restore=true</code> 这个参数。可惜的是，该参数直到目前仍不支持 <strong>daemon reload</strong>（类似 nginx 的 reload 和 restart），只能重启 dockerd 后生效</p>
+<h1 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h1><p>挂载点泄露实际上是 RHEL/CentOS 内核的一个 bug，目前预计会在 RHEL7.4 kernel 中修复</p>
+<p>目前在 RHEL/CentOS 下需要在 <strong>docker.service</strong> 中增加 <code>MountFlags=slave</code> 来保证 <strong>mount namespace</strong> 是私有的，不会造成挂载点泄露。</p>
+<p>另外，挂载点泄露在各种 storage driver 中都存在，比如最常见的 <code>devicemeppaer</code> 和 <code>overlay</code>。</p>
+<p>但是，目前 RHEL/CentOS 版本下 <code>MountFlags=slave</code> 和 <code>--live-restore</code> 两个给力的参数不能同时存在。因为 <code>MountFlags=slave</code> 会导致 <strong>docker daemon</strong> 每次重启时私有挂载命名空间都会发生变化，而 <code>--live-restore</code> 又相当于使得容器持有了变化之前的旧的挂载点信息，因此，当重启 <strong>docker daemon</strong> 之后，执行 <code>docker exec</code> 试图进入容器时会报错：</p>
+<pre><code class="sh">rpc error: code = 13 desc = invalid header field value <span class="string">"oci runtime error: exec failed: container_linux.go:247: starting container process caused \"process_linux.go:75: starting setns process caused \\\"fork/exec /proc/self/exe: no such file or directory\\\"\"\n"</span></code></pre>
+<p>值得一提的是，虽然无法进入容器，但是容器依旧工作正常并且 docker logs 也没问题。</p>
 
     </div>
 
@@ -438,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#现象"><span class="nav-number">1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决"><span class="nav-number">2.</span> <span class="nav-text">解决</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#现象"><span class="nav-number">1.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#临时处理"><span class="nav-number">2.</span> <span class="nav-text">临时处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#根本解决"><span class="nav-number">3.</span> <span class="nav-text">根本解决</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本质"><span class="nav-number">4.</span> <span class="nav-text">本质</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -454,7 +465,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -467,7 +478,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -511,12 +522,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">209k</span>
+    <span title="站点总字数">241k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:10</span>
+    <span title="站点阅读时长">3:39</span>
 </div>
   <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span>  v4.2.0
   </div>
