@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://upyun.hoke58.cn/img/CHFA-20200430163026.png">
 <meta property="og:image" content="https://upyun.hoke58.cn/img/CHFA-CHFA.png">
 <meta property="article:published_time" content="2020-04-30T10:39:05.000Z">
-<meta property="article:modified_time" content="2020-04-30T09:57:42.283Z">
+<meta property="article:modified_time" content="2020-04-30T10:03:09.202Z">
 <meta property="article:author" content="Hoke">
 <meta property="article:tag" content="Hyperledger">
 <meta property="article:tag" content="CHFA">
@@ -251,7 +251,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-04-30 18:39:05 / 修改时间：17:57:42" itemprop="dateCreated datePublished" datetime="2020-04-30T18:39:05+08:00">2020-04-30</time>
+              <time title="创建时间：2020-04-30 18:39:05 / 修改时间：18:03:09" itemprop="dateCreated datePublished" datetime="2020-04-30T18:39:05+08:00">2020-04-30</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,6 +305,8 @@
         <h1 id="CHFA-介绍"><a href="#CHFA-介绍" class="headerlink" title="CHFA 介绍"></a>CHFA 介绍</h1><p>CHFA （Certified Hyperledger Fabric Administrator）是 Linux 基金会发放的认证证书，按照官方的说法，获得此证书的人，具备搭建一个安全的可商用的 Hyperledger Fabric 网络的能力，其中包括对网络的节点进行安装、配置、操作、管理和排错的能力。</p>
 <p>证书有效期为 2 年，考试费 300 美刀，报名有效期为 12 个月，考试形式为在线考，考试时长2小时，我考试时的 Fabric 版本 1.4.1</p>
 <p>考试结束后 36小 时可以官网 My Portal 看到成绩</p>
+<a id="more"></a>
+
 <p><img src="https://upyun.hoke58.cn/img/CHFA-20200430163026.png" alt="CHFA-20200430163026"></p>
 <h1 id="备考笔记"><a href="#备考笔记" class="headerlink" title="备考笔记"></a>备考笔记</h1><p><img src="https://upyun.hoke58.cn/img/CHFA-CHFA.png" alt="CHFA-CHFA"></p>
 <h2 id="Application-Lifecycle-Management-–-20"><a href="#Application-Lifecycle-Management-–-20" class="headerlink" title="Application Lifecycle Management – 20%"></a>Application Lifecycle Management – 20%</h2><h3 id="Install-and-Instantiate-chaincode-package"><a href="#Install-and-Instantiate-chaincode-package" class="headerlink" title="Install and Instantiate chaincode package"></a>Install and Instantiate chaincode package</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">peer chaincode install -n mycc -v <span class="variable">$&#123;VERSION&#125;</span> -l <span class="variable">$&#123;LANGUAGE&#125;</span> -p <span class="variable">$&#123;CC_SRC_PATH&#125;</span></span><br><span class="line"><span class="comment"># go env</span></span><br><span class="line">peer chaincode  install -n mycc -v 1.0 -p github.com/chaincode/chaincode_example02/go/</span><br><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C <span class="variable">$CHANNEL_NAME</span> -n mycc -v 1.0 -c <span class="string">'&#123;"Args":["init","a", "100", "b","200"]&#125;'</span> -P <span class="string">"AND ('Org1MSP.peer','Org2MSP.peer')"</span></span><br><span class="line"><span class="comment"># node</span></span><br><span class="line">peer chaincode install -n nodecc -v 1.0 -l node -p /opt/gopath/src/github.com/chaincode/chaincode_example02/node/</span><br><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C <span class="variable">$CHANNEL_NAME</span> -n mycc -l node -v 1.0 -c <span class="string">'&#123;"Args":["init","a", "100", "b","200"]&#125;'</span> -P <span class="string">"AND ('Org1MSP.peer','Org2MSP.peer')"</span></span><br><span class="line"><span class="comment"># java</span></span><br><span class="line">peer chaincode install -n javacc -v 1.0 -l java -p /opt/gopath/src/github.com/chaincode/chaincode_example02/java/</span><br><span class="line">peer chaincode instantiate -o orderer.example.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem -C <span class="variable">$CHANNEL_NAME</span> -n mycc -l java -v 1.0 -c <span class="string">'&#123;"Args":["init","a", "100", "b","200"]&#125;'</span> -P <span class="string">"AND ('Org1MSP.peer','Org2MSP.peer')"</span></span><br><span class="line"></span><br><span class="line">peer chaincode package -n mycc -p github.com/chaincode/chaincode_example02/go -v 1.1 mycc-1.1.out</span><br></pre></td></tr></table></figure>
