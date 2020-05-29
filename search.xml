@@ -2747,9 +2747,9 @@
   </entry>
   <entry>
     <title>Certified Hyperledger Fabric Administrator（CHFA）备考笔记</title>
-    <url>/blockchain/undefined.html</url>
+    <url>/blockchain/hyperledger-chfa.html</url>
     <content><![CDATA[<h1 id="CHFA-介绍"><a href="#CHFA-介绍" class="headerlink" title="CHFA 介绍"></a>CHFA 介绍</h1><p>CHFA （Certified Hyperledger Fabric Administrator）是 Linux 基金会发放的认证证书，按照官方的说法，获得此证书的人，具备搭建一个安全的可商用的 Hyperledger Fabric 网络的能力，其中包括对网络的节点进行安装、配置、操作、管理和排错的能力。</p>
-<p>证书有效期为 2 年，考试费 300 美刀，报名有效期为 12 个月，考试形式为在线考，考试时长2小时，我考试时的 Fabric 版本 1.4.1</p>
+<p>证书有效期为 2 年，考试费 300 美刀，报名有效期为 12 个月，考试形式为在线考，考试时长2小时，我考试时的版本 1.4.1</p>
 <p>考试结束后 36小 时可以官网 My Portal 看到成绩</p>
 <a id="more"></a>
 
@@ -2890,6 +2890,27 @@
         <tag>CHFA</tag>
         <tag>Fabric</tag>
         <tag>fabric-ca</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>English Grammar</title>
+    <url>/study/english-grammar.html</url>
+    <content><![CDATA[<h1 id="English-Grammar"><a href="#English-Grammar" class="headerlink" title="English Grammar"></a>English Grammar</h1><p>建议下载原文件，能看到注释，老师上课的讲的例句都写到注释里了</p>
+<p>脑图用的是 XMind 软件，原文件下载地址：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9wYW4uaG9rZTU4LmNuL2luZGV4LnBocC9zL2ZFc3J4dDVYZmZwTm1DYw==" title="https://pan.hoke58.cn/index.php/s/fEsrxt5XffpNmCc">https://pan.hoke58.cn/index.php/s/fEsrxt5XffpNmCc<i class="fa fa-external-link"></i></span></p>
+<p>在 2.grammar 目录下 Grammar.xmind</p>
+<a id="more"></a>
+
+<p><img src="https://upyun.hoke58.cn/img/postgraduate/Grammar.png" alt="grammar"></p>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>Englsih</tag>
+        <tag>Grammar</tag>
+        <tag>考研</tag>
+        <tag>postgraduate</tag>
       </tags>
   </entry>
 </search>
